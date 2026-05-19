@@ -229,28 +229,24 @@
 
     .main-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 18px;
+      grid-template-columns: 1fr;
+      gap: 0;
       align-items: stretch;
     }
 
     .chart-card {
-      min-height: 720px;
-      padding: 14px;
+      min-height: 900px;
+      padding: 8px;
       overflow: hidden;
     }
 
     #treemap {
       width: 100%;
-      height: 700px;
+      height: 880px;
     }
 
     .detail-card {
-      padding: 20px;
-      min-height: 280px;
-      align-self: start;
-      position: sticky;
-      top: 18px;
+      display: none !important;
     }
 
     .detail-empty {
@@ -431,9 +427,9 @@
 
     @media (max-width: 1180px) {
       .main-grid { grid-template-columns: 1fr; }
-      .detail-card { position: static; }
-      .chart-card { min-height: 640px; }
-      #treemap { height: 620px; }
+      .detail-card { display: none !important; }
+      .chart-card { min-height: 760px; }
+      #treemap { height: 740px; }
     }
 
     @media (max-width: 820px) {
@@ -467,11 +463,11 @@
       }
       .stat-value { font-size: 20px; }
       .chart-card {
-        min-height: 520px;
-        padding: 8px;
+        min-height: 660px;
+        padding: 6px;
         border-radius: 20px;
       }
-      #treemap { height: 510px; }
+      #treemap { height: 640px; }
       .detail-card, .table-card {
         border-radius: 20px;
         padding: 14px;
@@ -493,8 +489,8 @@
     @media (max-width: 480px) {
       .stats { grid-template-columns: 1fr; }
       .meta-grid { grid-template-columns: 1fr; }
-      #treemap { height: 470px; }
-      .chart-card { min-height: 480px; }
+      #treemap { height: 580px; }
+      .chart-card { min-height: 600px; }
     }
   </style>
 </head>
@@ -544,7 +540,7 @@
       <article class="chart-card">
         <div id="treemap" role="img" aria-label="台湾主要公司市值 Treemap 树状图"></div>
       </article>
-      <aside id="detailCard" class="detail-card" aria-live="polite">
+      <aside id="detailCard" class="detail-card" aria-live="polite" style="display:none;">
         <div class="detail-empty">点击树状图矩形或下方数据表中的公司，这里会显示公司 LOGO、股票代码、产业、市值、市值占比和简介。</div>
       </aside>
     </section>
@@ -834,14 +830,14 @@
 
       list.forEach(item => {
         rich[makeRichKey(item)] = {
-          width: isMobile ? 20 : 30,
-          height: isMobile ? 20 : 30,
+          width: isMobile ? 28 : 42,
+          height: isMobile ? 28 : 42,
           align: "center",
           verticalAlign: "middle",
-          borderRadius: isMobile ? 6 : 8,
+          borderRadius: isMobile ? 7 : 10,
           backgroundColor: item.logo ? { image: item.logo } : "rgba(255,255,255,0.92)",
           borderColor: "rgba(255,255,255,0.9)",
-          borderWidth: 1
+          borderWidth: 1.2
         };
       });
 
@@ -909,8 +905,8 @@
           itemStyle: {
             color: industryColors[item.industry] || "#64748b",
             borderColor: document.body.classList.contains("dark") ? "#0b1220" : "#ffffff",
-            borderWidth: 2,
-            gapWidth: 2
+            borderWidth: 1,
+            gapWidth: 1
           },
           company: item
         }));
@@ -956,14 +952,14 @@
           nodeClick: false,
           breadcrumb: { show: false },
           data,
-          top: 4,
-          left: 4,
-          right: 4,
-          bottom: 4,
-          squareRatio: 1.18,
+          top: 1,
+          left: 1,
+          right: 1,
+          bottom: 1,
+          squareRatio: 1.0,
           sort: "desc",
           leafDepth: null,
-          visibleMin: isMobile ? 80 : 35,
+          visibleMin: isMobile ? 4 : 2,
           animationDurationUpdate: 450,
           upperLabel: { show: false },
           label: {
@@ -976,9 +972,13 @@
               const area = params.rect ? params.rect.width * params.rect.height : 0;
               const logoKey = makeRichKey(company);
 
-              if (area < (isMobile ? 900 : 1300)) return `{${logoKey}|}`;
-              if (area < (isMobile ? 2200 : 3300)) return `{${logoKey}|}\n{name|${company.name}}`;
-              return `{${logoKey}|}\n{name|${company.name}}\n{small|${company.code} · ${formatCap(company.marketCap)}}`;
+              if (area < (isMobile ? 180 : 260)) return "";
+              if (area < (isMobile ? 2400 : 4200)) return `{${logoKey}|}`;
+              if (area < (isMobile ? 5200 : 9000)) return `{${logoKey}|}
+{name|${company.name}}`;
+              return `{${logoKey}|}
+{name|${company.name}}
+{small|${company.code} · ${formatCap(company.marketCap)}}`;
             },
             overflow: "truncate"
           },
@@ -986,14 +986,14 @@
             {
               itemStyle: {
                 borderWidth: 0,
-                gapWidth: 3
+                gapWidth: 1
               }
             },
             {
               colorSaturation: [0.36, 0.72],
               itemStyle: {
-                borderWidth: 3,
-                gapWidth: 3,
+                borderWidth: 1,
+                gapWidth: 1,
                 borderColor: isDark ? "#0b1220" : "#ffffff"
               },
               upperLabel: { show: false }
@@ -1001,7 +1001,7 @@
             {
               itemStyle: {
                 borderWidth: selected ? 2 : 1,
-                gapWidth: 2,
+                gapWidth: 1,
                 borderColor: isDark ? "#111827" : "#ffffff"
               },
               emphasis: {
