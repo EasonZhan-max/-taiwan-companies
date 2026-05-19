@@ -44,13 +44,8 @@
       --chip-text: #bfdbfe;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -65,9 +60,7 @@
       overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-    }
+    a { color: inherit; }
 
     .page {
       width: min(1500px, calc(100% - 32px));
@@ -159,9 +152,7 @@
       box-shadow: 0 8px 20px rgba(20, 37, 64, 0.06);
     }
 
-    .control::placeholder {
-      color: var(--muted);
-    }
+    .control::placeholder { color: var(--muted); }
 
     .reset-btn {
       border: 0;
@@ -314,9 +305,7 @@
       background: rgba(255,255,255,0.38);
     }
 
-    body.dark .meta {
-      background: rgba(255,255,255,0.04);
-    }
+    body.dark .meta { background: rgba(255,255,255,0.04); }
 
     .meta span {
       display: block;
@@ -326,9 +315,7 @@
       margin-bottom: 4px;
     }
 
-    .meta strong {
-      font-size: 15px;
-    }
+    .meta strong { font-size: 15px; }
 
     .intro {
       margin-top: 12px;
@@ -393,9 +380,7 @@
       font-size: 14px;
     }
 
-    thead {
-      background: var(--table-head);
-    }
+    thead { background: var(--table-head); }
 
     th, td {
       padding: 13px 14px;
@@ -416,9 +401,7 @@
       transition: background 0.16s ease;
     }
 
-    tbody tr:hover, tbody tr.active-row {
-      background: var(--row-hover);
-    }
+    tbody tr:hover, tbody tr.active-row { background: var(--row-hover); }
 
     .company-cell {
       display: flex;
@@ -447,18 +430,10 @@
     }
 
     @media (max-width: 1180px) {
-      .main-grid {
-        grid-template-columns: 1fr;
-      }
-      .detail-card {
-        position: static;
-      }
-      .chart-card {
-        min-height: 640px;
-      }
-      #treemap {
-        height: 620px;
-      }
+      .main-grid { grid-template-columns: 1fr; }
+      .detail-card { position: static; }
+      .chart-card { min-height: 640px; }
+      #treemap { height: 620px; }
     }
 
     @media (max-width: 820px) {
@@ -471,24 +446,16 @@
         padding: 18px;
         border-radius: 22px;
       }
-      .title-wrap h1 {
-        font-size: 30px;
-      }
-      .title-wrap p {
-        font-size: 13px;
-      }
+      .title-wrap h1 { font-size: 30px; }
+      .title-wrap p { font-size: 13px; }
       .notice {
         align-items: flex-start;
         border-radius: 16px;
         font-size: 12px;
         line-height: 1.5;
       }
-      .mode-btn {
-        width: 100%;
-      }
-      .toolbar {
-        grid-template-columns: 1fr;
-      }
+      .mode-btn { width: 100%; }
+      .toolbar { grid-template-columns: 1fr; }
       .stats {
         grid-template-columns: 1fr 1fr;
         gap: 10px;
@@ -498,27 +465,19 @@
         padding: 14px;
         border-radius: 18px;
       }
-      .stat-value {
-        font-size: 20px;
-      }
+      .stat-value { font-size: 20px; }
       .chart-card {
         min-height: 520px;
         padding: 8px;
         border-radius: 20px;
       }
-      #treemap {
-        height: 510px;
-      }
+      #treemap { height: 510px; }
       .detail-card, .table-card {
         border-radius: 20px;
         padding: 14px;
       }
-      .meta-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .detail-title {
-        font-size: 20px;
-      }
+      .meta-grid { grid-template-columns: 1fr 1fr; }
+      .detail-title { font-size: 20px; }
       .detail-logo {
         width: 46px;
         height: 46px;
@@ -527,27 +486,15 @@
         align-items: flex-start;
         flex-direction: column;
       }
-      table {
-        font-size: 12px;
-      }
-      th, td {
-        padding: 10px 11px;
-      }
+      table { font-size: 12px; }
+      th, td { padding: 10px 11px; }
     }
 
     @media (max-width: 480px) {
-      .stats {
-        grid-template-columns: 1fr;
-      }
-      .meta-grid {
-        grid-template-columns: 1fr;
-      }
-      #treemap {
-        height: 470px;
-      }
-      .chart-card {
-        min-height: 480px;
-      }
+      .stats { grid-template-columns: 1fr; }
+      .meta-grid { grid-template-columns: 1fr; }
+      #treemap { height: 470px; }
+      .chart-card { min-height: 480px; }
     }
   </style>
 </head>
@@ -624,7 +571,7 @@
       </div>
     </section>
 
-    <p class="footer-note">本頁為單文件 HTML，可直接保存為 index.html 並上傳 GitHub Pages。ECharts 由 CDN 載入，公司圖示使用 Google favicon 服務。</p>
+    <p class="footer-note">本頁為單文件 HTML，可直接保存為 index.html 並上傳 GitHub Pages。公司圖示使用公司網站 favicon 圖示；若部分瀏覽器或網路環境無法載入，表格與詳情卡仍會正常顯示。</p>
   </main>
 
   <script>
@@ -835,38 +782,14 @@
     ];
 
     const industryColors = {
-      "半導體": "#2563eb",
-      "半導體設備": "#4f46e5",
-      "電子零組件": "#0891b2",
-      "電子材料": "#0d9488",
-      "電子代工": "#0284c7",
-      "通訊網路": "#06b6d4",
-      "散熱": "#14b8a6",
-      "伺服器": "#3b82f6",
-      "金融保險": "#f59e0b",
-      "電信服務": "#8b5cf6",
-      "電子設備": "#6366f1",
-      "塑化材料": "#64748b",
-      "石化能源": "#ef4444",
-      "航運": "#0ea5e9",
-      "電腦品牌": "#22c55e",
-      "食品消費": "#f97316",
-      "光學鏡頭": "#a855f7",
-      "工業電腦": "#10b981",
-      "鋼鐵材料": "#6b7280",
-      "工業自動化": "#84cc16",
-      "電機設備": "#eab308",
-      "汽車": "#fb7185",
-      "電子通路": "#38bdf8",
-      "生技醫療": "#ec4899",
-      "零售通路": "#f97316",
-      "顯示科技": "#06b6d4",
-      "光通訊": "#2dd4bf",
-      "金融租賃": "#fbbf24",
-      "玻璃材料": "#94a3b8",
-      "水泥建材": "#78716c",
-      "遊戲娛樂": "#d946ef",
-      "工程服務": "#facc15",
+      "半導體": "#2563eb", "半導體設備": "#4f46e5", "電子零組件": "#0891b2", "電子材料": "#0d9488",
+      "電子代工": "#0284c7", "通訊網路": "#06b6d4", "散熱": "#14b8a6", "伺服器": "#3b82f6",
+      "金融保險": "#f59e0b", "電信服務": "#8b5cf6", "電子設備": "#6366f1", "塑化材料": "#64748b",
+      "石化能源": "#ef4444", "航運": "#0ea5e9", "電腦品牌": "#22c55e", "食品消費": "#f97316",
+      "光學鏡頭": "#a855f7", "工業電腦": "#10b981", "鋼鐵材料": "#6b7280", "工業自動化": "#84cc16",
+      "電機設備": "#eab308", "汽車": "#fb7185", "電子通路": "#38bdf8", "生技醫療": "#ec4899",
+      "零售通路": "#f97316", "顯示科技": "#06b6d4", "光通訊": "#2dd4bf", "金融租賃": "#fbbf24",
+      "玻璃材料": "#94a3b8", "水泥建材": "#78716c", "遊戲娛樂": "#d946ef", "工程服務": "#facc15",
       "航空運輸": "#60a5fa"
     };
 
@@ -880,6 +803,47 @@
       logo: logoMap[name] || "",
       share: marketCap / totalMarketCap * 100
     }));
+
+    function makeRichKey(name) {
+      return "logo_" + name
+        .replace(/[^\w\u4e00-\u9fa5]/g, "_")
+        .replace(/_+/g, "_");
+    }
+
+    function buildLogoRich(list, isMobile) {
+      const rich = {
+        name: {
+          fontSize: isMobile ? 10 : 13,
+          fontWeight: 900,
+          color: "#ffffff",
+          lineHeight: isMobile ? 14 : 18,
+          textShadowColor: "rgba(0,0,0,0.45)",
+          textShadowBlur: 4
+        },
+        small: {
+          fontSize: isMobile ? 9 : 11,
+          color: "rgba(255,255,255,0.9)",
+          lineHeight: isMobile ? 12 : 15,
+          textShadowColor: "rgba(0,0,0,0.45)",
+          textShadowBlur: 4
+        }
+      };
+
+      list.forEach(item => {
+        rich[makeRichKey(item.name)] = {
+          width: isMobile ? 20 : 30,
+          height: isMobile ? 20 : 30,
+          align: "center",
+          verticalAlign: "middle",
+          borderRadius: isMobile ? 6 : 8,
+          backgroundColor: item.logo ? { image: item.logo } : "rgba(255,255,255,0.92)",
+          borderColor: "rgba(255,255,255,0.9)",
+          borderWidth: 1
+        };
+      });
+
+      return rich;
+    }
 
     const state = {
       query: "",
@@ -968,6 +932,7 @@
       const isMobile = width < 640;
       const data = groupForTreemap(state.filtered);
       const selected = state.selectedName;
+      const logoRich = buildLogoRich(state.filtered, isMobile);
 
       chart.setOption({
         backgroundColor: "transparent",
@@ -979,12 +944,14 @@
           textStyle: { color: isDark ? "#e5eefb" : "#111827", fontSize: isMobile ? 12 : 13 },
           formatter: params => {
             const company = params.data && params.data.company;
-            if (!company) {
-              return `<strong>${params.name}</strong><br/>產業市值：${formatCap(params.value)}`;
-            }
+            if (!company) return `<strong>${params.name}</strong><br/>產業市值：${formatCap(params.value)}`;
+
             return `
               <div style="min-width:190px;max-width:280px;">
-                <div style="font-weight:900;font-size:15px;margin-bottom:5px;">${company.name} ${company.code}</div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                  <img src="${company.logo}" style="width:28px;height:28px;border-radius:8px;object-fit:contain;background:#fff;padding:3px;" />
+                  <div style="font-weight:900;font-size:15px;">${company.name} ${company.code}</div>
+                </div>
                 <div>產業：${company.industry}</div>
                 <div>市值：${formatCap(company.marketCap)} 新台幣</div>
                 <div>占比：${company.share.toFixed(2)}%</div>
@@ -1019,37 +986,16 @@
           label: {
             show: true,
             color: "#ffffff",
-            rich: {
-              logo: {
-                width: isMobile ? 18 : 26,
-                height: isMobile ? 18 : 26,
-                borderRadius: isMobile ? 5 : 7,
-                backgroundColor: "rgba(255,255,255,0.92)",
-                padding: isMobile ? 2 : 3
-              },
-              name: {
-                fontSize: isMobile ? 10 : 13,
-                fontWeight: 900,
-                color: "#ffffff",
-                lineHeight: isMobile ? 14 : 18,
-                textShadowColor: "rgba(0,0,0,0.35)",
-                textShadowBlur: 3
-              },
-              small: {
-                fontSize: isMobile ? 9 : 11,
-                color: "rgba(255,255,255,0.88)",
-                lineHeight: isMobile ? 12 : 15,
-                textShadowColor: "rgba(0,0,0,0.35)",
-                textShadowBlur: 3
-              }
-            },
+            rich: logoRich,
             formatter: params => {
               const company = params.data && params.data.company;
               if (!company) return "";
               const area = params.rect ? params.rect.width * params.rect.height : 0;
-              if (area < (isMobile ? 1250 : 1700)) return `{logo|}`;
-              if (area < (isMobile ? 2600 : 3800)) return `{logo|}\n{name|${company.name}}`;
-              return `{logo|}\n{name|${company.name}}\n{small|${company.code} · ${formatCap(company.marketCap)}}`;
+              const logoKey = makeRichKey(company.name);
+
+              if (area < (isMobile ? 900 : 1300)) return `{${logoKey}|}`;
+              if (area < (isMobile ? 2200 : 3300)) return `{${logoKey}|}\n{name|${company.name}}`;
+              return `{${logoKey}|}\n{name|${company.name}}\n{small|${company.code} · ${formatCap(company.marketCap)}}`;
             },
             overflow: "truncate"
           },
@@ -1133,6 +1079,7 @@
         detailCard.innerHTML = `<div class="detail-empty">點擊樹狀圖矩形或下方資料表中的公司，這裡會顯示公司 LOGO、股票代碼、產業、市值、市值占比和簡介。</div>`;
         return;
       }
+
       detailCard.innerHTML = `
         <div class="detail-head">
           <img class="detail-logo" src="${company.logo}" alt="${company.name} logo" onerror="this.outerHTML='<div class=&quot;detail-logo&quot; style=&quot;display:grid;place-items:center;font-weight:900;color:#1d4ed8;&quot;>${fallbackLogoText(company.name)}</div>'" />
@@ -1179,13 +1126,15 @@
     function highlightCompany(name, showTip = true) {
       const idx = state.filtered.findIndex(item => item.name === name);
       if (idx < 0) return;
-      const company = state.filtered[idx];
       chart.dispatchAction({ type: "downplay", seriesIndex: 0 });
       chart.dispatchAction({ type: "highlight", seriesIndex: 0, name });
       if (showTip) chart.dispatchAction({ type: "showTip", seriesIndex: 0, name });
+
       const rows = tableBody.querySelectorAll("tr[data-name]");
       rows.forEach(row => row.classList.toggle("active-row", row.dataset.name === name));
-      const activeRow = tableBody.querySelector(`tr[data-name="${CSS.escape(name)}"]`);
+
+      const safeName = window.CSS && CSS.escape ? CSS.escape(name) : name.replace(/"/g, '\\"');
+      const activeRow = tableBody.querySelector(`tr[data-name="${safeName}"]`);
       if (activeRow && !isElementInViewport(activeRow)) {
         activeRow.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
       }
