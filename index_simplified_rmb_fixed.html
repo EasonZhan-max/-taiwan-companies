@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>台湾公司市值树状图</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --bg-2: #ffffff;
+      --text: #162033;
+      --muted: #697589;
+      --border: rgba(29, 47, 73, 0.12);
+      --card: rgba(255, 255, 255, 0.86);
+      --shadow: 0 18px 50px rgba(28, 45, 78, 0.12);
+      --accent: #2563eb;
+      --accent-2: #06b6d4;
+      --warning-bg: #fff8e6;
+      --warning-text: #8a5b00;
+      --input-bg: #ffffff;
+      --table-head: #eef4ff;
+      --row-hover: #f2f7ff;
+      --chip: #eaf2ff;
+      --chip-text: #1e4ed8;
+    }
+
+    body.dark {
+      --bg: #09111f;
+      --bg-2: #111b2e;
+      --text: #eef5ff;
+      --muted: #9dadc4;
+      --border: rgba(227, 238, 255, 0.14);
+      --card: rgba(17, 27, 46, 0.86);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.38);
+      --accent: #60a5fa;
+      --accent-2: #22d3ee;
+      --warning-bg: rgba(250, 204, 21, 0.12);
+      --warning-text: #fde68a;
+      --input-bg: #0d1728;
+      --table-head: #17243a;
+      --row-hover: #13233b;
+      --chip: rgba(96, 165, 250, 0.14);
+      --chip-text: #bfdbfe;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34vw),
+        radial-gradient(circle at top right, rgba(6, 182, 212, 0.14), transparent 34vw),
+        var(--bg);
+      color: var(--text);
+      transition: background 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+    .page {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 26px 0 40px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,255,255,0.58));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    body.dark .hero {
+      background: linear-gradient(135deg, rgba(17,27,46,0.92), rgba(13,23,40,0.72));
+    }
+
+    .title-wrap h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .title-wrap p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 920px;
+      font-size: 15px;
+    }
+
+    .notice {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .mode-btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--bg-2);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      white-space: nowrap;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .mode-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(37,99,235,0.42);
+    }
+
+    .toolbar {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(200px, 1fr) minmax(180px, 280px) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .control {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--input-bg);
+      color: var(--text);
+      padding: 13px 14px;
+      outline: none;
+      font-size: 14px;
+      box-shadow: 0 8px 20px rgba(20, 37, 64, 0.06);
+    }
+
+    .control::placeholder { color: var(--muted); }
+
+    .reset-btn {
+      border: 0;
+      border-radius: 18px;
+      padding: 13px 15px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(37, 99, 235, 0.22);
+    }
+
+    .stats {
+      margin: 18px 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card, .chart-card, .detail-card, .table-card {
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .stat-card {
+      padding: 18px;
+      min-height: 116px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      right: -36px;
+      top: -40px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.17), rgba(6,182,212,0.14));
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-value {
+      margin-top: 8px;
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 950;
+      letter-spacing: -0.04em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .chart-card {
+      min-height: 720px;
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    #treemap {
+      width: 100%;
+      height: 700px;
+    }
+
+    .detail-card {
+      padding: 20px;
+      min-height: 280px;
+      align-self: start;
+      position: sticky;
+      top: 18px;
+    }
+
+    .detail-empty {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .detail-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .detail-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 7px;
+      object-fit: contain;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.09);
+      flex: 0 0 auto;
+    }
+
+    .detail-title {
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .detail-code {
+      margin-top: 3px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .meta {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(255,255,255,0.38);
+    }
+
+    body.dark .meta { background: rgba(255,255,255,0.04); }
+
+    .meta span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .meta strong { font-size: 15px; }
+
+    .intro {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--chip);
+      color: var(--chip-text);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .table-card {
+      margin-top: 18px;
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .table-headline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .table-headline h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    .count-pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--chip-text);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead { background: var(--table-head); }
+
+    th, td {
+      padding: 13px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tbody tr {
+      cursor: pointer;
+      transition: background 0.16s ease;
+    }
+
+    tbody tr:hover, tbody tr.active-row { background: var(--row-hover); }
+
+    .company-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+    }
+
+    .table-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      object-fit: contain;
+      background: #fff;
+      padding: 3px;
+      border: 1px solid var(--border);
+      flex: 0 0 auto;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    @media (max-width: 1180px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .detail-card { position: static; }
+      .chart-card { min-height: 640px; }
+      #treemap { height: 620px; }
+    }
+
+    @media (max-width: 820px) {
+      .page {
+        width: min(100% - 20px, 1500px);
+        padding: 12px 0 24px;
+      }
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 18px;
+        border-radius: 22px;
+      }
+      .title-wrap h1 { font-size: 30px; }
+      .title-wrap p { font-size: 13px; }
+      .notice {
+        align-items: flex-start;
+        border-radius: 16px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .mode-btn { width: 100%; }
+      .toolbar { grid-template-columns: 1fr; }
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .stat-card {
+        min-height: 98px;
+        padding: 14px;
+        border-radius: 18px;
+      }
+      .stat-value { font-size: 20px; }
+      .chart-card {
+        min-height: 520px;
+        padding: 8px;
+        border-radius: 20px;
+      }
+      #treemap { height: 510px; }
+      .detail-card, .table-card {
+        border-radius: 20px;
+        padding: 14px;
+      }
+      .meta-grid { grid-template-columns: 1fr 1fr; }
+      .detail-title { font-size: 20px; }
+      .detail-logo {
+        width: 46px;
+        height: 46px;
+      }
+      .table-headline {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      table { font-size: 12px; }
+      th, td { padding: 10px 11px; }
+    }
+
+    @media (max-width: 480px) {
+      .stats { grid-template-columns: 1fr; }
+      .meta-grid { grid-template-columns: 1fr; }
+      #treemap { height: 470px; }
+      .chart-card { min-height: 480px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="title-wrap">
+        <h1>台湾公司市值树状图</h1>
+        <p>以 Treemap 樹狀图展示台湾主要上市／上柜公司的市值分布。矩形面积代表市值大小，颜色代表产业类别，点击任一公司可查看完整信息。</p>
+        <div class="notice">⚠️ 数据為示例估算，仅用於可視化展示，非实时投资依据。</div>
+      </div>
+      <button id="themeToggle" class="mode-btn" type="button">🌙 深色模式</button>
+    </section>
+
+    <section class="toolbar" aria-label="搜索與筛选">
+      <input id="searchInput" class="control" type="search" placeholder="搜索公司名称、股票代码或产业，例如：台积电、2330、半导体" />
+      <select id="industryFilter" class="control">
+        <option value="全部产业">全部产业</option>
+      </select>
+      <button id="resetBtn" class="reset-btn" type="button">重置</button>
+    </section>
+
+    <section class="stats" aria-label="统计卡片">
+      <article class="stat-card">
+        <div class="stat-label">总市值</div>
+        <div id="totalCap" class="stat-value">-</div>
+        <div class="stat-sub">单位：人民币亿元元</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-label">公司数量</div>
+        <div id="companyCount" class="stat-value">-</div>
+        <div class="stat-sub">当前筛选结果</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-label">最大市值公司</div>
+        <div id="largestCompany" class="stat-value">-</div>
+        <div id="largestCompanySub" class="stat-sub">-</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-label">半导体产业占比</div>
+        <div id="semiShare" class="stat-value">-</div>
+        <div class="stat-sub">按当前筛选结果计算</div>
+      </article>
+    </section>
+
+    <section class="main-grid">
+      <article class="chart-card">
+        <div id="treemap" role="img" aria-label="台湾主要公司市值 Treemap 树状图"></div>
+      </article>
+      <aside id="detailCard" class="detail-card" aria-live="polite">
+        <div class="detail-empty">点击树状图矩形或下方数据表中的公司，这里会显示公司 LOGO、股票代码、产业、市值、市值占比和简介。</div>
+      </aside>
+    </section>
+
+    <section class="table-card">
+      <div class="table-headline">
+        <h2>完整数据表</h2>
+        <span id="tableCount" class="count-pill">0 条数据</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>公司</th>
+              <th>股票代码</th>
+              <th>产业</th>
+              <th>市值</th>
+              <th>市值占比</th>
+              <th>简介</th>
+            </tr>
+          </thead>
+          <tbody id="dataTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="footer-note">本頁為單文件 HTML，可直接保存為 index.html 並上傳 GitHub Pages。公司图标使用公司網站 favicon 图示；若部分浏览器或网络环境无法加载，表格与详情卡仍会正常显示。</p>
+  </main>
+
+  <script>
+    const logoMap = {
+      "台积电": "https://www.google.com/s2/favicons?domain=tsmc.com&sz=128",
+      "台达电": "https://www.google.com/s2/favicons?domain=deltaww.com&sz=128",
+      "联发科": "https://www.google.com/s2/favicons?domain=mediatek.com&sz=128",
+      "鸿海": "https://www.google.com/s2/favicons?domain=foxconn.com&sz=128",
+      "日月光投控": "https://www.google.com/s2/favicons?domain=aseglobal.com&sz=128",
+      "台光电": "https://www.google.com/s2/favicons?domain=emct.com.tw&sz=128",
+      "欣兴": "https://www.google.com/s2/favicons?domain=unimicron.com&sz=128",
+      "智邦": "https://www.google.com/s2/favicons?domain=accton.com&sz=128",
+      "富邦金": "https://www.google.com/s2/favicons?domain=fubon.com&sz=128",
+      "广达": "https://www.google.com/s2/favicons?domain=quantatw.com&sz=128",
+      "国泰金": "https://www.google.com/s2/favicons?domain=cathayholdings.com&sz=128",
+      "奇鋐": "https://www.google.com/s2/favicons?domain=avc.co&sz=128",
+      "中华电": "https://www.google.com/s2/favicons?domain=cht.com.tw&sz=128",
+      "中信金": "https://www.google.com/s2/favicons?domain=ctbcholding.com&sz=128",
+      "联电": "https://www.google.com/s2/favicons?domain=umc.com&sz=128",
+      "致茂": "https://www.google.com/s2/favicons?domain=chromaate.com&sz=128",
+      "鸿劲": "https://www.google.com/s2/favicons?domain=honprec.com&sz=128",
+      "纬颖": "https://www.google.com/s2/favicons?domain=wiwynn.com&sz=128",
+      "健策": "https://www.google.com/s2/favicons?domain=jentech.com.tw&sz=128",
+      "南亚": "https://www.google.com/s2/favicons?domain=npc.com.tw&sz=128",
+      "金像电": "https://www.google.com/s2/favicons?domain=gold-circuit.com&sz=128",
+      "元大金": "https://www.google.com/s2/favicons?domain=yuanta.com&sz=128",
+      "南亚科": "https://www.google.com/s2/favicons?domain=nanya.com&sz=128",
+      "国巨": "https://www.google.com/s2/favicons?domain=yageo.com&sz=128",
+      "南电": "https://www.google.com/s2/favicons?domain=nanyapcb.com.tw&sz=128",
+      "台新新光金": "https://www.google.com/s2/favicons?domain=taishinbank.com.tw&sz=128",
+      "万亿丰金": "https://www.google.com/s2/favicons?domain=megaholdings.com.tw&sz=128",
+      "创意": "https://www.google.com/s2/favicons?domain=gct.com.tw&sz=128",
+      "信骅": "https://www.google.com/s2/favicons?domain=aspeedtech.com&sz=128",
+      "群联": "https://www.google.com/s2/favicons?domain=phison.com&sz=128",
+      "旺矽": "https://www.google.com/s2/favicons?domain=mpi.com.tw&sz=128",
+      "贸联-KY": "https://www.google.com/s2/favicons?domain=bizlinktech.com&sz=128",
+      "台塑化": "https://www.google.com/s2/favicons?domain=fpcc.com.tw&sz=128",
+      "玉山金": "https://www.google.com/s2/favicons?domain=esunfhc.com&sz=128",
+      "臻鼎-KY": "https://www.google.com/s2/favicons?domain=zdtco.com&sz=128",
+      "永丰金": "https://www.google.com/s2/favicons?domain=sinopac.com&sz=128",
+      "华南金": "https://www.google.com/s2/favicons?domain=hnfhc.com.tw&sz=128",
+      "长荣": "https://www.google.com/s2/favicons?domain=evergreen-marine.com&sz=128",
+      "纬创": "https://www.google.com/s2/favicons?domain=wistron.com&sz=128",
+      "华硕": "https://www.google.com/s2/favicons?domain=asus.com&sz=128",
+      "台湾大": "https://www.google.com/s2/favicons?domain=taiwanmobile.com&sz=128",
+      "第一金": "https://www.google.com/s2/favicons?domain=firstholding.com.tw&sz=128",
+      "华邦电": "https://www.google.com/s2/favicons?domain=winbond.com&sz=128",
+      "统一": "https://www.google.com/s2/favicons?domain=uni-president.com.tw&sz=128",
+      "光宝科": "https://www.google.com/s2/favicons?domain=liteon.com&sz=128",
+      "颖崴": "https://www.google.com/s2/favicons?domain=winwayglobal.com&sz=128",
+      "川湖": "https://www.google.com/s2/favicons?domain=king-slide.com&sz=128",
+      "京元电子": "https://www.google.com/s2/favicons?domain=kyec.com.tw&sz=128",
+      "凯基金": "https://www.google.com/s2/favicons?domain=kgi.com&sz=128",
+      "合库金": "https://www.google.com/s2/favicons?domain=tcfhc.com.tw&sz=128",
+      "大立光": "https://www.google.com/s2/favicons?domain=largan.com.tw&sz=128",
+      "远传": "https://www.google.com/s2/favicons?domain=fetnet.net&sz=128",
+      "台耀": "https://www.google.com/s2/favicons?domain=tuc.com.tw&sz=128",
+      "台塑": "https://www.google.com/s2/favicons?domain=fpc.com.tw&sz=128",
+      "世芯-KY": "https://www.google.com/s2/favicons?domain=alchip.com&sz=128",
+      "研华": "https://www.google.com/s2/favicons?domain=advantech.com&sz=128",
+      "台化": "https://www.google.com/s2/favicons?domain=fcfc.com.tw&sz=128",
+      "环球晶": "https://www.google.com/s2/favicons?domain=sas-globalwafers.com&sz=128",
+      "旺宏": "https://www.google.com/s2/favicons?domain=macronix.com&sz=128",
+      "中钢": "https://www.google.com/s2/favicons?domain=csc.com.tw&sz=128",
+      "嘉泽": "https://www.google.com/s2/favicons?domain=lotes.cc&sz=128",
+      "华通": "https://www.google.com/s2/favicons?domain=compeq.com.tw&sz=128",
+      "亚德客-KY": "https://www.google.com/s2/favicons?domain=airtac.com&sz=128",
+      "华城": "https://www.google.com/s2/favicons?domain=fortune.com.tw&sz=128",
+      "景硕": "https://www.google.com/s2/favicons?domain=kinsus.com.tw&sz=128",
+      "瑞昱": "https://www.google.com/s2/favicons?domain=realtek.com&sz=128",
+      "世界": "https://www.google.com/s2/favicons?domain=vis.com.tw&sz=128",
+      "和泰车": "https://www.google.com/s2/favicons?domain=hotaimotor.com.tw&sz=128",
+      "文晔": "https://www.google.com/s2/favicons?domain=wt.com.tw&sz=128",
+      "药华药": "https://www.google.com/s2/favicons?domain=pharmessentia.com&sz=128",
+      "联咏": "https://www.google.com/s2/favicons?domain=novatek.com.tw&sz=128",
+      "彰银": "https://www.google.com/s2/favicons?domain=chb.com.tw&sz=128",
+      "健鼎": "https://www.google.com/s2/favicons?domain=tripod-tech.com&sz=128",
+      "力旺": "https://www.google.com/s2/favicons?domain=ememory.com.tw&sz=128",
+      "统一超": "https://www.google.com/s2/favicons?domain=7-11.com.tw&sz=128",
+      "元太": "https://www.google.com/s2/favicons?domain=eink.com&sz=128",
+      "联亚": "https://www.google.com/s2/favicons?domain=landmark.com.tw&sz=128",
+      "和硕": "https://www.google.com/s2/favicons?domain=pegatroncorp.com&sz=128",
+      "力积电": "https://www.google.com/s2/favicons?domain=psmc.com.tw&sz=128",
+      "万海": "https://www.google.com/s2/favicons?domain=wanhai.com&sz=128",
+      "中租-KY": "https://www.google.com/s2/favicons?domain=chaileaseholding.com&sz=128",
+      "台玻": "https://www.google.com/s2/favicons?domain=taiwanglass.com&sz=128",
+      "群创": "https://www.google.com/s2/favicons?domain=innolux.com&sz=128",
+      "上海商银": "https://www.google.com/s2/favicons?domain=scsb.com.tw&sz=128",
+      "新代": "https://www.google.com/s2/favicons?domain=syntecclub.com&sz=128",
+      "台泥": "https://www.google.com/s2/favicons?domain=taiwancement.com&sz=128",
+      "采钰": "https://www.google.com/s2/favicons?domain=xintec.com.tw&sz=128",
+      "技嘉": "https://www.google.com/s2/favicons?domain=gigabyte.com&sz=128",
+      "钰象": "https://www.google.com/s2/favicons?domain=igs.com.tw&sz=128",
+      "汉唐": "https://www.google.com/s2/favicons?domain=uiscom.com&sz=128",
+      "长荣航": "https://www.google.com/s2/favicons?domain=evaair.com&sz=128",
+      "稳懋": "https://www.google.com/s2/favicons?domain=winfoundry.com&sz=128",
+      "阳明": "https://www.google.com/s2/favicons?domain=yangming.com&sz=128",
+      "大联大": "https://www.google.com/s2/favicons?domain=wpgholdings.com&sz=128",
+      "矽力-KY": "https://www.google.com/s2/favicons?domain=silergy.com&sz=128",
+      "光圣": "https://www.google.com/s2/favicons?domain=ezconn.com&sz=128",
+      "英业达": "https://www.google.com/s2/favicons?domain=inventec.com&sz=128",
+      "宜鼎": "https://www.google.com/s2/favicons?domain=innodisk.com&sz=128",
+      "康霈": "https://www.google.com/s2/favicons?domain=caliwaybiopharma.com&sz=128",
+      "台企银": "https://www.google.com/s2/favicons?domain=tbb.com.tw&sz=128"
+    };
+
+    const rawCompanies = [
+      ["台积电", "2330", "半导体", 270000, "全球晶圓代工龍頭，提供先進製程與特殊製程服務，是台湾資本市場權重最高的公司。"],
+      ["台达电", "2308", "电子零组件", 11500, "電源管理、散热與工业自动化大廠，受惠資料中心、電動車與能源管理需求。"],
+      ["联发科", "2454", "半导体", 9200, "IC 設計龍頭，產品涵蓋手機晶片、智慧裝置、車用與連網晶片。"],
+      ["鸿海", "2317", "电子代工", 8500, "全球電子製造服務大型企業，布局 AI 服务器、電動車與智慧製造。"],
+      ["日月光投控", "3711", "半导体", 7200, "半导体封測龍頭，提供先進封裝、測試與電子製造整合服務。"],
+      ["台光电", "2383", "电子材料", 5600, "高階銅箔基板材料供應商，受惠高速運算、服务器與通訊需求。"],
+      ["欣兴", "3037", "电子零组件", 5200, "IC 載板與印刷電路板廠，產品應用於半导体、服务器與通訊設備。"],
+      ["智邦", "2345", "通信网络", 5000, "網通設備與交換器供應商，客戶涵蓋資料中心與電信網路。"],
+      ["富邦金", "2881", "金融保险", 4900, "大型金融控股公司，旗下涵蓋銀行、保險、證券與資產管理。"],
+      ["广达", "2382", "电子代工", 4700, "筆電與服务器代工大廠，近年受 AI 服务器需求推動。"],
+      ["国泰金", "2882", "金融保险", 4600, "台湾大型金控，業務涵蓋壽險、銀行、證券與投資管理。"],
+      ["奇鋐", "3017", "散热", 4500, "散热模組與風扇廠，產品應用於 AI 服务器、PC 與網通設備。"],
+      ["中华电", "2412", "电信服务", 4300, "台湾主要电信服务商，提供行動通訊、寬頻、雲端與企業資通訊服務。"],
+      ["中信金", "2891", "金融保险", 4200, "大型金融控股公司，業務涵蓋銀行、保險、證券與海外金融服務。"],
+      ["联电", "2303", "半导体", 4100, "成熟製程晶圓代工大廠，提供邏輯與特殊製程服務。"],
+      ["致茂", "2360", "电子设备", 3900, "量測與自動化測試設備廠，服務半导体、電動車與光電产业。"],
+      ["鸿劲", "7769", "半导体設備", 3600, "半导体測試與設備相關企業，產品聚焦高階測試應用。"],
+      ["纬颖", "6669", "服务器", 3500, "雲端資料中心與服务器解決方案廠，專注高效能運算設備。"],
+      ["健策", "3653", "散热", 3400, "散热與機構零件供應商，產品應用於半导体與高效能運算。"],
+      ["南亚", "1303", "塑化材料", 3300, "塑膠、化工與电子材料大型企業，產品涵蓋聚酯、塑膠加工與銅箔基板。"],
+      ["金像电", "2368", "电子零组件", 3200, "印刷電路板廠，產品應用於服务器、網通與高階电子设备。"],
+      ["元大金", "2885", "金融保险", 3100, "金融控股公司，旗下證券、銀行、投信與期貨業務具規模。"],
+      ["南亚科", "2408", "半导体", 3000, "DRAM 記憶體製造商，產品應用於消費電子、工業與雲端設備。"],
+      ["国巨", "2327", "电子零组件", 2950, "被動元件大廠，產品包括電阻、電容與電感等電子元件。"],
+      ["南电", "8046", "电子零组件", 2850, "IC 載板與 PCB 供應商，服務半导体封裝與高階電子應用。"],
+      ["台新新光金", "2887", "金融保险", 2750, "金融控股公司，業務涵蓋銀行、證券、保險與財富管理。"],
+      ["万亿丰金", "2886", "金融保险", 2700, "金控公司，具銀行、票券、證券與海外金融服務布局。"],
+      ["创意", "3443", "半导体", 2650, "ASIC 設計服務公司，提供客製化晶片設計與相關解決方案。"],
+      ["信骅", "5274", "半导体", 2600, "服务器管理晶片供應商，產品廣泛用於資料中心服务器。"],
+      ["群联", "8299", "半导体", 2500, "NAND 控制晶片與儲存解決方案供應商。"],
+      ["旺矽", "6223", "半导体設備", 2450, "半导体測試介面與探針卡供應商，服務高階晶片測試。"],
+      ["贸联-KY", "3665", "电子零组件", 2350, "連接線與線束供應商，產品應用於電動車、資料中心與工業設備。"],
+      ["台塑化", "6505", "石化能源", 2300, "煉油與石化產品公司，提供燃料、烯烴與芳香烴等產品。"],
+      ["玉山金", "2884", "金融保险", 2250, "金融控股公司，以銀行、證券與財富管理業務為核心。"],
+      ["臻鼎-KY", "4958", "电子零组件", 2200, "印刷電路板與軟板大廠，產品應用於手機、服务器與車用電子。"],
+      ["永丰金", "2890", "金融保险", 2150, "金控公司，涵蓋銀行、證券、租賃與資產管理業務。"],
+      ["华南金", "2880", "金融保险", 2100, "以銀行業務為核心的金融控股公司，提供企業與個人金融服務。"],
+      ["长荣", "2603", "航运", 2050, "國際貨櫃航运公司，提供全球海運與物流服務。"],
+      ["纬创", "3231", "电子代工", 2000, "資訊產品與服务器代工廠，布局 AI 服务器、車用與醫療電子。"],
+      ["华硕", "2357", "电脑品牌", 1950, "PC、主機板、顯示卡與電競品牌公司，產品線涵蓋消費與商用市場。"],
+      ["台湾大", "3045", "电信服务", 1900, "行動通訊、寬頻、電商與企業資通訊服務供應商。"],
+      ["第一金", "2892", "金融保险", 1850, "金融控股公司，旗下第一銀行為主要營運核心。"],
+      ["华邦电", "2344", "半导体", 1800, "記憶體 IC 公司，產品涵蓋 DRAM、Flash 與客製化記憶體。"],
+      ["统一", "1216", "食品消费", 1750, "食品與流通大型企業，業務涵蓋食品製造、零售與投資。"],
+      ["光宝科", "2301", "电子零组件", 1700, "電源供應器、光電與車用電子供應商。"],
+      ["颖崴", "6515", "半导体設備", 1660, "半导体測試介面與探針卡相關產品供應商。"],
+      ["川湖", "2059", "电子零组件", 1620, "服务器滑軌與機構件供應商，受惠資料中心設備升級。"],
+      ["京元电子", "2449", "半导体", 1580, "半导体測試服務供應商，服務 IC 設計與晶圓製造客戶。"],
+      ["凯基金", "2883", "金融保险", 1540, "金融控股公司，提供銀行、證券、保險與投資相關服務。"],
+      ["合库金", "5880", "金融保险", 1500, "金融控股公司，核心為合作金庫銀行與相關金融服務。"],
+      ["大立光", "3008", "光学镜头", 1470, "手機與精密光学镜头供應商，服務高階影像應用。"],
+      ["远传", "4904", "电信服务", 1440, "行動通訊、寬頻、雲端與數位服務供應商。"],
+      ["台耀", "6274", "电子材料", 1410, "高頻高速銅箔基板材料供應商，服務網通、服务器與通訊产业。"],
+      ["台塑", "1301", "塑化材料", 1380, "塑膠原料與石化產品大型企業，為台湾塑化产业重要公司。"],
+      ["世芯-KY", "3661", "半导体", 1350, "ASIC 設計服務公司，聚焦高效能運算與客製化晶片。"],
+      ["研华", "2395", "工业电脑", 1320, "工业电脑與物聯網解決方案供應商，服務自動化、醫療與智慧城市。"],
+      ["台化", "1326", "塑化材料", 1290, "化纖、塑化與化工產品公司，為大型石化集團成員。"],
+      ["环球晶", "6488", "半导体", 1260, "半导体矽晶圓供應商，服務全球晶圓製造客戶。"],
+      ["旺宏", "2337", "半导体", 1230, "非揮發性記憶體供應商，產品涵蓋 NOR Flash 與 ROM。"],
+      ["中钢", "2002", "钢铁材料", 1200, "台湾大型鋼鐵企業，供應鋼材、鋼胚與相關材料。"],
+      ["嘉泽", "3533", "电子零组件", 1170, "連接器與插槽供應商，產品應用於服务器、PC 與高階电子设备。"],
+      ["华通", "2313", "电子零组件", 1140, "印刷電路板廠，供應消費電子、汽车與服务器相關產品。"],
+      ["亚德客-KY", "1590", "工业自动化", 1110, "氣動元件與自動化零組件供應商，服務製造與設備产业。"],
+      ["华城", "1519", "电机设备", 1080, "電力設備與變壓器供應商，受惠電網建設與能源轉型需求。"],
+      ["景硕", "3189", "电子零组件", 1050, "IC 載板廠，服務半导体封裝與高階電子產品。"],
+      ["瑞昱", "2379", "半导体", 1020, "網通、音訊與多媒體 IC 設計公司，產品廣泛用於 PC 與網路設備。"],
+      ["世界", "5347", "半导体", 995, "成熟製程晶圓代工廠，提供邏輯、電源管理與顯示驅動相關製程。"],
+      ["和泰车", "2207", "汽车", 970, "汽车經銷與服務公司，代理銷售 Toyota、Lexus 等品牌。"],
+      ["文晔", "3036", "电子通路", 945, "半导体與电子零组件通路商，服務亞洲與全球客戶。"],
+      ["药华药", "6446", "生技医疗", 920, "生技製藥公司，聚焦罕見血液疾病與創新藥物開發。"],
+      ["联咏", "3034", "半导体", 895, "顯示驅動 IC 與影像處理晶片設計公司。"],
+      ["彰银", "2801", "金融保险", 870, "商業銀行，提供企業金融、個人金融與財富管理服務。"],
+      ["健鼎", "3044", "电子零组件", 850, "印刷電路板供應商，產品應用於汽车、網通、記憶體與消費電子。"],
+      ["力旺", "3529", "半导体", 830, "嵌入式非揮發性記憶體 IP 供應商，服務晶片設計與晶圓代工客戶。"],
+      ["统一超", "2912", "零售通路", 810, "便利商店與零售通路公司，營運 7-ELEVEN 與相關生活服務。"],
+      ["元太", "8069", "显示科技", 790, "電子紙顯示技術供應商，產品應用於電子閱讀器與電子標籤。"],
+      ["联亚", "3081", "光通信", 770, "光通信磊晶與相關元件供應商，服務資料中心與通信网络。"],
+      ["和硕", "4938", "电子代工", 750, "電子製造服務商，產品涵蓋電腦、通訊、消費電子與車用電子。"],
+      ["力积电", "6770", "半导体", 730, "晶圓代工與記憶體相關製造公司，提供成熟製程服務。"],
+      ["万海", "2615", "航运", 710, "貨櫃航运公司，航線涵蓋亞洲與全球主要市場。"],
+      ["中租-KY", "5871", "金融租赁", 690, "租賃與分期金融服務公司，業務涵蓋企業設備、車輛與消費金融。"],
+      ["台玻", "1802", "玻璃材料", 670, "玻璃產品製造商，產品涵蓋平板玻璃、玻璃纖維與容器玻璃。"],
+      ["群创", "3481", "显示科技", 650, "面板製造商，產品應用於電視、監視器、筆電與車用顯示。"],
+      ["上海商银", "5876", "金融保险", 630, "商業銀行，提供企業金融、個人金融與跨境金融服務。"],
+      ["新代", "7750", "工业自动化", 610, "工具機控制器與工业自动化解決方案供應商。"],
+      ["台泥", "1101", "水泥建材", 590, "水泥、建材與能源轉型相關企業，布局儲能與綠能。"],
+      ["采钰", "6789", "半导体", 570, "影像感測器晶圓級封裝與測試服務供應商。"],
+      ["技嘉", "2376", "电脑品牌", 550, "主機板、顯示卡、服务器與電競硬體品牌。"],
+      ["钰象", "3293", "游戏娱乐", 530, "遊戲開發與商用遊戲機台公司，產品涵蓋線上與實體娛樂。"],
+      ["汉唐", "2404", "工程服务", 510, "高科技廠房與機電工程服务商，服務半导体與電子产业。"],
+      ["长荣航", "2618", "航空运输", 495, "國際航空公司，提供客運、貨運與航空相關服務。"],
+      ["稳懋", "3105", "半导体", 480, "砷化鎵晶圓代工廠，產品應用於射頻、光通信與感測元件。"],
+      ["阳明", "2609", "航运", 465, "國際貨櫃航运公司，提供全球海運與物流服務。"],
+      ["大联大", "3702", "电子通路", 450, "半导体與电子零组件通路集團，服務電子製造供應鏈。"],
+      ["矽力-KY", "6415", "半导体", 435, "電源管理 IC 設計公司，產品應用於消費、工業與車用市場。"],
+      ["光圣", "6442", "光通信", 420, "光通信連接與高速傳輸元件供應商，服務資料中心與網通市場。"],
+      ["英业达", "2356", "电子代工", 405, "電子製造服務公司，產品涵蓋筆電、服务器、智慧裝置與雲端設備。"],
+      ["宜鼎", "5289", "工业电脑", 390, "工業級記憶體與儲存模組供應商，服務嵌入式與工業市場。"],
+      ["康霈", "6919", "生技医疗", 375, "生技醫藥公司，聚焦新藥研發與臨床應用。"],
+      ["台企银", "2834", "金融保险", 360, "商業銀行，提供中小企業金融、個人金融與存放款服務。"]
+    ];
+
+    const industryColors = {
+      "半导体": "#2563eb", "半导体設備": "#4f46e5", "电子零组件": "#0891b2", "电子材料": "#0d9488",
+      "电子代工": "#0284c7", "通信网络": "#06b6d4", "散热": "#14b8a6", "服务器": "#3b82f6",
+      "金融保险": "#f59e0b", "电信服务": "#8b5cf6", "电子设备": "#6366f1", "塑化材料": "#64748b",
+      "石化能源": "#ef4444", "航运": "#0ea5e9", "电脑品牌": "#22c55e", "食品消费": "#f97316",
+      "光学镜头": "#a855f7", "工业电脑": "#10b981", "钢铁材料": "#6b7280", "工业自动化": "#84cc16",
+      "电机设备": "#eab308", "汽车": "#fb7185", "电子通路": "#38bdf8", "生技医疗": "#ec4899",
+      "零售通路": "#f97316", "显示科技": "#06b6d4", "光通信": "#2dd4bf", "金融租赁": "#fbbf24",
+      "玻璃材料": "#94a3b8", "水泥建材": "#78716c", "游戏娱乐": "#d946ef", "工程服务": "#facc15",
+      "航空运输": "#60a5fa"
+    };
+
+    const TWD_TO_CNY = 0.22;
+    const companies = rawCompanies.map(([name, code, industry, marketCapTwd, intro], index) => {
+      const marketCap = Math.round(marketCapTwd * TWD_TO_CNY);
+      return {
+        id: `c${index}`,
+        name,
+        code,
+        industry,
+        marketCap,
+        intro,
+        logo: logoMap[name] || "",
+        share: marketCap / rawCompanies.reduce((sum, c) => sum + Math.round(c[3] * TWD_TO_CNY), 0) * 100
+      };
+    });
+    const totalMarketCap = companies.reduce((sum, c) => sum + c.marketCap, 0);
+
+    function makeRichKey(company) {
+      return "logo_" + company.id;
+    }
+
+    function buildLogoRich(list, isMobile) {
+      const rich = {
+        name: {
+          fontSize: isMobile ? 10 : 13,
+          fontWeight: 900,
+          color: "#ffffff",
+          lineHeight: isMobile ? 14 : 18,
+          textShadowColor: "rgba(0,0,0,0.45)",
+          textShadowBlur: 4
+        },
+        small: {
+          fontSize: isMobile ? 9 : 11,
+          color: "rgba(255,255,255,0.9)",
+          lineHeight: isMobile ? 12 : 15,
+          textShadowColor: "rgba(0,0,0,0.45)",
+          textShadowBlur: 4
+        }
+      };
+
+      list.forEach(item => {
+        rich[makeRichKey(item)] = {
+          width: isMobile ? 20 : 30,
+          height: isMobile ? 20 : 30,
+          align: "center",
+          verticalAlign: "middle",
+          borderRadius: isMobile ? 6 : 8,
+          backgroundColor: item.logo ? { image: item.logo } : "rgba(255,255,255,0.92)",
+          borderColor: "rgba(255,255,255,0.9)",
+          borderWidth: 1
+        };
+      });
+
+      return rich;
+    }
+
+    const state = {
+      query: "",
+      industry: "全部产业",
+      selectedName: null,
+      filtered: [...companies]
+    };
+
+    const chartEl = document.getElementById("treemap");
+    const chart = echarts.init(chartEl, null, { renderer: "canvas" });
+    const searchInput = document.getElementById("searchInput");
+    const industryFilter = document.getElementById("industryFilter");
+    const resetBtn = document.getElementById("resetBtn");
+    const themeToggle = document.getElementById("themeToggle");
+    const tableBody = document.getElementById("dataTable");
+    const detailCard = document.getElementById("detailCard");
+
+    function formatNumber(num) {
+      return Math.round(num).toLocaleString("zh-TW");
+    }
+
+    function formatCap(num) {
+      if (num >= 10000) return `${(num / 10000).toFixed(num >= 100000 ? 1 : 2)} 万亿`;
+      return `${formatNumber(num)} 亿`;
+    }
+
+    function fallbackLogoText(name) {
+      return name.slice(0, 2);
+    }
+
+    function getFilteredCompanies() {
+      const q = state.query.trim().toLowerCase();
+      return companies.filter(item => {
+        const matchesQuery = !q ||
+          item.name.toLowerCase().includes(q) ||
+          item.code.toLowerCase().includes(q) ||
+          item.industry.toLowerCase().includes(q);
+        const matchesIndustry = state.industry === "全部产业" || item.industry === state.industry;
+        return matchesQuery && matchesIndustry;
+      });
+    }
+
+    function initIndustryFilter() {
+      const industries = [...new Set(companies.map(c => c.industry))].sort((a, b) => a.localeCompare(b, "zh-Hant"));
+      industries.forEach(industry => {
+        const option = document.createElement("option");
+        option.value = industry;
+        option.textContent = industry;
+        industryFilter.appendChild(option);
+      });
+    }
+
+    function groupForTreemap(list) {
+      return list
+        .slice()
+        .sort((a, b) => b.marketCap - a.marketCap)
+        .map(item => ({
+          name: item.name,
+          value: item.marketCap,
+          itemStyle: {
+            color: industryColors[item.industry] || "#64748b",
+            borderColor: document.body.classList.contains("dark") ? "#0b1220" : "#ffffff",
+            borderWidth: 2,
+            gapWidth: 2
+          },
+          company: item
+        }));
+    }
+
+    function renderChart() {
+      const isDark = document.body.classList.contains("dark");
+      const width = chartEl.clientWidth;
+      const isMobile = width < 640;
+      const data = groupForTreemap(state.filtered);
+      const selected = state.selectedName;
+      const logoRich = buildLogoRich(state.filtered, isMobile);
+
+      chart.setOption({
+        backgroundColor: "transparent",
+        tooltip: {
+          trigger: "item",
+          confine: true,
+          borderWidth: 0,
+          backgroundColor: isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.96)",
+          textStyle: { color: isDark ? "#e5eefb" : "#111827", fontSize: isMobile ? 12 : 13 },
+          formatter: params => {
+            const company = params.data && params.data.company;
+            if (!company) return "";
+
+            return `
+              <div style="min-width:190px;max-width:280px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                  <img src="${company.logo}" style="width:28px;height:28px;border-radius:8px;object-fit:contain;background:#fff;padding:3px;" />
+                  <div style="font-weight:900;font-size:15px;">${company.name} ${company.code}</div>
+                </div>
+                <div>产业：${company.industry}</div>
+                <div>市值：${formatCap(company.marketCap)} 人民币</div>
+                <div>占比：${company.share.toFixed(2)}%</div>
+                <div style="margin-top:6px;color:${isDark ? '#bfdbfe' : '#475569'};line-height:1.5;white-space:normal;">${company.intro}</div>
+              </div>
+            `;
+          }
+        },
+        series: [{
+          type: "treemap",
+          roam: false,
+          nodeClick: false,
+          breadcrumb: { show: false },
+          data,
+          top: 4,
+          left: 4,
+          right: 4,
+          bottom: 4,
+          squareRatio: 1.18,
+          sort: "desc",
+          leafDepth: null,
+          visibleMin: isMobile ? 80 : 35,
+          animationDurationUpdate: 450,
+          upperLabel: { show: false },
+          label: {
+            show: true,
+            color: "#ffffff",
+            rich: logoRich,
+            formatter: params => {
+              const company = params.data && params.data.company;
+              if (!company) return "";
+              const area = params.rect ? params.rect.width * params.rect.height : 0;
+              const logoKey = makeRichKey(company);
+
+              if (area < (isMobile ? 900 : 1300)) return `{${logoKey}|}`;
+              if (area < (isMobile ? 2200 : 3300)) return `{${logoKey}|}\n{name|${company.name}}`;
+              return `{${logoKey}|}\n{name|${company.name}}\n{small|${company.code} · ${formatCap(company.marketCap)}}`;
+            },
+            overflow: "truncate"
+          },
+          levels: [
+            {
+              itemStyle: {
+                borderWidth: 0,
+                gapWidth: 3
+              }
+            },
+            {
+              colorSaturation: [0.36, 0.72],
+              itemStyle: {
+                borderWidth: 3,
+                gapWidth: 3,
+                borderColor: isDark ? "#0b1220" : "#ffffff"
+              },
+              upperLabel: { show: false }
+            },
+            {
+              itemStyle: {
+                borderWidth: selected ? 2 : 1,
+                gapWidth: 2,
+                borderColor: isDark ? "#111827" : "#ffffff"
+              },
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 18,
+                  shadowColor: "rgba(0,0,0,0.32)",
+                  borderColor: "#facc15",
+                  borderWidth: 4
+                },
+                label: { color: "#ffffff" }
+              }
+            }
+          ]
+        }]
+      }, true);
+
+      setTimeout(() => {
+        if (state.selectedName) highlightCompany(state.selectedName, false);
+      }, 60);
+    }
+
+    function renderStats() {
+      const list = state.filtered;
+      const total = list.reduce((sum, item) => sum + item.marketCap, 0);
+      const largest = [...list].sort((a, b) => b.marketCap - a.marketCap)[0];
+      const semi = list.filter(item => item.industry.includes("半导体")).reduce((sum, item) => sum + item.marketCap, 0);
+      document.getElementById("totalCap").textContent = formatCap(total);
+      document.getElementById("companyCount").textContent = `${list.length} 家`;
+      document.getElementById("largestCompany").textContent = largest ? largest.name : "-";
+      document.getElementById("largestCompanySub").textContent = largest ? `${largest.code} · ${formatCap(largest.marketCap)}` : "没有符合结果";
+      document.getElementById("semiShare").textContent = total ? `${(semi / total * 100).toFixed(1)}%` : "0%";
+      document.getElementById("tableCount").textContent = `${list.length} 条数据`;
+    }
+
+    function renderTable() {
+      const rows = state.filtered
+        .sort((a, b) => b.marketCap - a.marketCap)
+        .map(item => `
+          <tr data-name="${item.name}" class="${state.selectedName === item.name ? 'active-row' : ''}">
+            <td>
+              <div class="company-cell">
+                <img class="table-logo" src="${item.logo}" alt="${item.name} logo" loading="lazy" onerror="this.style.display='none'" />
+                <span>${item.name}</span>
+              </div>
+            </td>
+            <td>${item.code}</td>
+            <td><span class="badge">${item.industry}</span></td>
+            <td>${formatCap(item.marketCap)}</td>
+            <td>${item.share.toFixed(2)}%</td>
+            <td style="white-space:normal;min-width:280px;line-height:1.6;">${item.intro}</td>
+          </tr>
+        `).join("");
+      tableBody.innerHTML = rows || `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:30px;">没有符合搜索条件的公司</td></tr>`;
+    }
+
+    function renderDetail(company) {
+      if (!company) {
+        detailCard.innerHTML = `<div class="detail-empty">点击树状图矩形或下方数据表中的公司，这里会显示公司 LOGO、股票代码、产业、市值、市值占比和简介。</div>`;
+        return;
+      }
+
+      detailCard.innerHTML = `
+        <div class="detail-head">
+          <img class="detail-logo" src="${company.logo}" alt="${company.name} logo" onerror="this.outerHTML='<div class=&quot;detail-logo&quot; style=&quot;display:grid;place-items:center;font-weight:900;color:#1d4ed8;&quot;>${fallbackLogoText(company.name)}</div>'" />
+          <div>
+            <div class="detail-title">${company.name}</div>
+            <div class="detail-code">${company.code} · ${company.industry}</div>
+          </div>
+        </div>
+        <span class="badge">当前选中公司</span>
+        <div class="meta-grid">
+          <div class="meta"><span>市值</span><strong>${formatCap(company.marketCap)} 人民币</strong></div>
+          <div class="meta"><span>市值占比</span><strong>${company.share.toFixed(2)}%</strong></div>
+          <div class="meta"><span>股票代码</span><strong>${company.code}</strong></div>
+          <div class="meta"><span>所属产业</span><strong>${company.industry}</strong></div>
+        </div>
+        <div class="intro">${company.intro}</div>
+      `;
+    }
+
+    function applyFilters() {
+      state.filtered = getFilteredCompanies();
+      if (state.selectedName && !state.filtered.some(item => item.name === state.selectedName)) {
+        state.selectedName = null;
+        renderDetail(null);
+      }
+      renderStats();
+      renderTable();
+      renderChart();
+    }
+
+    function selectCompany(name, scrollToChart = false) {
+      const company = companies.find(item => item.name === name);
+      if (!company) return;
+      state.selectedName = name;
+      renderDetail(company);
+      renderTable();
+      renderChart();
+      setTimeout(() => highlightCompany(name, true), 80);
+      if (scrollToChart && window.innerWidth < 900) {
+        document.querySelector(".main-grid").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function highlightCompany(name, showTip = true) {
+      const idx = state.filtered.findIndex(item => item.name === name);
+      if (idx < 0) return;
+      chart.dispatchAction({ type: "downplay", seriesIndex: 0 });
+      chart.dispatchAction({ type: "highlight", seriesIndex: 0, name });
+      if (showTip) chart.dispatchAction({ type: "showTip", seriesIndex: 0, name });
+
+      const rows = tableBody.querySelectorAll("tr[data-name]");
+      rows.forEach(row => row.classList.toggle("active-row", row.dataset.name === name));
+
+      const safeName = window.CSS && CSS.escape ? CSS.escape(name) : name.replace(/"/g, '\\"');
+      const activeRow = tableBody.querySelector(`tr[data-name="${safeName}"]`);
+      if (activeRow && !isElementInViewport(activeRow)) {
+        activeRow.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+      }
+    }
+
+    function isElementInViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+    }
+
+    chart.on("click", params => {
+      const company = params.data && params.data.company;
+      if (company) selectCompany(company.name, false);
+    });
+
+    chart.on("mouseover", params => {
+      const company = params.data && params.data.company;
+      if (company && state.selectedName !== company.name) {
+        chart.dispatchAction({ type: "highlight", seriesIndex: 0, name: company.name });
+      }
+    });
+
+    tableBody.addEventListener("click", event => {
+      const row = event.target.closest("tr[data-name]");
+      if (!row) return;
+      selectCompany(row.dataset.name, true);
+    });
+
+    searchInput.addEventListener("input", event => {
+      state.query = event.target.value;
+      applyFilters();
+    });
+
+    industryFilter.addEventListener("change", event => {
+      state.industry = event.target.value;
+      applyFilters();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      state.query = "";
+      state.industry = "全部产业";
+      state.selectedName = null;
+      searchInput.value = "";
+      industryFilter.value = "全部产业";
+      renderDetail(null);
+      applyFilters();
+      chart.dispatchAction({ type: "downplay", seriesIndex: 0 });
+    });
+
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      themeToggle.textContent = isDark ? "☀️ 浅色模式" : "🌙 深色模式";
+      localStorage.setItem("taiwanTreemapTheme", isDark ? "dark" : "light");
+      renderChart();
+    });
+
+    window.addEventListener("resize", () => {
+      chart.resize();
+      renderChart();
+    });
+
+    function boot() {
+      const savedTheme = localStorage.getItem("taiwanTreemapTheme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        themeToggle.textContent = "☀️ 浅色模式";
+      }
+      initIndustryFilter();
+      applyFilters();
+      selectCompany("台积电", false);
+    }
+
+    boot();
+  </script>
+</body>
+</html>
