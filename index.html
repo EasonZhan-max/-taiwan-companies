@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Taiwan Logo Wall</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --desktop-cols: 19;
+      --desktop-rows: 10;
+      --logo-w: clamp(80px, 5.2vw, 156px);
+      --logo-h: clamp(34px, 2.55vw, 64px);
+      --gap-x: clamp(8px, .95vw, 18px);
+      --gap-y: clamp(8px, 1vw, 18px);
+      --map-w: min(28vw, 430px);
+
+      --mobile-logo-h: 82px;
+      --mobile-box-h: 110px;
+      --mobile-gap: 14px;
+      --mobile-map-w: min(72vw, 320px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: #222;
+      font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .desktop-stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      padding: 18px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .desktop-grid {
+      position: relative;
+      display: grid;
+      width: 100%;
+      height: 100%;
+      grid-template-columns: repeat(var(--desktop-cols), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--desktop-rows), minmax(0, 1fr));
+      column-gap: var(--gap-x);
+      row-gap: var(--gap-y);
+      align-items: center;
+      justify-items: center;
+    }
+
+    .logo {
+      width: 100%;
+      max-width: var(--logo-w);
+      height: var(--logo-h);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 3px 4px;
+    }
+
+    .logo img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+      filter: drop-shadow(0 0 2px rgba(0,0,0,0.03));
+    }
+
+    .desktop-map-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: var(--map-w);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .desktop-map {
+      width: 100%;
+      display: block;
+    }
+
+    /* Mobile view */
+    .mobile-stage {
+      display: none;
+      padding:
+        max(14px, env(safe-area-inset-top))
+        max(14px, env(safe-area-inset-right))
+        max(18px, env(safe-area-inset-bottom))
+        max(14px, env(safe-area-inset-left));
+      background: #fff;
+      min-height: 100vh;
+    }
+
+    .mobile-map-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0 18px;
+      margin-bottom: 8px;
+    }
+
+    .mobile-map {
+      width: var(--mobile-map-w);
+      max-width: 100%;
+      display: block;
+    }
+
+    .mobile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--mobile-gap);
+      align-items: stretch;
+    }
+
+    .mobile-card {
+      min-height: var(--mobile-box-h);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 14px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .mobile-card img {
+      max-width: 100%;
+      max-height: var(--mobile-logo-h);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        overflow: auto;
+      }
+      .desktop-stage {
+        display: none;
+      }
+      .mobile-stage {
+        display: block;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .mobile-grid {
+        grid-template-columns: 1fr;
+      }
+      .mobile-card {
+        min-height: 118px;
+      }
+      .mobile-card img {
+        max-height: 88px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="desktop-stage">
+    <section class="desktop-grid" id="desktopGrid"></section>
+    <div class="desktop-map-wrap">
+      <img class="desktop-map" src="./assets/taiwan-map.jpg" alt="Taiwan map" />
+    </div>
+  </main>
+
+  <main class="mobile-stage">
+    <div class="mobile-map-wrap">
+      <img class="mobile-map" src="./assets/taiwan-map.jpg" alt="Taiwan map" />
+    </div>
+    <section class="mobile-grid" id="mobileGrid"></section>
+  </main>
+
+  <script>
+    const LOGOS = ['./assets/logos/logo-001.png', './assets/logos/logo-002.png', './assets/logos/logo-003.png', './assets/logos/logo-004.png', './assets/logos/logo-005.png', './assets/logos/logo-006.png', './assets/logos/logo-007.png', './assets/logos/logo-008.png', './assets/logos/logo-009.png', './assets/logos/logo-010.png', './assets/logos/logo-011.png', './assets/logos/logo-012.png', './assets/logos/logo-013.png', './assets/logos/logo-014.png', './assets/logos/logo-015.png', './assets/logos/logo-016.png', './assets/logos/logo-017.png', './assets/logos/logo-018.png', './assets/logos/logo-019.png', './assets/logos/logo-020.png', './assets/logos/logo-021.png', './assets/logos/logo-022.png', './assets/logos/logo-023.png', './assets/logos/logo-024.png', './assets/logos/logo-025.png', './assets/logos/logo-026.png', './assets/logos/logo-027.png', './assets/logos/logo-028.png', './assets/logos/logo-029.png', './assets/logos/logo-030.png', './assets/logos/logo-031.png', './assets/logos/logo-032.png', './assets/logos/logo-033.png', './assets/logos/logo-034.png', './assets/logos/logo-035.png', './assets/logos/logo-036.png', './assets/logos/logo-037.png', './assets/logos/logo-038.png', './assets/logos/logo-039.png', './assets/logos/logo-040.png', './assets/logos/logo-041.png', './assets/logos/logo-042.png', './assets/logos/logo-043.png', './assets/logos/logo-044.png', './assets/logos/logo-045.png', './assets/logos/logo-046.png', './assets/logos/logo-047.png', './assets/logos/logo-048.png', './assets/logos/logo-049.png', './assets/logos/logo-050.png', './assets/logos/logo-051.png', './assets/logos/logo-052.png', './assets/logos/logo-053.png', './assets/logos/logo-054.png', './assets/logos/logo-055.png', './assets/logos/logo-056.png', './assets/logos/logo-057.png', './assets/logos/logo-058.png'];
+    const DESKTOP_POSITIONS = [[1, 1], [1, 3], [1, 5], [1, 7], [1, 9], [1, 11], [1, 13], [1, 15], [1, 17], [1, 19], [10, 1], [10, 3], [10, 5], [10, 7], [10, 9], [10, 11], [10, 13], [10, 15], [10, 17], [10, 19], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [2, 19], [3, 19], [4, 19], [5, 19], [6, 19], [7, 19], [8, 19], [9, 19], [2, 4], [2, 7], [2, 10], [2, 13], [2, 16], [3, 3], [3, 6], [3, 14], [3, 17], [9, 4], [9, 7], [9, 10], [9, 13], [9, 16], [4, 3], [5, 3], [6, 3], [4, 17], [5, 17], [6, 17], [7, 3], [7, 17]];
+
+    const desktopGrid = document.getElementById('desktopGrid');
+    const mobileGrid = document.getElementById('mobileGrid');
+
+    LOGOS.forEach((src, i) => {
+      // desktop
+      const pos = DESKTOP_POSITIONS[i];
+      if (pos) {
+        const [row, col] = pos;
+        const div = document.createElement('div');
+        div.className = 'logo';
+        div.style.gridRow = row;
+        div.style.gridColumn = col;
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `logo ${i + 1}`;
+        div.appendChild(img);
+        desktopGrid.appendChild(div);
+      }
+
+      // mobile
+      const card = document.createElement('div');
+      card.className = 'mobile-card';
+
+      const img2 = document.createElement('img');
+      img2.src = src;
+      img2.alt = `logo ${i + 1}`;
+
+      card.appendChild(img2);
+      mobileGrid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
