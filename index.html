@@ -5,64 +5,181 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Taiwan Logo Wall</title>
 <style>
-:root {
-  --desktop-cols:24; --desktop-rows:12;
-  --logo-w:clamp(78px,4.9vw,158px); --logo-h:clamp(34px,2.45vw,66px);
-  --gap-x:clamp(6px,.65vw,13px); --gap-y:clamp(6px,.75vw,13px);
-  --map-w:min(26vw,405px);
-  --mobile-logo-h:88px; --mobile-box-h:118px; --mobile-gap:14px; --mobile-map-w:min(74vw,330px);
+* {
+  box-sizing: border-box;
 }
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#fff;color:#222;font-family:Arial,"Noto Sans TC","Microsoft JhengHei",sans-serif}
-body{overflow:hidden}
-.desktop-stage{position:relative;width:100vw;height:100vh;padding:14px;background:#fff;overflow:hidden}
-.desktop-grid{position:relative;display:grid;width:100%;height:100%;grid-template-columns:repeat(var(--desktop-cols),minmax(0,1fr));grid-template-rows:repeat(var(--desktop-rows),minmax(0,1fr));column-gap:var(--gap-x);row-gap:var(--gap-y);align-items:center;justify-items:center}
-.logo{width:100%;max-width:var(--logo-w);height:var(--logo-h);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:2px 3px}
-.logo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;image-rendering:-webkit-optimize-contrast;filter:drop-shadow(0 0 2px rgba(0,0,0,.03))}
-.desktop-map-wrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--map-w);z-index:5;pointer-events:none}
-.desktop-map{width:100%;display:block}
-.mobile-stage{display:none;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#fff;min-height:100vh}
-.mobile-map-wrap{display:flex;align-items:center;justify-content:center;padding:0 0 18px;margin-bottom:8px}
-.mobile-map{width:var(--mobile-map-w);max-width:100%;display:block}
-.mobile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--mobile-gap);align-items:stretch}
-.mobile-card{min-height:var(--mobile-box-h);border:1px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;padding:12px;box-shadow:0 2px 10px rgba(0,0,0,.03)}
-.mobile-card img{max-width:100%;max-height:var(--mobile-logo-h);width:auto;height:auto;object-fit:contain;display:block;image-rendering:-webkit-optimize-contrast}
-@media(max-width:900px){body{overflow:auto}.desktop-stage{display:none}.mobile-stage{display:block}}
-@media(max-width:420px){.mobile-grid{grid-template-columns:1fr}.mobile-card{min-height:124px}.mobile-card img{max-height:94px}}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #fff;
+  color: #222;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+body {
+  overflow: auto;
+}
+
+.stage {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  margin: 0 auto;
+  background: #fff;
+  overflow: hidden;
+}
+
+.logo {
+  position: absolute;
+  width: 138px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.map-wrap {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: 390px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.map {
+  width: 100%;
+  display: block;
+}
+
+.mobile-stage {
+  display: none;
+  padding:
+    max(12px, env(safe-area-inset-top))
+    max(12px, env(safe-area-inset-right))
+    max(18px, env(safe-area-inset-bottom))
+    max(12px, env(safe-area-inset-left));
+  background: #fff;
+  min-height: 100vh;
+}
+
+.mobile-map-wrap {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 18px;
+}
+
+.mobile-map {
+  width: min(74vw, 330px);
+  max-width: 100%;
+  display: block;
+}
+
+.mobile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.mobile-card {
+  min-height: 118px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 14px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.03);
+}
+
+.mobile-card img {
+  max-width: 100%;
+  max-height: 88px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .stage {
+    display: none;
+  }
+  .mobile-stage {
+    display: block;
+  }
+}
+
+@media (max-width: 420px) {
+  .mobile-grid {
+    grid-template-columns: 1fr;
+  }
+  .mobile-card {
+    min-height: 124px;
+  }
+  .mobile-card img {
+    max-height: 94px;
+  }
+}
 </style>
 </head>
 <body>
-<main class="desktop-stage">
-  <section class="desktop-grid" id="desktopGrid"></section>
-  <div class="desktop-map-wrap"><img class="desktop-map" src="./assets/taiwan-map.jpg" alt="Taiwan map" /></div>
+<main class="stage" id="stage">
+  <div class="map-wrap">
+    <img class="map" src="./assets/taiwan-map.jpg" alt="Taiwan map" />
+  </div>
 </main>
+
 <main class="mobile-stage">
-  <div class="mobile-map-wrap"><img class="mobile-map" src="./assets/taiwan-map.jpg" alt="Taiwan map" /></div>
+  <div class="mobile-map-wrap">
+    <img class="mobile-map" src="./assets/taiwan-map.jpg" alt="Taiwan map" />
+  </div>
   <section class="mobile-grid" id="mobileGrid"></section>
 </main>
+
 <script>
-const LOGOS=['./assets/logos/logo-001.png', './assets/logos/logo-002.png', './assets/logos/logo-003.png', './assets/logos/logo-004.png', './assets/logos/logo-005.png', './assets/logos/logo-006.png', './assets/logos/logo-007.png', './assets/logos/logo-008.png', './assets/logos/logo-009.png', './assets/logos/logo-010.png', './assets/logos/logo-011.png', './assets/logos/logo-012.png', './assets/logos/logo-013.png', './assets/logos/logo-014.png', './assets/logos/logo-015.png', './assets/logos/logo-016.png', './assets/logos/logo-017.png', './assets/logos/logo-018.png', './assets/logos/logo-019.png', './assets/logos/logo-020.png', './assets/logos/logo-021.png', './assets/logos/logo-022.png', './assets/logos/logo-023.png', './assets/logos/logo-024.png', './assets/logos/logo-025.png', './assets/logos/logo-026.png', './assets/logos/logo-027.png', './assets/logos/logo-028.png', './assets/logos/logo-029.png', './assets/logos/logo-030.png', './assets/logos/logo-031.png', './assets/logos/logo-032.png', './assets/logos/logo-033.png', './assets/logos/logo-034.png', './assets/logos/logo-035.png', './assets/logos/logo-036.png', './assets/logos/logo-037.png', './assets/logos/logo-038.png', './assets/logos/logo-039.png', './assets/logos/logo-040.png', './assets/logos/logo-041.png', './assets/logos/logo-042.png', './assets/logos/logo-043.png', './assets/logos/logo-044.png', './assets/logos/logo-045.png', './assets/logos/logo-046.png', './assets/logos/logo-047.png', './assets/logos/logo-048.png', './assets/logos/logo-049.png', './assets/logos/logo-050.png', './assets/logos/logo-051.png', './assets/logos/logo-052.png', './assets/logos/logo-053.png', './assets/logos/logo-054.png', './assets/logos/logo-055.png', './assets/logos/logo-056.png', './assets/logos/logo-057.png', './assets/logos/logo-058.png', './assets/logos/logo-059.png', './assets/logos/logo-060.png', './assets/logos/logo-061.png', './assets/logos/logo-062.png', './assets/logos/logo-063.png', './assets/logos/logo-064.png', './assets/logos/logo-065.png', './assets/logos/logo-066.png', './assets/logos/logo-067.png', './assets/logos/logo-068.png', './assets/logos/logo-069.png', './assets/logos/logo-070.png', './assets/logos/logo-071.png', './assets/logos/logo-072.png', './assets/logos/logo-073.png', './assets/logos/logo-074.png', './assets/logos/logo-075.png', './assets/logos/logo-076.png', './assets/logos/logo-077.png', './assets/logos/logo-078.png', './assets/logos/logo-079.png', './assets/logos/logo-080.png', './assets/logos/logo-081.png', './assets/logos/logo-082.png', './assets/logos/logo-083.png', './assets/logos/logo-084.png', './assets/logos/logo-085.png', './assets/logos/logo-086.png', './assets/logos/logo-087.png', './assets/logos/logo-088.png', './assets/logos/logo-089.png', './assets/logos/logo-090.png', './assets/logos/logo-091.png', './assets/logos/logo-092.png', './assets/logos/logo-093.png', './assets/logos/logo-094.png'];
-const DESKTOP_POSITIONS=[[1, 1], [1, 3], [1, 5], [1, 7], [1, 9], [1, 11], [1, 13], [1, 15], [1, 17], [1, 19], [1, 21], [1, 23], [1, 24], [1, 2], [1, 4], [1, 6], [1, 8], [1, 10], [1, 12], [1, 14], [1, 16], [1, 18], [1, 20], [1, 22], [2, 1], [2, 3], [2, 5], [2, 7], [2, 9], [2, 11], [2, 13], [2, 15], [2, 17], [2, 19], [2, 21], [2, 23], [2, 24], [2, 2], [2, 4], [2, 6], [2, 8], [2, 10], [2, 12], [2, 14], [2, 16], [2, 18], [2, 20], [2, 22], [12, 1], [12, 3], [12, 5], [12, 7], [12, 9], [12, 11], [12, 13], [12, 15], [12, 17], [12, 19], [12, 21], [12, 23], [12, 24], [12, 2], [12, 4], [12, 6], [12, 8], [12, 10], [12, 12], [12, 14], [12, 16], [12, 18], [12, 20], [12, 22], [11, 1], [11, 3], [11, 5], [11, 7], [11, 9], [11, 11], [11, 13], [11, 15], [11, 17], [11, 19], [11, 21], [11, 23], [11, 24], [11, 2], [11, 4], [11, 6], [11, 8], [11, 10], [11, 12], [11, 14], [11, 16], [11, 18]];
-const desktopGrid=document.getElementById('desktopGrid'), mobileGrid=document.getElementById('mobileGrid');
-LOGOS.forEach((src,i)=>{
-  const pos=DESKTOP_POSITIONS[i];
-  if(pos){
-    const div=document.createElement('div');
-    div.className='logo';
-    div.style.gridRow=pos[0];
-    div.style.gridColumn=pos[1];
-    const img=document.createElement('img');
-    img.src=src;
-    img.alt=`logo ${i+1}`;
-    div.appendChild(img);
-    desktopGrid.appendChild(div);
+const LOGOS = ['./assets/logos/logo-001.png', './assets/logos/logo-002.png', './assets/logos/logo-003.png', './assets/logos/logo-004.png', './assets/logos/logo-005.png', './assets/logos/logo-006.png', './assets/logos/logo-007.png', './assets/logos/logo-008.png', './assets/logos/logo-009.png', './assets/logos/logo-010.png', './assets/logos/logo-011.png', './assets/logos/logo-012.png', './assets/logos/logo-013.png', './assets/logos/logo-014.png', './assets/logos/logo-015.png', './assets/logos/logo-016.png', './assets/logos/logo-017.png', './assets/logos/logo-018.png', './assets/logos/logo-019.png', './assets/logos/logo-020.png', './assets/logos/logo-021.png', './assets/logos/logo-022.png', './assets/logos/logo-023.png', './assets/logos/logo-024.png', './assets/logos/logo-025.png', './assets/logos/logo-026.png', './assets/logos/logo-027.png', './assets/logos/logo-028.png', './assets/logos/logo-029.png', './assets/logos/logo-030.png', './assets/logos/logo-031.png', './assets/logos/logo-032.png', './assets/logos/logo-033.png', './assets/logos/logo-034.png', './assets/logos/logo-035.png', './assets/logos/logo-036.png', './assets/logos/logo-037.png', './assets/logos/logo-038.png', './assets/logos/logo-039.png', './assets/logos/logo-040.png', './assets/logos/logo-041.png', './assets/logos/logo-042.png', './assets/logos/logo-043.png', './assets/logos/logo-044.png', './assets/logos/logo-045.png', './assets/logos/logo-046.png', './assets/logos/logo-047.png', './assets/logos/logo-048.png', './assets/logos/logo-049.png', './assets/logos/logo-050.png', './assets/logos/logo-051.png', './assets/logos/logo-052.png', './assets/logos/logo-053.png', './assets/logos/logo-054.png', './assets/logos/logo-055.png', './assets/logos/logo-056.png', './assets/logos/logo-057.png', './assets/logos/logo-058.png', './assets/logos/logo-059.png', './assets/logos/logo-060.png', './assets/logos/logo-061.png', './assets/logos/logo-062.png', './assets/logos/logo-063.png', './assets/logos/logo-064.png', './assets/logos/logo-065.png', './assets/logos/logo-066.png', './assets/logos/logo-067.png', './assets/logos/logo-068.png', './assets/logos/logo-069.png', './assets/logos/logo-070.png', './assets/logos/logo-071.png', './assets/logos/logo-072.png', './assets/logos/logo-073.png', './assets/logos/logo-074.png', './assets/logos/logo-075.png', './assets/logos/logo-076.png', './assets/logos/logo-077.png', './assets/logos/logo-078.png', './assets/logos/logo-079.png', './assets/logos/logo-080.png', './assets/logos/logo-081.png', './assets/logos/logo-082.png', './assets/logos/logo-083.png', './assets/logos/logo-084.png', './assets/logos/logo-085.png', './assets/logos/logo-086.png', './assets/logos/logo-087.png', './assets/logos/logo-088.png', './assets/logos/logo-089.png', './assets/logos/logo-090.png', './assets/logos/logo-091.png', './assets/logos/logo-092.png', './assets/logos/logo-093.png', './assets/logos/logo-094.png'];
+const POSITIONS = [(70, 48), (230, 48), (390, 48), (550, 48), (710, 48), (870, 48), (1030, 48), (1190, 48), (1350, 48), (1510, 48), (1670, 48), (1830, 48), (70, 145), (230, 145), (390, 145), (550, 145), (710, 145), (870, 145), (1030, 145), (1190, 145), (1350, 145), (1510, 145), (1670, 145), (1830, 145), (70, 900), (230, 900), (390, 900), (550, 900), (710, 900), (870, 900), (1030, 900), (1190, 900), (1350, 900), (1510, 900), (1670, 900), (1830, 900), (70, 997), (230, 997), (390, 997), (550, 997), (710, 997), (870, 997), (1030, 997), (1190, 997), (1350, 997), (1510, 997), (1670, 997), (1830, 997), (70, 260), (70, 355), (70, 450), (70, 545), (70, 640), (70, 735), (245, 260), (245, 355), (245, 450), (245, 545), (245, 640), (245, 735), (420, 260), (420, 355), (420, 450), (420, 545), (420, 640), (420, 735), (1500, 260), (1500, 355), (1500, 450), (1500, 545), (1500, 640), (1500, 735), (1675, 260), (1675, 355), (1675, 450), (1675, 545), (1675, 640), (1675, 735), (1850, 260), (1850, 355), (1850, 450), (1850, 545), (1850, 640), (1850, 735), (600, 250), (770, 230), (940, 215), (1110, 230), (1280, 250), (555, 350), (1330, 350), (520, 455), (1370, 455), (520, 560)];
+
+const stage = document.getElementById('stage');
+const mobileGrid = document.getElementById('mobileGrid');
+
+LOGOS.forEach((src, i) => {
+  const pos = POSITIONS[i];
+  if (pos) {
+    const logo = document.createElement('div');
+    logo.className = 'logo';
+    logo.style.left = pos[0] + 'px';
+    logo.style.top = pos[1] + 'px';
+
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `logo ${i + 1}`;
+
+    logo.appendChild(img);
+    stage.appendChild(logo);
   }
-  const card=document.createElement('div');
-  card.className='mobile-card';
-  const img2=document.createElement('img');
-  img2.src=src;
-  img2.alt=`logo ${i+1}`;
-  card.appendChild(img2);
+
+  const card = document.createElement('div');
+  card.className = 'mobile-card';
+  const mImg = document.createElement('img');
+  mImg.src = src;
+  mImg.alt = `logo ${i + 1}`;
+  card.appendChild(mImg);
   mobileGrid.appendChild(card);
 });
 </script>
