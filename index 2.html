@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>台湾公司市值Logo拼贴图</title>
+  <style>
+    :root{
+      --bg:#eef2f7;
+      --card:#ffffff;
+      --border:#cfd6df;
+      --text:#182235;
+      --muted:#68768a;
+      --blue:#0d47a1;
+      --blue-2:#2d63d8;
+      --shadow:0 14px 30px rgba(34,52,84,.10);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+      background:linear-gradient(180deg,#f5f7fb,#edf1f7);
+      color:var(--text);
+    }
+    .page{
+      width:min(1500px, calc(100% - 24px));
+      margin:0 auto;
+      padding:18px 0 28px;
+    }
+    .hero{
+      background:rgba(255,255,255,.8);
+      border:1px solid #dfe5ee;
+      border-radius:22px;
+      padding:18px 20px;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+    h1{
+      margin:0;
+      font-size:clamp(28px,4vw,42px);
+      letter-spacing:-.03em;
+    }
+    .sub{
+      margin-top:8px;
+      color:var(--muted);
+      line-height:1.75;
+      font-size:14px;
+    }
+    .note{
+      margin-top:12px;
+      display:inline-flex;
+      gap:8px;
+      padding:8px 12px;
+      background:#fff6dd;
+      color:#8d5a00;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+    }
+    .stats{
+      margin:16px 0 14px;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+    }
+    .stat{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:16px;
+      box-shadow:var(--shadow);
+      min-height:108px;
+    }
+    .stat .k{
+      color:var(--muted);
+      font-size:13px;
+      font-weight:700;
+    }
+    .stat .v{
+      margin-top:8px;
+      font-size:clamp(24px,3vw,38px);
+      font-weight:900;
+      letter-spacing:-.04em;
+    }
+    .stat .s{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .board-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:12px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .board-wrap{
+      display:grid;
+      grid-template-columns: 1fr 300px;
+      gap:14px;
+      align-items:start;
+    }
+
+    .logo-board{
+      position:relative;
+      min-height:1320px;
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      grid-auto-rows:90px;
+      gap:8px;
+      background:#e9edf2;
+      padding:8px;
+      border-radius:18px;
+      border:1px solid #d5dbe4;
+      overflow:hidden;
+    }
+    .tile{
+      position:relative;
+      background:#fff;
+      border:1.5px solid #bfc8d3;
+      border-radius:8px;
+      box-shadow:0 2px 6px rgba(40,53,77,.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      padding:6px;
+      transition:transform .18s ease, box-shadow .18s ease;
+      cursor:pointer;
+    }
+    .tile:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 20px rgba(40,53,77,.16);
+      z-index:5;
+    }
+    .tile img{
+      max-width:96%;
+      max-height:86%;
+      object-fit:contain;
+      image-rendering:auto;
+      filter:contrast(1.04) saturate(1.08);
+    }
+    .tile .label{
+      position:absolute;
+      left:8px;
+      right:8px;
+      bottom:6px;
+      font-size:11px;
+      line-height:1.2;
+      text-align:center;
+      font-weight:800;
+      color:#243247;
+      text-shadow:0 1px 0 rgba(255,255,255,.75);
+      background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.82));
+      padding-top:10px;
+    }
+    .size-xl{grid-column:span 2; grid-row:span 2;}
+    .size-l{grid-column:span 2; grid-row:span 1;}
+    .size-m{grid-column:span 1; grid-row:span 1;}
+    .size-s{grid-column:span 1; grid-row:span 1;}
+
+    .side-panel{
+      background:#f7f9fc;
+      border:1px solid #d7dee8;
+      border-radius:18px;
+      padding:14px;
+      position:sticky;
+      top:12px;
+    }
+    .side-title{
+      font-size:20px;
+      font-weight:900;
+      margin:0 0 10px;
+      letter-spacing:-.03em;
+    }
+    .tip{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+      margin-bottom:12px;
+    }
+    .detail-box{
+      border:1px solid #d8dfe8;
+      background:#fff;
+      border-radius:16px;
+      padding:14px;
+    }
+    .detail-head{
+      display:flex; gap:12px; align-items:center;
+      margin-bottom:10px;
+    }
+    .detail-logo{
+      width:56px; height:56px; border-radius:14px; border:1px solid #d6dce6;
+      padding:6px; object-fit:contain; background:#fff;
+    }
+    .detail-name{
+      font-size:22px; font-weight:900; letter-spacing:-.03em;
+    }
+    .detail-code{
+      color:var(--muted); font-size:13px; font-weight:800; margin-top:2px;
+    }
+    .meta-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .meta{
+      border:1px solid #dce3ec;
+      border-radius:14px;
+      padding:8px;
+      background:#fbfcfe;
+    }
+    .meta span{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:4px;
+      font-weight:700;
+    }
+    .meta strong{
+      font-size:16px;
+    }
+    .intro{
+      margin-top:12px;
+      color:#4f5d70;
+      line-height:1.75;
+      font-size:14px;
+    }
+
+    @media (max-width: 1180px){
+      .board-wrap{grid-template-columns:1fr;}
+      .logo-board{min-height:1020px; grid-auto-rows:74px;}
+      .side-panel{position:static}
+    }
+    @media (max-width: 760px){
+      .page{width:min(100% - 14px,1500px)}
+      .stats{grid-template-columns:1fr 1fr}
+      .logo-board{
+        grid-template-columns:repeat(5,1fr);
+        grid-auto-rows:72px;
+        min-height:900px;
+        gap:6px;
+        padding:6px;
+      }
+    }
+    @media (max-width: 480px){
+      .stats{grid-template-columns:1fr}
+      .logo-board{
+        grid-template-columns:repeat(4,1fr);
+        grid-auto-rows:68px;
+        min-height:1120px;
+      }
+      .label{font-size:10px}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <h1>台湾公司市值Logo拼贴图</h1>
+      <div class="sub">
+        参考你提供的图片风格：使用公司 Logo 磁贴拼贴展示，整体更像品牌拼贴墙海报，而不是普通矩形树状图。
+      </div>
+      <div class="note">⚠️ 数据为示例估算；市值按 1 新台币≈0.22 人民币换算为人民币亿元，仅用于可视化展示。</div>
+    </section>
+
+    <section class="stats">
+      <article class="stat"><div class="k">总市值</div><div id="totalCap" class="v">-</div><div class="s">单位：人民币亿元</div></article>
+      <article class="stat"><div class="k">公司数量</div><div id="companyCount" class="v">-</div><div class="s">当前展示公司</div></article>
+      <article class="stat"><div class="k">最大市值公司</div><div id="largestCompany" class="v">-</div><div id="largestSub" class="s">-</div></article>
+      <article class="stat"><div class="k">半导体产业占比</div><div id="semiShare" class="v">-</div><div class="s">按当前数据计算</div></article>
+    </section>
+
+    <section class="board-card">
+      <div class="board-wrap">
+        <div id="logoBoard" class="logo-board">
+
+        <aside class="side-panel">
+          <h2 class="side-title">公司信息</h2>
+          <div class="tip">点击左侧 Logo 磁贴，可查看该公司的股票代码、行业、市值与简介。整体风格已调整为纯 Logo 拼贴墙样式，Logo 已优先切换为更清晰的高清品牌图源。</div>
+          <div id="detailBox" class="detail-box">
+            <div class="detail-head">
+              <img id="detailLogo" class="detail-logo" alt="公司logo" />
+              <div>
+                <div id="detailName" class="detail-name">台积电</div>
+                <div id="detailCode" class="detail-code">2330 · 半导体</div>
+              </div>
+            </div>
+            <div class="meta-grid">
+              <div class="meta"><span>市值</span><strong id="detailCap">-</strong></div>
+              <div class="meta"><span>市值占比</span><strong id="detailShare">-</strong></div>
+              <div class="meta"><span>股票代码</span><strong id="detailStock">-</strong></div>
+              <div class="meta"><span>所属行业</span><strong id="detailIndustry">-</strong></div>
+            </div>
+            <div id="detailIntro" class="intro">-</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const logoMap = {
+      "台积电":"https://logo.clearbit.com/tsmc.com?size=512",
+      "台达电":"https://logo.clearbit.com/deltaww.com?size=512",
+      "联发科":"https://logo.clearbit.com/mediatek.com?size=512",
+      "鸿海":"https://logo.clearbit.com/foxconn.com?size=512",
+      "日月光投控":"https://logo.clearbit.com/aseglobal.com?size=512",
+      "台光电":"https://logo.clearbit.com/emct.com.tw?size=512",
+      "欣兴":"https://logo.clearbit.com/unimicron.com?size=512",
+      "智邦":"https://logo.clearbit.com/accton.com?size=512",
+      "富邦金":"https://logo.clearbit.com/fubon.com?size=512",
+      "广达":"https://logo.clearbit.com/quantatw.com?size=512",
+      "国泰金":"https://logo.clearbit.com/cathayholdings.com?size=512",
+      "奇鋐":"https://logo.clearbit.com/avc.co?size=512",
+      "中华电":"https://logo.clearbit.com/cht.com.tw?size=512",
+      "中信金":"https://logo.clearbit.com/ctbcholding.com?size=512",
+      "联电":"https://logo.clearbit.com/umc.com?size=512",
+      "致茂":"https://logo.clearbit.com/chromaate.com?size=512",
+      "鸿劲":"https://logo.clearbit.com/honprec.com?size=512",
+      "纬颖":"https://logo.clearbit.com/wiwynn.com?size=512",
+      "健策":"https://logo.clearbit.com/jentech.com.tw?size=512",
+      "南亚":"https://logo.clearbit.com/npc.com.tw?size=512",
+      "金像电":"https://logo.clearbit.com/gold-circuit.com?size=512",
+      "元大金":"https://logo.clearbit.com/yuanta.com?size=512",
+      "南亚科":"https://logo.clearbit.com/nanya.com?size=512",
+      "国巨":"https://logo.clearbit.com/yageo.com?size=512",
+      "南电":"https://logo.clearbit.com/nanyapcb.com.tw?size=512",
+      "台新新光金":"https://logo.clearbit.com/taishinbank.com.tw?size=512",
+      "兆丰金":"https://logo.clearbit.com/megaholdings.com.tw?size=512",
+      "创意":"https://logo.clearbit.com/gct.com.tw?size=512",
+      "信骅":"https://logo.clearbit.com/aspeedtech.com?size=512",
+      "群联":"https://logo.clearbit.com/phison.com?size=512",
+      "旺矽":"https://logo.clearbit.com/mpi.com.tw?size=512",
+      "贸联-KY":"https://logo.clearbit.com/bizlinktech.com?size=512",
+      "台塑化":"https://logo.clearbit.com/fpcc.com.tw?size=512",
+      "玉山金":"https://logo.clearbit.com/esunfhc.com?size=512",
+      "臻鼎-KY":"https://logo.clearbit.com/zdtco.com?size=512",
+      "永丰金":"https://logo.clearbit.com/sinopac.com?size=512",
+      "华南金":"https://logo.clearbit.com/hnfhc.com.tw?size=512",
+      "长荣":"https://logo.clearbit.com/evergreen-marine.com?size=512",
+      "纬创":"https://logo.clearbit.com/wistron.com?size=512",
+      "华硕":"https://logo.clearbit.com/asus.com?size=512",
+      "台湾大":"https://logo.clearbit.com/taiwanmobile.com?size=512",
+      "第一金":"https://logo.clearbit.com/firstholding.com.tw?size=512",
+      "华邦电":"https://logo.clearbit.com/winbond.com?size=512",
+      "统一":"https://logo.clearbit.com/uni-president.com.tw?size=512",
+      "光宝科":"https://logo.clearbit.com/liteon.com?size=512",
+      "颖崴":"https://logo.clearbit.com/winwayglobal.com?size=512",
+      "川湖":"https://logo.clearbit.com/king-slide.com?size=512",
+      "京元电子":"https://logo.clearbit.com/kyec.com.tw?size=512",
+      "凯基金":"https://logo.clearbit.com/kgi.com?size=512",
+      "合库金":"https://logo.clearbit.com/tcfhc.com.tw?size=512",
+      "大立光":"https://logo.clearbit.com/largan.com.tw?size=512",
+      "远传":"https://logo.clearbit.com/fetnet.net?size=512",
+      "台耀":"https://logo.clearbit.com/tuc.com.tw?size=512",
+      "台塑":"https://logo.clearbit.com/fpc.com.tw?size=512",
+      "世芯-KY":"https://logo.clearbit.com/alchip.com?size=512",
+      "研华":"https://logo.clearbit.com/advantech.com?size=512",
+      "台化":"https://logo.clearbit.com/fcfc.com.tw?size=512",
+      "环球晶":"https://logo.clearbit.com/sas-globalwafers.com?size=512",
+      "旺宏":"https://logo.clearbit.com/macronix.com?size=512",
+      "中钢":"https://logo.clearbit.com/csc.com.tw?size=512",
+      "嘉泽":"https://logo.clearbit.com/lotes.cc?size=512",
+      "华通":"https://logo.clearbit.com/compeq.com.tw?size=512",
+      "亚德客-KY":"https://logo.clearbit.com/airtac.com?size=512",
+      "华城":"https://logo.clearbit.com/fortune.com.tw?size=512",
+      "景硕":"https://logo.clearbit.com/kinsus.com.tw?size=512",
+      "瑞昱":"https://logo.clearbit.com/realtek.com?size=512",
+      "世界":"https://logo.clearbit.com/vis.com.tw?size=512",
+      "和泰车":"https://logo.clearbit.com/hotaimotor.com.tw?size=512",
+      "文晔":"https://logo.clearbit.com/wt.com.tw?size=512",
+      "药华药":"https://logo.clearbit.com/pharmessentia.com?size=512",
+      "联咏":"https://logo.clearbit.com/novatek.com.tw?size=512",
+      "彰银":"https://logo.clearbit.com/chb.com.tw?size=512",
+      "健鼎":"https://logo.clearbit.com/tripod-tech.com?size=512",
+      "力旺":"https://logo.clearbit.com/ememory.com.tw?size=512",
+      "统一超":"https://logo.clearbit.com/7-11.com.tw?size=512",
+      "元太":"https://logo.clearbit.com/eink.com?size=512",
+      "联亚":"https://logo.clearbit.com/landmark.com.tw?size=512",
+      "和硕":"https://logo.clearbit.com/pegatroncorp.com?size=512",
+      "力积电":"https://logo.clearbit.com/psmc.com.tw?size=512",
+      "万海":"https://logo.clearbit.com/wanhai.com?size=512",
+      "中租-KY":"https://logo.clearbit.com/chaileaseholding.com?size=512",
+      "台玻":"https://logo.clearbit.com/taiwanglass.com?size=512",
+      "群创":"https://logo.clearbit.com/innolux.com?size=512",
+      "上海商银":"https://logo.clearbit.com/scsb.com.tw?size=512",
+      "新代":"https://logo.clearbit.com/syntecclub.com?size=512",
+      "台泥":"https://logo.clearbit.com/taiwancement.com?size=512",
+      "采钰":"https://logo.clearbit.com/xintec.com.tw?size=512",
+      "技嘉":"https://logo.clearbit.com/gigabyte.com?size=512",
+      "钰象":"https://logo.clearbit.com/igs.com.tw?size=512",
+      "汉唐":"https://logo.clearbit.com/uiscom.com?size=512",
+      "长荣航":"https://logo.clearbit.com/evaair.com?size=512",
+      "稳懋":"https://logo.clearbit.com/winfoundry.com?size=512",
+      "阳明":"https://logo.clearbit.com/yangming.com?size=512",
+      "大联大":"https://logo.clearbit.com/wpgholdings.com?size=512",
+      "矽力-KY":"https://logo.clearbit.com/silergy.com?size=512",
+      "光圣":"https://logo.clearbit.com/ezconn.com?size=512",
+      "英业达":"https://logo.clearbit.com/inventec.com?size=512",
+      "宜鼎":"https://logo.clearbit.com/innodisk.com?size=512",
+      "康霈":"https://logo.clearbit.com/caliwaybiopharma.com?size=512",
+      "台企银":"https://logo.clearbit.com/tbb.com.tw?size=512"
+    };
+
+    const fallbackLogoMap = {
+      "台积电":"https://www.google.com/s2/favicons?domain=tsmc.com&sz=256",
+      "台达电":"https://www.google.com/s2/favicons?domain=deltaww.com&sz=256",
+      "联发科":"https://www.google.com/s2/favicons?domain=mediatek.com&sz=256",
+      "鸿海":"https://www.google.com/s2/favicons?domain=foxconn.com&sz=256",
+      "日月光投控":"https://www.google.com/s2/favicons?domain=aseglobal.com&sz=256",
+      "台光电":"https://www.google.com/s2/favicons?domain=emct.com.tw&sz=256",
+      "欣兴":"https://www.google.com/s2/favicons?domain=unimicron.com&sz=256",
+      "智邦":"https://www.google.com/s2/favicons?domain=accton.com&sz=256",
+      "富邦金":"https://www.google.com/s2/favicons?domain=fubon.com&sz=256",
+      "广达":"https://www.google.com/s2/favicons?domain=quantatw.com&sz=256",
+      "国泰金":"https://www.google.com/s2/favicons?domain=cathayholdings.com&sz=256",
+      "奇鋐":"https://www.google.com/s2/favicons?domain=avc.co&sz=256",
+      "中华电":"https://www.google.com/s2/favicons?domain=cht.com.tw&sz=256",
+      "中信金":"https://www.google.com/s2/favicons?domain=ctbcholding.com&sz=256",
+      "联电":"https://www.google.com/s2/favicons?domain=umc.com&sz=256",
+      "致茂":"https://www.google.com/s2/favicons?domain=chromaate.com&sz=256",
+      "鸿劲":"https://www.google.com/s2/favicons?domain=honprec.com&sz=256",
+      "纬颖":"https://www.google.com/s2/favicons?domain=wiwynn.com&sz=256",
+      "健策":"https://www.google.com/s2/favicons?domain=jentech.com.tw&sz=256",
+      "南亚":"https://www.google.com/s2/favicons?domain=npc.com.tw&sz=256",
+      "金像电":"https://www.google.com/s2/favicons?domain=gold-circuit.com&sz=256",
+      "元大金":"https://www.google.com/s2/favicons?domain=yuanta.com&sz=256",
+      "南亚科":"https://www.google.com/s2/favicons?domain=nanya.com&sz=256",
+      "国巨":"https://www.google.com/s2/favicons?domain=yageo.com&sz=256",
+      "南电":"https://www.google.com/s2/favicons?domain=nanyapcb.com.tw&sz=256",
+      "台新新光金":"https://www.google.com/s2/favicons?domain=taishinbank.com.tw&sz=256",
+      "兆丰金":"https://www.google.com/s2/favicons?domain=megaholdings.com.tw&sz=256",
+      "创意":"https://www.google.com/s2/favicons?domain=gct.com.tw&sz=256",
+      "信骅":"https://www.google.com/s2/favicons?domain=aspeedtech.com&sz=256",
+      "群联":"https://www.google.com/s2/favicons?domain=phison.com&sz=256",
+      "旺矽":"https://www.google.com/s2/favicons?domain=mpi.com.tw&sz=256",
+      "贸联-KY":"https://www.google.com/s2/favicons?domain=bizlinktech.com&sz=256",
+      "台塑化":"https://www.google.com/s2/favicons?domain=fpcc.com.tw&sz=256",
+      "玉山金":"https://www.google.com/s2/favicons?domain=esunfhc.com&sz=256",
+      "臻鼎-KY":"https://www.google.com/s2/favicons?domain=zdtco.com&sz=256",
+      "永丰金":"https://www.google.com/s2/favicons?domain=sinopac.com&sz=256",
+      "华南金":"https://www.google.com/s2/favicons?domain=hnfhc.com.tw&sz=256",
+      "长荣":"https://www.google.com/s2/favicons?domain=evergreen-marine.com&sz=256",
+      "纬创":"https://www.google.com/s2/favicons?domain=wistron.com&sz=256",
+      "华硕":"https://www.google.com/s2/favicons?domain=asus.com&sz=256",
+      "台湾大":"https://www.google.com/s2/favicons?domain=taiwanmobile.com&sz=256",
+      "第一金":"https://www.google.com/s2/favicons?domain=firstholding.com.tw&sz=256",
+      "华邦电":"https://www.google.com/s2/favicons?domain=winbond.com&sz=256",
+      "统一":"https://www.google.com/s2/favicons?domain=uni-president.com.tw&sz=256",
+      "光宝科":"https://www.google.com/s2/favicons?domain=liteon.com&sz=256",
+      "颖崴":"https://www.google.com/s2/favicons?domain=winwayglobal.com&sz=256",
+      "川湖":"https://www.google.com/s2/favicons?domain=king-slide.com&sz=256",
+      "京元电子":"https://www.google.com/s2/favicons?domain=kyec.com.tw&sz=256",
+      "凯基金":"https://www.google.com/s2/favicons?domain=kgi.com&sz=256",
+      "合库金":"https://www.google.com/s2/favicons?domain=tcfhc.com.tw&sz=256",
+      "大立光":"https://www.google.com/s2/favicons?domain=largan.com.tw&sz=256",
+      "远传":"https://www.google.com/s2/favicons?domain=fetnet.net&sz=256",
+      "台耀":"https://www.google.com/s2/favicons?domain=tuc.com.tw&sz=256",
+      "台塑":"https://www.google.com/s2/favicons?domain=fpc.com.tw&sz=256",
+      "世芯-KY":"https://www.google.com/s2/favicons?domain=alchip.com&sz=256",
+      "研华":"https://www.google.com/s2/favicons?domain=advantech.com&sz=256",
+      "台化":"https://www.google.com/s2/favicons?domain=fcfc.com.tw&sz=256",
+      "环球晶":"https://www.google.com/s2/favicons?domain=sas-globalwafers.com&sz=256",
+      "旺宏":"https://www.google.com/s2/favicons?domain=macronix.com&sz=256",
+      "中钢":"https://www.google.com/s2/favicons?domain=csc.com.tw&sz=256",
+      "嘉泽":"https://www.google.com/s2/favicons?domain=lotes.cc&sz=256",
+      "华通":"https://www.google.com/s2/favicons?domain=compeq.com.tw&sz=256",
+      "亚德客-KY":"https://www.google.com/s2/favicons?domain=airtac.com&sz=256",
+      "华城":"https://www.google.com/s2/favicons?domain=fortune.com.tw&sz=256",
+      "景硕":"https://www.google.com/s2/favicons?domain=kinsus.com.tw&sz=256",
+      "瑞昱":"https://www.google.com/s2/favicons?domain=realtek.com&sz=256",
+      "世界":"https://www.google.com/s2/favicons?domain=vis.com.tw&sz=256",
+      "和泰车":"https://www.google.com/s2/favicons?domain=hotaimotor.com.tw&sz=256",
+      "文晔":"https://www.google.com/s2/favicons?domain=wt.com.tw&sz=256",
+      "药华药":"https://www.google.com/s2/favicons?domain=pharmessentia.com&sz=256",
+      "联咏":"https://www.google.com/s2/favicons?domain=novatek.com.tw&sz=256",
+      "彰银":"https://www.google.com/s2/favicons?domain=chb.com.tw&sz=256",
+      "健鼎":"https://www.google.com/s2/favicons?domain=tripod-tech.com&sz=256",
+      "力旺":"https://www.google.com/s2/favicons?domain=ememory.com.tw&sz=256",
+      "统一超":"https://www.google.com/s2/favicons?domain=7-11.com.tw&sz=256",
+      "元太":"https://www.google.com/s2/favicons?domain=eink.com&sz=256",
+      "联亚":"https://www.google.com/s2/favicons?domain=landmark.com.tw&sz=256",
+      "和硕":"https://www.google.com/s2/favicons?domain=pegatroncorp.com&sz=256",
+      "力积电":"https://www.google.com/s2/favicons?domain=psmc.com.tw&sz=256",
+      "万海":"https://www.google.com/s2/favicons?domain=wanhai.com&sz=256",
+      "中租-KY":"https://www.google.com/s2/favicons?domain=chaileaseholding.com&sz=256",
+      "台玻":"https://www.google.com/s2/favicons?domain=taiwanglass.com&sz=256",
+      "群创":"https://www.google.com/s2/favicons?domain=innolux.com&sz=256",
+      "上海商银":"https://www.google.com/s2/favicons?domain=scsb.com.tw&sz=256",
+      "新代":"https://www.google.com/s2/favicons?domain=syntecclub.com&sz=256",
+      "台泥":"https://www.google.com/s2/favicons?domain=taiwancement.com&sz=256",
+      "采钰":"https://www.google.com/s2/favicons?domain=xintec.com.tw&sz=256",
+      "技嘉":"https://www.google.com/s2/favicons?domain=gigabyte.com&sz=256",
+      "钰象":"https://www.google.com/s2/favicons?domain=igs.com.tw&sz=256",
+      "汉唐":"https://www.google.com/s2/favicons?domain=uiscom.com&sz=256",
+      "长荣航":"https://www.google.com/s2/favicons?domain=evaair.com&sz=256",
+      "稳懋":"https://www.google.com/s2/favicons?domain=winfoundry.com&sz=256",
+      "阳明":"https://www.google.com/s2/favicons?domain=yangming.com&sz=256",
+      "大联大":"https://www.google.com/s2/favicons?domain=wpgholdings.com&sz=256",
+      "矽力-KY":"https://www.google.com/s2/favicons?domain=silergy.com&sz=256",
+      "光圣":"https://www.google.com/s2/favicons?domain=ezconn.com&sz=256",
+      "英业达":"https://www.google.com/s2/favicons?domain=inventec.com&sz=256",
+      "宜鼎":"https://www.google.com/s2/favicons?domain=innodisk.com&sz=256",
+      "康霈":"https://www.google.com/s2/favicons?domain=caliwaybiopharma.com&sz=256",
+      "台企银":"https://www.google.com/s2/favicons?domain=tbb.com.tw&sz=256"
+    };
+
+    const rawCompanies = [
+      ["台积电","2330","半导体",270000,"全球晶圆代工龙头，提供先进制程与特殊制程服务，是台湾资本市场权重最高的公司。"],
+      ["台达电","2308","电子零组件",11500,"电源管理、散热与工业自动化大厂，受惠数据中心、电动车与能源管理需求。"],
+      ["联发科","2454","半导体",9200,"IC 设计龙头，产品涵盖手机芯片、智能装置、车用与联网芯片。"],
+      ["鸿海","2317","电子代工",8500,"全球电子制造服务大型企业，布局 AI 服务器、电动车与智能制造。"],
+      ["日月光投控","3711","半导体",7200,"半导体封测龙头，提供先进封装、测试与电子制造整合服务。"],
+      ["台光电","2383","电子材料",5600,"高阶铜箔基板材料供应商，受惠高速运算、服务器与通信需求。"],
+      ["欣兴","3037","电子零组件",5200,"IC 载板与印刷电路板厂，产品应用于半导体、服务器与通信设备。"],
+      ["智邦","2345","通信网络",5000,"网通设备与交换器供应商，客户涵盖数据中心与电信网络。"],
+      ["富邦金","2881","金融保险",4900,"大型金融控股公司，旗下涵盖银行、保险、证券与资产管理。"],
+      ["广达","2382","电子代工",4700,"笔电与服务器代工大厂，近年受 AI 服务器需求推动。"],
+      ["国泰金","2882","金融保险",4600,"台湾大型金控，业务涵盖寿险、银行、证券与投资管理。"],
+      ["奇鋐","3017","散热",4500,"散热模组与风扇厂，产品应用于 AI 服务器、PC 与网通设备。"],
+      ["中华电","2412","电信服务",4300,"台湾主要电信服务商，提供移动通信、宽带、云端与企业资通信服务。"],
+      ["中信金","2891","金融保险",4200,"大型金融控股公司，业务涵盖银行、保险、证券与海外金融服务。"],
+      ["联电","2303","半导体",4100,"成熟制程晶圆代工大厂，提供逻辑与特殊制程服务。"],
+      ["致茂","2360","电子设备",3900,"量测与自动化测试设备厂，服务半导体、电动车与光电产业。"],
+      ["鸿劲","7769","半导体设备",3600,"半导体测试与设备相关企业，产品聚焦高阶测试应用。"],
+      ["纬颖","6669","服务器",3500,"云端数据中心与服务器解决方案厂，专注高效能运算设备。"],
+      ["健策","3653","散热",3400,"散热与机构零件供应商，产品应用于半导体与高效能运算。"],
+      ["南亚","1303","塑化材料",3300,"塑胶、化工与电子材料大型企业，产品涵盖聚酯、塑胶加工与铜箔基板。"],
+      ["金像电","2368","电子零组件",3200,"印刷电路板厂，产品应用于服务器、网通与高阶电子设备。"],
+      ["元大金","2885","金融保险",3100,"金融控股公司，旗下证券、银行、投信与期货业务具规模。"],
+      ["南亚科","2408","半导体",3000,"DRAM 记忆体制造商，产品应用于消费电子、工业与云端设备。"],
+      ["国巨","2327","电子零组件",2950,"被动元件大厂，产品包括电阻、电容与电感等电子元件。"],
+      ["南电","8046","电子零组件",2850,"IC 载板与 PCB 供应商，服务半导体封装与高阶电子应用。"],
+      ["台新新光金","2887","金融保险",2750,"金融控股公司，业务涵盖银行、证券、保险与财富管理。"],
+      ["兆丰金","2886","金融保险",2700,"金控公司，具银行、票券、证券与海外金融服务布局。"],
+      ["创意","3443","半导体",2650,"ASIC 设计服务公司，提供客制化芯片设计与相关解决方案。"],
+      ["信骅","5274","半导体",2600,"服务器管理芯片供应商，产品广泛用于数据中心服务器。"],
+      ["群联","8299","半导体",2500,"NAND 控制芯片与储存解决方案供应商。"],
+      ["旺矽","6223","半导体设备",2450,"半导体测试介面与探针卡供应商，服务高阶芯片测试。"],
+      ["贸联-KY","3665","电子零组件",2350,"连接线与线束供应商，产品应用于电动车、数据中心与工业设备。"],
+      ["台塑化","6505","石化能源",2300,"炼油与石化产品公司，提供燃料、烯烃与芳香烃等产品。"],
+      ["玉山金","2884","金融保险",2250,"金融控股公司，以银行、证券与财富管理业务为核心。"],
+      ["臻鼎-KY","4958","电子零组件",2200,"印刷电路板与软板大厂，产品应用于手机、服务器与车用电子。"],
+      ["永丰金","2890","金融保险",2150,"金控公司，涵盖银行、证券、租赁与资产管理业务。"],
+      ["华南金","2880","金融保险",2100,"以银行业务为核心的金融控股公司，提供企业与个人金融服务。"],
+      ["长荣","2603","航运",2050,"国际货柜航运公司，提供全球海运与物流服务。"],
+      ["纬创","3231","电子代工",2000,"信息产品与服务器代工厂，布局 AI 服务器、车用与医疗电子。"],
+      ["华硕","2357","电脑品牌",1950,"PC、主板、显卡与电竞品牌公司，产品线涵盖消费与商用市场。"],
+      ["台湾大","3045","电信服务",1900,"移动通信、宽带、电商与企业资通信服务供应商。"],
+      ["第一金","2892","金融保险",1850,"金融控股公司，旗下第一银行为主要营运核心。"],
+      ["华邦电","2344","半导体",1800,"记忆体 IC 公司，产品涵盖 DRAM、Flash 与客制化记忆体。"],
+      ["统一","1216","食品消费",1750,"食品与流通大型企业，业务涵盖食品制造、零售与投资。"],
+      ["光宝科","2301","电子零组件",1700,"电源供应器、光电与车用电子供应商。"],
+      ["颖崴","6515","半导体设备",1660,"半导体测试介面与探针卡相关产品供应商。"],
+      ["川湖","2059","电子零组件",1620,"服务器滑轨与机构件供应商，受惠数据中心设备升级。"],
+      ["京元电子","2449","半导体",1580,"半导体测试服务供应商，服务 IC 设计与晶圆制造客户。"],
+      ["凯基金","2883","金融保险",1540,"金融控股公司，提供银行、证券、保险与投资相关服务。"],
+      ["合库金","5880","金融保险",1500,"金融控股公司，核心为合作金库银行与相关金融服务。"],
+      ["大立光","3008","光学镜头",1470,"手机与精密光学镜头供应商，服务高阶影像应用。"],
+      ["远传","4904","电信服务",1440,"移动通信、宽带、云端与数字服务供应商。"],
+      ["台耀","6274","电子材料",1410,"高频高速铜箔基板材料供应商，服务网通、服务器与通信产业。"],
+      ["台塑","1301","塑化材料",1380,"塑胶原料与石化产品大型企业，为台湾塑化产业重要公司。"],
+      ["世芯-KY","3661","半导体",1350,"ASIC 设计服务公司，聚焦高效能运算与客制化芯片。"],
+      ["研华","2395","工业电脑",1320,"工业电脑与物联网解决方案供应商，服务自动化、医疗与智慧城市。"],
+      ["台化","1326","塑化材料",1290,"化纤、塑化与化工产品公司，为大型石化集团成员。"],
+      ["环球晶","6488","半导体",1260,"半导体矽晶圆供应商，服务全球晶圆制造客户。"],
+      ["旺宏","2337","半导体",1230,"非挥发性记忆体供应商，产品涵盖 NOR Flash 与 ROM。"],
+      ["中钢","2002","钢铁材料",1200,"台湾大型钢铁企业，供应钢材、钢胚与相关材料。"],
+      ["嘉泽","3533","电子零组件",1170,"连接器与插槽供应商，产品应用于服务器、PC 与高阶电子设备。"],
+      ["华通","2313","电子零组件",1140,"印刷电路板厂，供应消费电子、汽车与服务器相关产品。"],
+      ["亚德客-KY","1590","工业自动化",1110,"气动元件与自动化零组件供应商，服务制造与设备产业。"],
+      ["华城","1519","电机设备",1080,"电力设备与变压器供应商，受惠电网建设与能源转型需求。"],
+      ["景硕","3189","电子零组件",1050,"IC 载板厂，服务半导体封装与高阶电子产品。"],
+      ["瑞昱","2379","半导体",1020,"网通、音讯与多媒体 IC 设计公司，产品广泛用于 PC 与网络设备。"],
+      ["世界","5347","半导体",995,"成熟制程晶圆代工厂，提供逻辑、电源管理与显示驱动相关制程。"],
+      ["和泰车","2207","汽车",970,"汽车经销与服务公司，代理销售 Toyota、Lexus 等品牌。"],
+      ["文晔","3036","电子通路",945,"半导体与电子零组件通路商，服务亚洲与全球客户。"],
+      ["药华药","6446","生技医疗",920,"生技制药公司，聚焦罕见血液疾病与创新药物开发。"],
+      ["联咏","3034","半导体",895,"显示驱动 IC 与影像处理芯片设计公司。"],
+      ["彰银","2801","金融保险",870,"商业银行，提供企业金融、个人金融与财富管理服务。"],
+      ["健鼎","3044","电子零组件",850,"印刷电路板供应商，产品应用于汽车、网通、记忆体与消费电子。"],
+      ["力旺","3529","半导体",830,"嵌入式非挥发性记忆体 IP 供应商，服务芯片设计与晶圆代工客户。"],
+      ["统一超","2912","零售通路",810,"便利商店与零售通路公司，营运 7-ELEVEN 与相关生活服务。"],
+      ["元太","8069","显示科技",790,"电子纸显示技术供应商，产品应用于电子阅读器与电子标签。"],
+      ["联亚","3081","光通信",770,"光通信磊晶与相关元件供应商，服务数据中心与通信网络。"],
+      ["和硕","4938","电子代工",750,"电子制造服务商，产品涵盖电脑、通信、消费电子与车用电子。"],
+      ["力积电","6770","半导体",730,"晶圆代工与记忆体相关制造公司，提供成熟制程服务。"],
+      ["万海","2615","航运",710,"货柜航运公司，航线涵盖亚洲与全球主要市场。"],
+      ["中租-KY","5871","金融租赁",690,"租赁与分期金融服务公司，业务涵盖企业设备、车辆与消费金融。"],
+      ["台玻","1802","玻璃材料",670,"玻璃产品制造商，产品涵盖平板玻璃、玻璃纤维与容器玻璃。"],
+      ["群创","3481","显示科技",650,"面板制造商，产品应用于电视、显示器、笔电与车用显示。"],
+      ["上海商银","5876","金融保险",630,"商业银行，提供企业金融、个人金融与跨境金融服务。"],
+      ["新代","7750","工业自动化",610,"工具机控制器与工业自动化解决方案供应商。"],
+      ["台泥","1101","水泥建材",590,"水泥、建材与能源转型相关企业，布局储能与绿能。"],
+      ["采钰","6789","半导体",570,"影像感测器晶圆级封装与测试服务供应商。"],
+      ["技嘉","2376","电脑品牌",550,"主板、显卡、服务器与电竞硬件品牌。"],
+      ["钰象","3293","游戏娱乐",530,"游戏开发与商用游戏机台公司，产品涵盖线上与实体娱乐。"],
+      ["汉唐","2404","工程服务",510,"高科技厂房与机电工程服务商，服务半导体与电子产业。"],
+      ["长荣航","2618","航空运输",495,"国际航空公司，提供客运、货运与航空相关服务。"],
+      ["稳懋","3105","半导体",480,"砷化镓晶圆代工厂，产品应用于射频、光通信与感测元件。"],
+      ["阳明","2609","航运",465,"国际货柜航运公司，提供全球海运与物流服务。"],
+      ["大联大","3702","电子通路",450,"半导体与电子零组件通路集团，服务电子制造供应链。"],
+      ["矽力-KY","6415","半导体",435,"电源管理 IC 设计公司，产品应用于消费、工业与车用市场。"],
+      ["光圣","6442","光通信",420,"光通信连接与高速传输元件供应商，服务数据中心与网通市场。"],
+      ["英业达","2356","电子代工",405,"电子制造服务公司，产品涵盖笔电、服务器、智能装置与云端设备。"],
+      ["宜鼎","5289","工业电脑",390,"工业级记忆体与储存模组供应商，服务嵌入式与工业市场。"],
+      ["康霈","6919","生技医疗",375,"生技医药公司，聚焦新药研发与临床应用。"],
+      ["台企银","2834","金融保险",360,"商业银行，提供中小企业金融、个人金融与存放款服务。"]
+    ];
+
+    const TWD_TO_CNY = 0.22;
+    const companies = rawCompanies.map((d, i) => {
+      const marketCap = Math.round(d[3] * TWD_TO_CNY);
+      return {
+        id: "c" + i,
+        name: d[0],
+        code: d[1],
+        industry: d[2],
+        marketCap,
+        intro: d[4],
+        logo: logoMap[d[0]] || "",
+        fallbackLogo: fallbackLogoMap[d[0]] || "",
+      };
+    }).sort((a,b)=>b.marketCap-a.marketCap);
+
+    const totalCap = companies.reduce((s,c)=>s+c.marketCap,0);
+    companies.forEach(c => c.share = c.marketCap / totalCap * 100);
+
+    const board = document.getElementById("logoBoard");
+
+    function formatCap(num){
+      if(num >= 10000) return (num/10000).toFixed(1) + " 万亿";
+      return num.toLocaleString("zh-CN") + " 亿";
+    }
+
+    function getSizeClass(index, cap){
+      if(index === 0) return "size-xl";
+      if(index < 10) return "size-l";
+      if(index < 28) return index % 3 === 0 ? "size-l" : "size-m";
+      return "size-s";
+    }
+
+    function renderStats(){
+      const largest = companies[0];
+      const semi = companies.filter(x => x.industry.includes("半导体")).reduce((s,x)=>s+x.marketCap,0);
+      document.getElementById("totalCap").textContent = formatCap(totalCap);
+      document.getElementById("companyCount").textContent = companies.length + " 家";
+      document.getElementById("largestCompany").textContent = largest.name;
+      document.getElementById("largestSub").textContent = `${largest.code} · ${formatCap(largest.marketCap)}`;
+      document.getElementById("semiShare").textContent = ((semi/totalCap)*100).toFixed(1) + "%";
+    }
+
+    function renderTiles(){
+      companies.forEach((c, i) => {
+        const tile = document.createElement("button");
+        tile.type = "button";
+        tile.className = `tile ${getSizeClass(i, c.marketCap)}`;
+        tile.setAttribute("aria-label", `${c.name} ${c.code}`);
+        tile.innerHTML = `
+          <img src="${c.logo}" data-fallback="${c.fallbackLogo}" alt="${c.name} logo"
+               onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.dataset.fallback;}else{this.style.display='none'; this.parentNode.innerHTML='<div style=&quot;font-weight:900;font-size:20px;color:#1f2f4a;text-align:center;line-height:1.3&quot;>${c.name}</div><div class=&quot;label&quot;>${c.name}</div>'; }">
+          <div class="label">${c.name}</div>
+        `;
+        tile.addEventListener("click", ()=> setDetail(c));
+        board.appendChild(tile);
+      });
+    }
+
+    function setDetail(c){
+      const logo = document.getElementById("detailLogo");
+      logo.dataset.retry = "";
+      logo.src = c.logo;
+      logo.onerror = () => {
+        if(!logo.dataset.retry){
+          logo.dataset.retry = "1";
+          logo.src = c.fallbackLogo || "";
+        }else{
+          logo.style.display = "none";
+        }
+      };
+      logo.style.display = "block";
+      document.getElementById("detailName").textContent = c.name;
+      document.getElementById("detailCode").textContent = `${c.code} · ${c.industry}`;
+      document.getElementById("detailCap").textContent = formatCap(c.marketCap) + " 人民币";
+      document.getElementById("detailShare").textContent = c.share.toFixed(2) + "%";
+      document.getElementById("detailStock").textContent = c.code;
+      document.getElementById("detailIndustry").textContent = c.industry;
+      document.getElementById("detailIntro").textContent = c.intro;
+    }
+
+    renderStats();
+    renderTiles();
+    setDetail(companies[0]);
+  </script>
+</body>
+</html>
