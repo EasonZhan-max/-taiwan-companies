@@ -11,6 +11,7 @@
 
 html, body {
   margin: 0;
+  width: 100%;
   min-height: 100%;
   background: #fff;
   color: #222;
@@ -18,26 +19,28 @@ html, body {
 }
 
 body {
-  overflow: auto;
+  overflow: hidden;
 }
 
 .stage {
   position: relative;
-  width: 1920px;
-  height: 1080px;
-  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  min-height: 720px;
   background: #fff;
   overflow: hidden;
 }
 
 .logo {
   position: absolute;
-  width: 138px;
-  height: 62px;
+  width: clamp(76px, 7vw, 138px);
+  height: clamp(32px, 5vh, 62px);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  padding: 2px 3px;
 }
 
 .logo img {
@@ -55,7 +58,7 @@ body {
   left: 50%;
   top: 52%;
   transform: translate(-50%, -50%);
-  width: 390px;
+  width: min(28vw, 390px);
   z-index: 4;
   pointer-events: none;
 }
@@ -65,77 +68,35 @@ body {
   display: block;
 }
 
-.mobile-stage {
-  display: none;
-  padding:
-    max(12px, env(safe-area-inset-top))
-    max(12px, env(safe-area-inset-right))
-    max(18px, env(safe-area-inset-bottom))
-    max(12px, env(safe-area-inset-left));
-  background: #fff;
-  min-height: 100vh;
-}
-
-.mobile-map-wrap {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 18px;
-}
-
-.mobile-map {
-  width: min(74vw, 330px);
-  max-width: 100%;
-  display: block;
-}
-
-.mobile-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.mobile-card {
-  min-height: 118px;
-  border: 1px solid rgba(0,0,0,.08);
-  border-radius: 14px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.03);
-}
-
-.mobile-card img {
-  max-width: 100%;
-  max-height: 88px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
-
+/* 手机端不再切换卡片式，保持和 iPad/桌面一样的围绕地图布局 */
 @media (max-width: 900px) {
-  .stage {
-    display: none;
+  body {
+    overflow: hidden;
   }
 
-  .mobile-stage {
+  .stage {
     display: block;
+    min-height: 100svh;
+  }
+
+  .logo {
+    width: clamp(52px, 13vw, 92px);
+    height: clamp(24px, 7vw, 46px);
+  }
+
+  .map-wrap {
+    width: min(38vw, 210px);
   }
 }
 
 @media (max-width: 420px) {
-  .mobile-grid {
-    grid-template-columns: 1fr;
+  .logo {
+    width: clamp(46px, 14vw, 82px);
+    height: clamp(22px, 7vw, 40px);
   }
 
-  .mobile-card {
-    min-height: 124px;
-  }
-
-  .mobile-card img {
-    max-height: 94px;
+  .map-wrap {
+    width: min(42vw, 180px);
   }
 }
 </style>
@@ -145,16 +106,7 @@ body {
   <div class="map-wrap">
     <img class="map" src="./assets/taiwan-map.jpg" alt="Taiwan map">
   </div>
-  <div class="logo" style="left:70px; top:48px;"><img src="./assets/logos/logo-001.png" alt="logo 1"></div><div class="logo" style="left:230px; top:48px;"><img src="./assets/logos/logo-002.png" alt="logo 2"></div><div class="logo" style="left:390px; top:48px;"><img src="./assets/logos/logo-003.png" alt="logo 3"></div><div class="logo" style="left:550px; top:48px;"><img src="./assets/logos/logo-004.png" alt="logo 4"></div><div class="logo" style="left:710px; top:48px;"><img src="./assets/logos/logo-005.png" alt="logo 5"></div><div class="logo" style="left:870px; top:48px;"><img src="./assets/logos/logo-006.png" alt="logo 6"></div><div class="logo" style="left:1030px; top:48px;"><img src="./assets/logos/logo-007.png" alt="logo 7"></div><div class="logo" style="left:1190px; top:48px;"><img src="./assets/logos/logo-008.png" alt="logo 8"></div><div class="logo" style="left:1350px; top:48px;"><img src="./assets/logos/logo-009.png" alt="logo 9"></div><div class="logo" style="left:1510px; top:48px;"><img src="./assets/logos/logo-010.png" alt="logo 10"></div><div class="logo" style="left:1670px; top:48px;"><img src="./assets/logos/logo-011.png" alt="logo 11"></div><div class="logo" style="left:1830px; top:48px;"><img src="./assets/logos/logo-012.png" alt="logo 12"></div><div class="logo" style="left:70px; top:145px;"><img src="./assets/logos/logo-013.png" alt="logo 13"></div><div class="logo" style="left:230px; top:145px;"><img src="./assets/logos/logo-014.png" alt="logo 14"></div><div class="logo" style="left:390px; top:145px;"><img src="./assets/logos/logo-015.png" alt="logo 15"></div><div class="logo" style="left:550px; top:145px;"><img src="./assets/logos/logo-016.png" alt="logo 16"></div><div class="logo" style="left:710px; top:145px;"><img src="./assets/logos/logo-017.png" alt="logo 17"></div><div class="logo" style="left:870px; top:145px;"><img src="./assets/logos/logo-018.png" alt="logo 18"></div><div class="logo" style="left:1030px; top:145px;"><img src="./assets/logos/logo-019.png" alt="logo 19"></div><div class="logo" style="left:1190px; top:145px;"><img src="./assets/logos/logo-020.png" alt="logo 20"></div><div class="logo" style="left:1350px; top:145px;"><img src="./assets/logos/logo-021.png" alt="logo 21"></div><div class="logo" style="left:1510px; top:145px;"><img src="./assets/logos/logo-022.png" alt="logo 22"></div><div class="logo" style="left:1670px; top:145px;"><img src="./assets/logos/logo-023.png" alt="logo 23"></div><div class="logo" style="left:1830px; top:145px;"><img src="./assets/logos/logo-024.png" alt="logo 24"></div><div class="logo" style="left:70px; top:900px;"><img src="./assets/logos/logo-025.png" alt="logo 25"></div><div class="logo" style="left:230px; top:900px;"><img src="./assets/logos/logo-026.png" alt="logo 26"></div><div class="logo" style="left:390px; top:900px;"><img src="./assets/logos/logo-027.png" alt="logo 27"></div><div class="logo" style="left:550px; top:900px;"><img src="./assets/logos/logo-028.png" alt="logo 28"></div><div class="logo" style="left:710px; top:900px;"><img src="./assets/logos/logo-029.png" alt="logo 29"></div><div class="logo" style="left:870px; top:900px;"><img src="./assets/logos/logo-030.png" alt="logo 30"></div><div class="logo" style="left:1030px; top:900px;"><img src="./assets/logos/logo-031.png" alt="logo 31"></div><div class="logo" style="left:1190px; top:900px;"><img src="./assets/logos/logo-032.png" alt="logo 32"></div><div class="logo" style="left:1350px; top:900px;"><img src="./assets/logos/logo-033.png" alt="logo 33"></div><div class="logo" style="left:1510px; top:900px;"><img src="./assets/logos/logo-034.png" alt="logo 34"></div><div class="logo" style="left:1670px; top:900px;"><img src="./assets/logos/logo-035.png" alt="logo 35"></div><div class="logo" style="left:1830px; top:900px;"><img src="./assets/logos/logo-036.png" alt="logo 36"></div><div class="logo" style="left:70px; top:997px;"><img src="./assets/logos/logo-037.png" alt="logo 37"></div><div class="logo" style="left:230px; top:997px;"><img src="./assets/logos/logo-038.png" alt="logo 38"></div><div class="logo" style="left:390px; top:997px;"><img src="./assets/logos/logo-039.png" alt="logo 39"></div><div class="logo" style="left:550px; top:997px;"><img src="./assets/logos/logo-040.png" alt="logo 40"></div><div class="logo" style="left:710px; top:997px;"><img src="./assets/logos/logo-041.png" alt="logo 41"></div><div class="logo" style="left:870px; top:997px;"><img src="./assets/logos/logo-042.png" alt="logo 42"></div><div class="logo" style="left:1030px; top:997px;"><img src="./assets/logos/logo-043.png" alt="logo 43"></div><div class="logo" style="left:1190px; top:997px;"><img src="./assets/logos/logo-044.png" alt="logo 44"></div><div class="logo" style="left:1350px; top:997px;"><img src="./assets/logos/logo-045.png" alt="logo 45"></div><div class="logo" style="left:1510px; top:997px;"><img src="./assets/logos/logo-046.png" alt="logo 46"></div><div class="logo" style="left:1670px; top:997px;"><img src="./assets/logos/logo-047.png" alt="logo 47"></div><div class="logo" style="left:1830px; top:997px;"><img src="./assets/logos/logo-048.png" alt="logo 48"></div><div class="logo" style="left:70px; top:260px;"><img src="./assets/logos/logo-049.png" alt="logo 49"></div><div class="logo" style="left:70px; top:355px;"><img src="./assets/logos/logo-050.png" alt="logo 50"></div><div class="logo" style="left:70px; top:450px;"><img src="./assets/logos/logo-051.png" alt="logo 51"></div><div class="logo" style="left:70px; top:545px;"><img src="./assets/logos/logo-052.png" alt="logo 52"></div><div class="logo" style="left:70px; top:640px;"><img src="./assets/logos/logo-053.png" alt="logo 53"></div><div class="logo" style="left:70px; top:735px;"><img src="./assets/logos/logo-054.png" alt="logo 54"></div><div class="logo" style="left:245px; top:260px;"><img src="./assets/logos/logo-055.png" alt="logo 55"></div><div class="logo" style="left:245px; top:355px;"><img src="./assets/logos/logo-056.png" alt="logo 56"></div><div class="logo" style="left:245px; top:450px;"><img src="./assets/logos/logo-057.png" alt="logo 57"></div><div class="logo" style="left:245px; top:545px;"><img src="./assets/logos/logo-058.png" alt="logo 58"></div><div class="logo" style="left:245px; top:640px;"><img src="./assets/logos/logo-059.png" alt="logo 59"></div><div class="logo" style="left:245px; top:735px;"><img src="./assets/logos/logo-060.png" alt="logo 60"></div><div class="logo" style="left:420px; top:260px;"><img src="./assets/logos/logo-061.png" alt="logo 61"></div><div class="logo" style="left:420px; top:355px;"><img src="./assets/logos/logo-062.png" alt="logo 62"></div><div class="logo" style="left:420px; top:450px;"><img src="./assets/logos/logo-063.png" alt="logo 63"></div><div class="logo" style="left:420px; top:545px;"><img src="./assets/logos/logo-064.png" alt="logo 64"></div><div class="logo" style="left:420px; top:640px;"><img src="./assets/logos/logo-065.png" alt="logo 65"></div><div class="logo" style="left:420px; top:735px;"><img src="./assets/logos/logo-066.png" alt="logo 66"></div><div class="logo" style="left:1500px; top:260px;"><img src="./assets/logos/logo-067.png" alt="logo 67"></div><div class="logo" style="left:1500px; top:355px;"><img src="./assets/logos/logo-068.png" alt="logo 68"></div><div class="logo" style="left:1500px; top:450px;"><img src="./assets/logos/logo-069.png" alt="logo 69"></div><div class="logo" style="left:1500px; top:545px;"><img src="./assets/logos/logo-070.png" alt="logo 70"></div><div class="logo" style="left:1500px; top:640px;"><img src="./assets/logos/logo-071.png" alt="logo 71"></div><div class="logo" style="left:1500px; top:735px;"><img src="./assets/logos/logo-072.png" alt="logo 72"></div><div class="logo" style="left:1675px; top:260px;"><img src="./assets/logos/logo-073.png" alt="logo 73"></div><div class="logo" style="left:1675px; top:355px;"><img src="./assets/logos/logo-074.png" alt="logo 74"></div><div class="logo" style="left:1675px; top:450px;"><img src="./assets/logos/logo-075.png" alt="logo 75"></div><div class="logo" style="left:1675px; top:545px;"><img src="./assets/logos/logo-076.png" alt="logo 76"></div><div class="logo" style="left:1675px; top:640px;"><img src="./assets/logos/logo-077.png" alt="logo 77"></div><div class="logo" style="left:1675px; top:735px;"><img src="./assets/logos/logo-078.png" alt="logo 78"></div><div class="logo" style="left:1850px; top:260px;"><img src="./assets/logos/logo-079.png" alt="logo 79"></div><div class="logo" style="left:1850px; top:355px;"><img src="./assets/logos/logo-080.png" alt="logo 80"></div><div class="logo" style="left:1850px; top:450px;"><img src="./assets/logos/logo-081.png" alt="logo 81"></div><div class="logo" style="left:1850px; top:545px;"><img src="./assets/logos/logo-082.png" alt="logo 82"></div><div class="logo" style="left:1850px; top:640px;"><img src="./assets/logos/logo-083.png" alt="logo 83"></div><div class="logo" style="left:1850px; top:735px;"><img src="./assets/logos/logo-084.png" alt="logo 84"></div><div class="logo" style="left:600px; top:250px;"><img src="./assets/logos/logo-085.png" alt="logo 85"></div><div class="logo" style="left:770px; top:230px;"><img src="./assets/logos/logo-086.png" alt="logo 86"></div><div class="logo" style="left:940px; top:215px;"><img src="./assets/logos/logo-087.png" alt="logo 87"></div><div class="logo" style="left:1110px; top:230px;"><img src="./assets/logos/logo-088.png" alt="logo 88"></div><div class="logo" style="left:1280px; top:250px;"><img src="./assets/logos/logo-089.png" alt="logo 89"></div><div class="logo" style="left:555px; top:350px;"><img src="./assets/logos/logo-090.png" alt="logo 90"></div><div class="logo" style="left:1330px; top:350px;"><img src="./assets/logos/logo-091.png" alt="logo 91"></div><div class="logo" style="left:520px; top:455px;"><img src="./assets/logos/logo-092.png" alt="logo 92"></div><div class="logo" style="left:1370px; top:455px;"><img src="./assets/logos/logo-093.png" alt="logo 93"></div><div class="logo" style="left:520px; top:560px;"><img src="./assets/logos/logo-094.png" alt="logo 94"></div>
-</main>
-
-<main class="mobile-stage">
-  <div class="mobile-map-wrap">
-    <img class="mobile-map" src="./assets/taiwan-map.jpg" alt="Taiwan map">
-  </div>
-  <section class="mobile-grid">
-    <div class="mobile-card"><img src="./assets/logos/logo-001.png" alt="logo 1"></div><div class="mobile-card"><img src="./assets/logos/logo-002.png" alt="logo 2"></div><div class="mobile-card"><img src="./assets/logos/logo-003.png" alt="logo 3"></div><div class="mobile-card"><img src="./assets/logos/logo-004.png" alt="logo 4"></div><div class="mobile-card"><img src="./assets/logos/logo-005.png" alt="logo 5"></div><div class="mobile-card"><img src="./assets/logos/logo-006.png" alt="logo 6"></div><div class="mobile-card"><img src="./assets/logos/logo-007.png" alt="logo 7"></div><div class="mobile-card"><img src="./assets/logos/logo-008.png" alt="logo 8"></div><div class="mobile-card"><img src="./assets/logos/logo-009.png" alt="logo 9"></div><div class="mobile-card"><img src="./assets/logos/logo-010.png" alt="logo 10"></div><div class="mobile-card"><img src="./assets/logos/logo-011.png" alt="logo 11"></div><div class="mobile-card"><img src="./assets/logos/logo-012.png" alt="logo 12"></div><div class="mobile-card"><img src="./assets/logos/logo-013.png" alt="logo 13"></div><div class="mobile-card"><img src="./assets/logos/logo-014.png" alt="logo 14"></div><div class="mobile-card"><img src="./assets/logos/logo-015.png" alt="logo 15"></div><div class="mobile-card"><img src="./assets/logos/logo-016.png" alt="logo 16"></div><div class="mobile-card"><img src="./assets/logos/logo-017.png" alt="logo 17"></div><div class="mobile-card"><img src="./assets/logos/logo-018.png" alt="logo 18"></div><div class="mobile-card"><img src="./assets/logos/logo-019.png" alt="logo 19"></div><div class="mobile-card"><img src="./assets/logos/logo-020.png" alt="logo 20"></div><div class="mobile-card"><img src="./assets/logos/logo-021.png" alt="logo 21"></div><div class="mobile-card"><img src="./assets/logos/logo-022.png" alt="logo 22"></div><div class="mobile-card"><img src="./assets/logos/logo-023.png" alt="logo 23"></div><div class="mobile-card"><img src="./assets/logos/logo-024.png" alt="logo 24"></div><div class="mobile-card"><img src="./assets/logos/logo-025.png" alt="logo 25"></div><div class="mobile-card"><img src="./assets/logos/logo-026.png" alt="logo 26"></div><div class="mobile-card"><img src="./assets/logos/logo-027.png" alt="logo 27"></div><div class="mobile-card"><img src="./assets/logos/logo-028.png" alt="logo 28"></div><div class="mobile-card"><img src="./assets/logos/logo-029.png" alt="logo 29"></div><div class="mobile-card"><img src="./assets/logos/logo-030.png" alt="logo 30"></div><div class="mobile-card"><img src="./assets/logos/logo-031.png" alt="logo 31"></div><div class="mobile-card"><img src="./assets/logos/logo-032.png" alt="logo 32"></div><div class="mobile-card"><img src="./assets/logos/logo-033.png" alt="logo 33"></div><div class="mobile-card"><img src="./assets/logos/logo-034.png" alt="logo 34"></div><div class="mobile-card"><img src="./assets/logos/logo-035.png" alt="logo 35"></div><div class="mobile-card"><img src="./assets/logos/logo-036.png" alt="logo 36"></div><div class="mobile-card"><img src="./assets/logos/logo-037.png" alt="logo 37"></div><div class="mobile-card"><img src="./assets/logos/logo-038.png" alt="logo 38"></div><div class="mobile-card"><img src="./assets/logos/logo-039.png" alt="logo 39"></div><div class="mobile-card"><img src="./assets/logos/logo-040.png" alt="logo 40"></div><div class="mobile-card"><img src="./assets/logos/logo-041.png" alt="logo 41"></div><div class="mobile-card"><img src="./assets/logos/logo-042.png" alt="logo 42"></div><div class="mobile-card"><img src="./assets/logos/logo-043.png" alt="logo 43"></div><div class="mobile-card"><img src="./assets/logos/logo-044.png" alt="logo 44"></div><div class="mobile-card"><img src="./assets/logos/logo-045.png" alt="logo 45"></div><div class="mobile-card"><img src="./assets/logos/logo-046.png" alt="logo 46"></div><div class="mobile-card"><img src="./assets/logos/logo-047.png" alt="logo 47"></div><div class="mobile-card"><img src="./assets/logos/logo-048.png" alt="logo 48"></div><div class="mobile-card"><img src="./assets/logos/logo-049.png" alt="logo 49"></div><div class="mobile-card"><img src="./assets/logos/logo-050.png" alt="logo 50"></div><div class="mobile-card"><img src="./assets/logos/logo-051.png" alt="logo 51"></div><div class="mobile-card"><img src="./assets/logos/logo-052.png" alt="logo 52"></div><div class="mobile-card"><img src="./assets/logos/logo-053.png" alt="logo 53"></div><div class="mobile-card"><img src="./assets/logos/logo-054.png" alt="logo 54"></div><div class="mobile-card"><img src="./assets/logos/logo-055.png" alt="logo 55"></div><div class="mobile-card"><img src="./assets/logos/logo-056.png" alt="logo 56"></div><div class="mobile-card"><img src="./assets/logos/logo-057.png" alt="logo 57"></div><div class="mobile-card"><img src="./assets/logos/logo-058.png" alt="logo 58"></div><div class="mobile-card"><img src="./assets/logos/logo-059.png" alt="logo 59"></div><div class="mobile-card"><img src="./assets/logos/logo-060.png" alt="logo 60"></div><div class="mobile-card"><img src="./assets/logos/logo-061.png" alt="logo 61"></div><div class="mobile-card"><img src="./assets/logos/logo-062.png" alt="logo 62"></div><div class="mobile-card"><img src="./assets/logos/logo-063.png" alt="logo 63"></div><div class="mobile-card"><img src="./assets/logos/logo-064.png" alt="logo 64"></div><div class="mobile-card"><img src="./assets/logos/logo-065.png" alt="logo 65"></div><div class="mobile-card"><img src="./assets/logos/logo-066.png" alt="logo 66"></div><div class="mobile-card"><img src="./assets/logos/logo-067.png" alt="logo 67"></div><div class="mobile-card"><img src="./assets/logos/logo-068.png" alt="logo 68"></div><div class="mobile-card"><img src="./assets/logos/logo-069.png" alt="logo 69"></div><div class="mobile-card"><img src="./assets/logos/logo-070.png" alt="logo 70"></div><div class="mobile-card"><img src="./assets/logos/logo-071.png" alt="logo 71"></div><div class="mobile-card"><img src="./assets/logos/logo-072.png" alt="logo 72"></div><div class="mobile-card"><img src="./assets/logos/logo-073.png" alt="logo 73"></div><div class="mobile-card"><img src="./assets/logos/logo-074.png" alt="logo 74"></div><div class="mobile-card"><img src="./assets/logos/logo-075.png" alt="logo 75"></div><div class="mobile-card"><img src="./assets/logos/logo-076.png" alt="logo 76"></div><div class="mobile-card"><img src="./assets/logos/logo-077.png" alt="logo 77"></div><div class="mobile-card"><img src="./assets/logos/logo-078.png" alt="logo 78"></div><div class="mobile-card"><img src="./assets/logos/logo-079.png" alt="logo 79"></div><div class="mobile-card"><img src="./assets/logos/logo-080.png" alt="logo 80"></div><div class="mobile-card"><img src="./assets/logos/logo-081.png" alt="logo 81"></div><div class="mobile-card"><img src="./assets/logos/logo-082.png" alt="logo 82"></div><div class="mobile-card"><img src="./assets/logos/logo-083.png" alt="logo 83"></div><div class="mobile-card"><img src="./assets/logos/logo-084.png" alt="logo 84"></div><div class="mobile-card"><img src="./assets/logos/logo-085.png" alt="logo 85"></div><div class="mobile-card"><img src="./assets/logos/logo-086.png" alt="logo 86"></div><div class="mobile-card"><img src="./assets/logos/logo-087.png" alt="logo 87"></div><div class="mobile-card"><img src="./assets/logos/logo-088.png" alt="logo 88"></div><div class="mobile-card"><img src="./assets/logos/logo-089.png" alt="logo 89"></div><div class="mobile-card"><img src="./assets/logos/logo-090.png" alt="logo 90"></div><div class="mobile-card"><img src="./assets/logos/logo-091.png" alt="logo 91"></div><div class="mobile-card"><img src="./assets/logos/logo-092.png" alt="logo 92"></div><div class="mobile-card"><img src="./assets/logos/logo-093.png" alt="logo 93"></div><div class="mobile-card"><img src="./assets/logos/logo-094.png" alt="logo 94"></div>
-  </section>
+  <div class="logo" style="left:4%; top:5.5%;"><img src="./assets/logos/logo-001.png" alt="logo 1"></div><div class="logo" style="left:12%; top:5.5%;"><img src="./assets/logos/logo-002.png" alt="logo 2"></div><div class="logo" style="left:20%; top:5.5%;"><img src="./assets/logos/logo-003.png" alt="logo 3"></div><div class="logo" style="left:28%; top:5.5%;"><img src="./assets/logos/logo-004.png" alt="logo 4"></div><div class="logo" style="left:36%; top:5.5%;"><img src="./assets/logos/logo-005.png" alt="logo 5"></div><div class="logo" style="left:44%; top:5.5%;"><img src="./assets/logos/logo-006.png" alt="logo 6"></div><div class="logo" style="left:52%; top:5.5%;"><img src="./assets/logos/logo-007.png" alt="logo 7"></div><div class="logo" style="left:60%; top:5.5%;"><img src="./assets/logos/logo-008.png" alt="logo 8"></div><div class="logo" style="left:68%; top:5.5%;"><img src="./assets/logos/logo-009.png" alt="logo 9"></div><div class="logo" style="left:76%; top:5.5%;"><img src="./assets/logos/logo-010.png" alt="logo 10"></div><div class="logo" style="left:84%; top:5.5%;"><img src="./assets/logos/logo-011.png" alt="logo 11"></div><div class="logo" style="left:92%; top:5.5%;"><img src="./assets/logos/logo-012.png" alt="logo 12"></div><div class="logo" style="left:4%; top:14%;"><img src="./assets/logos/logo-013.png" alt="logo 13"></div><div class="logo" style="left:12%; top:14%;"><img src="./assets/logos/logo-014.png" alt="logo 14"></div><div class="logo" style="left:20%; top:14%;"><img src="./assets/logos/logo-015.png" alt="logo 15"></div><div class="logo" style="left:28%; top:14%;"><img src="./assets/logos/logo-016.png" alt="logo 16"></div><div class="logo" style="left:36%; top:14%;"><img src="./assets/logos/logo-017.png" alt="logo 17"></div><div class="logo" style="left:44%; top:14%;"><img src="./assets/logos/logo-018.png" alt="logo 18"></div><div class="logo" style="left:52%; top:14%;"><img src="./assets/logos/logo-019.png" alt="logo 19"></div><div class="logo" style="left:60%; top:14%;"><img src="./assets/logos/logo-020.png" alt="logo 20"></div><div class="logo" style="left:68%; top:14%;"><img src="./assets/logos/logo-021.png" alt="logo 21"></div><div class="logo" style="left:76%; top:14%;"><img src="./assets/logos/logo-022.png" alt="logo 22"></div><div class="logo" style="left:84%; top:14%;"><img src="./assets/logos/logo-023.png" alt="logo 23"></div><div class="logo" style="left:92%; top:14%;"><img src="./assets/logos/logo-024.png" alt="logo 24"></div><div class="logo" style="left:4%; top:86%;"><img src="./assets/logos/logo-025.png" alt="logo 25"></div><div class="logo" style="left:12%; top:86%;"><img src="./assets/logos/logo-026.png" alt="logo 26"></div><div class="logo" style="left:20%; top:86%;"><img src="./assets/logos/logo-027.png" alt="logo 27"></div><div class="logo" style="left:28%; top:86%;"><img src="./assets/logos/logo-028.png" alt="logo 28"></div><div class="logo" style="left:36%; top:86%;"><img src="./assets/logos/logo-029.png" alt="logo 29"></div><div class="logo" style="left:44%; top:86%;"><img src="./assets/logos/logo-030.png" alt="logo 30"></div><div class="logo" style="left:52%; top:86%;"><img src="./assets/logos/logo-031.png" alt="logo 31"></div><div class="logo" style="left:60%; top:86%;"><img src="./assets/logos/logo-032.png" alt="logo 32"></div><div class="logo" style="left:68%; top:86%;"><img src="./assets/logos/logo-033.png" alt="logo 33"></div><div class="logo" style="left:76%; top:86%;"><img src="./assets/logos/logo-034.png" alt="logo 34"></div><div class="logo" style="left:84%; top:86%;"><img src="./assets/logos/logo-035.png" alt="logo 35"></div><div class="logo" style="left:92%; top:86%;"><img src="./assets/logos/logo-036.png" alt="logo 36"></div><div class="logo" style="left:4%; top:94%;"><img src="./assets/logos/logo-037.png" alt="logo 37"></div><div class="logo" style="left:12%; top:94%;"><img src="./assets/logos/logo-038.png" alt="logo 38"></div><div class="logo" style="left:20%; top:94%;"><img src="./assets/logos/logo-039.png" alt="logo 39"></div><div class="logo" style="left:28%; top:94%;"><img src="./assets/logos/logo-040.png" alt="logo 40"></div><div class="logo" style="left:36%; top:94%;"><img src="./assets/logos/logo-041.png" alt="logo 41"></div><div class="logo" style="left:44%; top:94%;"><img src="./assets/logos/logo-042.png" alt="logo 42"></div><div class="logo" style="left:52%; top:94%;"><img src="./assets/logos/logo-043.png" alt="logo 43"></div><div class="logo" style="left:60%; top:94%;"><img src="./assets/logos/logo-044.png" alt="logo 44"></div><div class="logo" style="left:68%; top:94%;"><img src="./assets/logos/logo-045.png" alt="logo 45"></div><div class="logo" style="left:76%; top:94%;"><img src="./assets/logos/logo-046.png" alt="logo 46"></div><div class="logo" style="left:84%; top:94%;"><img src="./assets/logos/logo-047.png" alt="logo 47"></div><div class="logo" style="left:92%; top:94%;"><img src="./assets/logos/logo-048.png" alt="logo 48"></div><div class="logo" style="left:5%; top:25%;"><img src="./assets/logos/logo-049.png" alt="logo 49"></div><div class="logo" style="left:5%; top:34%;"><img src="./assets/logos/logo-050.png" alt="logo 50"></div><div class="logo" style="left:5%; top:43%;"><img src="./assets/logos/logo-051.png" alt="logo 51"></div><div class="logo" style="left:5%; top:57%;"><img src="./assets/logos/logo-052.png" alt="logo 52"></div><div class="logo" style="left:5%; top:66%;"><img src="./assets/logos/logo-053.png" alt="logo 53"></div><div class="logo" style="left:5%; top:75%;"><img src="./assets/logos/logo-054.png" alt="logo 54"></div><div class="logo" style="left:15%; top:25%;"><img src="./assets/logos/logo-055.png" alt="logo 55"></div><div class="logo" style="left:15%; top:34%;"><img src="./assets/logos/logo-056.png" alt="logo 56"></div><div class="logo" style="left:15%; top:43%;"><img src="./assets/logos/logo-057.png" alt="logo 57"></div><div class="logo" style="left:15%; top:57%;"><img src="./assets/logos/logo-058.png" alt="logo 58"></div><div class="logo" style="left:15%; top:66%;"><img src="./assets/logos/logo-059.png" alt="logo 59"></div><div class="logo" style="left:15%; top:75%;"><img src="./assets/logos/logo-060.png" alt="logo 60"></div><div class="logo" style="left:25%; top:25%;"><img src="./assets/logos/logo-061.png" alt="logo 61"></div><div class="logo" style="left:25%; top:34%;"><img src="./assets/logos/logo-062.png" alt="logo 62"></div><div class="logo" style="left:25%; top:43%;"><img src="./assets/logos/logo-063.png" alt="logo 63"></div><div class="logo" style="left:25%; top:57%;"><img src="./assets/logos/logo-064.png" alt="logo 64"></div><div class="logo" style="left:25%; top:66%;"><img src="./assets/logos/logo-065.png" alt="logo 65"></div><div class="logo" style="left:25%; top:75%;"><img src="./assets/logos/logo-066.png" alt="logo 66"></div><div class="logo" style="left:75%; top:25%;"><img src="./assets/logos/logo-067.png" alt="logo 67"></div><div class="logo" style="left:75%; top:34%;"><img src="./assets/logos/logo-068.png" alt="logo 68"></div><div class="logo" style="left:75%; top:43%;"><img src="./assets/logos/logo-069.png" alt="logo 69"></div><div class="logo" style="left:75%; top:57%;"><img src="./assets/logos/logo-070.png" alt="logo 70"></div><div class="logo" style="left:75%; top:66%;"><img src="./assets/logos/logo-071.png" alt="logo 71"></div><div class="logo" style="left:75%; top:75%;"><img src="./assets/logos/logo-072.png" alt="logo 72"></div><div class="logo" style="left:85%; top:25%;"><img src="./assets/logos/logo-073.png" alt="logo 73"></div><div class="logo" style="left:85%; top:34%;"><img src="./assets/logos/logo-074.png" alt="logo 74"></div><div class="logo" style="left:85%; top:43%;"><img src="./assets/logos/logo-075.png" alt="logo 75"></div><div class="logo" style="left:85%; top:57%;"><img src="./assets/logos/logo-076.png" alt="logo 76"></div><div class="logo" style="left:85%; top:66%;"><img src="./assets/logos/logo-077.png" alt="logo 77"></div><div class="logo" style="left:85%; top:75%;"><img src="./assets/logos/logo-078.png" alt="logo 78"></div><div class="logo" style="left:95%; top:25%;"><img src="./assets/logos/logo-079.png" alt="logo 79"></div><div class="logo" style="left:95%; top:34%;"><img src="./assets/logos/logo-080.png" alt="logo 80"></div><div class="logo" style="left:95%; top:43%;"><img src="./assets/logos/logo-081.png" alt="logo 81"></div><div class="logo" style="left:95%; top:57%;"><img src="./assets/logos/logo-082.png" alt="logo 82"></div><div class="logo" style="left:95%; top:66%;"><img src="./assets/logos/logo-083.png" alt="logo 83"></div><div class="logo" style="left:95%; top:75%;"><img src="./assets/logos/logo-084.png" alt="logo 84"></div><div class="logo" style="left:37%; top:24%;"><img src="./assets/logos/logo-085.png" alt="logo 85"></div><div class="logo" style="left:47%; top:23%;"><img src="./assets/logos/logo-086.png" alt="logo 86"></div><div class="logo" style="left:53%; top:23%;"><img src="./assets/logos/logo-087.png" alt="logo 87"></div><div class="logo" style="left:63%; top:24%;"><img src="./assets/logos/logo-088.png" alt="logo 88"></div><div class="logo" style="left:34%; top:34%;"><img src="./assets/logos/logo-089.png" alt="logo 89"></div><div class="logo" style="left:66%; top:34%;"><img src="./assets/logos/logo-090.png" alt="logo 90"></div><div class="logo" style="left:31%; top:44%;"><img src="./assets/logos/logo-091.png" alt="logo 91"></div><div class="logo" style="left:69%; top:44%;"><img src="./assets/logos/logo-092.png" alt="logo 92"></div><div class="logo" style="left:31%; top:56%;"><img src="./assets/logos/logo-093.png" alt="logo 93"></div><div class="logo" style="left:69%; top:56%;"><img src="./assets/logos/logo-094.png" alt="logo 94"></div>
 </main>
 </body>
 </html>
