@@ -137,109 +137,88 @@ body {
   }
 }
 
-.search-panel {
+
+.data-panel {
   position: fixed;
   left: 50%;
-  bottom: max(10px, env(safe-area-inset-bottom));
+  bottom: max(8px, env(safe-area-inset-bottom));
   transform: translateX(-50%);
-  width: min(760px, calc(100vw - 28px));
+  width: min(1080px, calc(100vw - 22px));
+  max-height: 42vh;
   z-index: 9999;
+  background: rgba(255,255,255,.97);
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.16);
+  overflow: hidden;
   font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
 }
 
-.search-box {
+.data-toolbar {
   display: flex;
+  gap: 10px;
   align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.96);
-  border: 1px solid rgba(0,0,0,.16);
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.data-toolbar input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid rgba(0,0,0,.18);
   border-radius: 999px;
-  box-shadow: 0 6px 24px rgba(0,0,0,.12);
-  padding: 8px 12px;
-  backdrop-filter: blur(8px);
-}
-
-.search-box input {
-  width: 100%;
-  border: 0;
+  padding: 9px 14px;
+  font-size: 14px;
   outline: none;
-  background: transparent;
-  font-size: 15px;
-  color: #111;
 }
 
-.search-count {
+.data-count {
   flex: 0 0 auto;
-  color: #666;
   font-size: 12px;
+  color: #666;
   white-space: nowrap;
 }
 
-.search-results {
-  display: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 54px;
-  max-height: min(360px, 48vh);
+.table-wrap {
+  max-height: calc(42vh - 56px);
   overflow: auto;
-  background: rgba(255,255,255,0.98);
-  border: 1px solid rgba(0,0,0,.12);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.15);
-  padding: 8px;
 }
 
-.search-results.active {
-  display: block;
-}
-
-.result-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+.company-table {
   width: 100%;
-  border: 0;
-  background: transparent;
-  border-radius: 10px;
-  padding: 9px 10px;
-  cursor: pointer;
-  text-align: left;
-  font-size: 14px;
+  border-collapse: collapse;
+  font-size: 13px;
   color: #111;
 }
 
-.result-item:hover {
-  background: rgba(0,0,0,.06);
+.company-table th,
+.company-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+  text-align: left;
+  white-space: nowrap;
 }
 
-.result-main {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.result-name {
+.company-table th {
+  position: sticky;
+  top: 0;
+  background: #f7f7f7;
+  z-index: 1;
   font-weight: 700;
 }
 
-.result-alias {
-  color: #666;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.company-table tr {
+  cursor: pointer;
 }
 
-.result-tag {
-  flex: 0 0 auto;
-  font-size: 12px;
-  color: #555;
-  background: rgba(0,0,0,.06);
-  border-radius: 999px;
-  padding: 3px 8px;
+.company-table tr:hover {
+  background: rgba(0,0,0,.045);
+}
+
+.company-table td.intro-cell {
+  max-width: 360px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .logo.search-hit {
@@ -255,15 +234,82 @@ body {
   50% { transform: scale(1.12); }
 }
 
+.detail-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,.32);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.detail-card {
+  width: min(560px, 100%);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.28);
+  overflow: hidden;
+}
+
+.detail-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.detail-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.detail-close {
+  border: 0;
+  background: rgba(0,0,0,.06);
+  border-radius: 999px;
+  padding: 7px 11px;
+  cursor: pointer;
+}
+
+.detail-body {
+  padding: 16px 18px 18px;
+  display: grid;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+}
+
+.detail-label {
+  color: #666;
+}
+
 @media (max-width: 700px) {
-  .search-panel {
-    width: calc(100vw - 20px);
+  .data-panel {
+    max-height: 45vh;
+    border-radius: 14px;
   }
-  .search-box input {
-    font-size: 14px;
+  .table-wrap {
+    max-height: calc(45vh - 55px);
   }
-  .search-results {
-    bottom: 50px;
+  .company-table {
+    font-size: 12px;
+  }
+  .company-table th,
+  .company-table td {
+    padding: 8px 9px;
+  }
+  .company-table td.intro-cell,
+  .company-table th:nth-child(6),
+  .company-table td:nth-child(6) {
+    display: none;
   }
 }
 
@@ -279,21 +325,56 @@ body {
   </div>
 </main>
 
-<div class="search-panel">
-  <div id="searchResults" class="search-results"></div>
-  <div class="search-box">
-    <input id="companySearch" type="search" placeholder="搜索公司名称，例如：台积电、联发科、友达光电" autocomplete="off">
-    <span id="searchCount" class="search-count">203 家</span>
+
+
+<div class="data-panel">
+  <div class="data-toolbar">
+    <input id="companySearch" type="search" placeholder="搜索公司名称、代码、行业，例如：台积电、2330、半导体" autocomplete="off">
+    <span id="dataCount" class="data-count"></span>
+  </div>
+  <div class="table-wrap">
+    <table class="company-table">
+      <thead>
+        <tr>
+          <th>公司名称</th>
+          <th>代码</th>
+          <th>行业</th>
+          <th>市值</th>
+          <th>市值占比</th>
+          <th>公司简介</th>
+        </tr>
+      </thead>
+      <tbody id="companyTableBody"></tbody>
+    </table>
   </div>
 </div>
+
+<div id="detailModal" class="detail-modal">
+  <div class="detail-card">
+    <div class="detail-head">
+      <div class="detail-title" id="detailTitle"></div>
+      <button class="detail-close" id="detailClose" type="button">关闭</button>
+    </div>
+    <div class="detail-body">
+      <div class="detail-row"><div class="detail-label">代码</div><div id="detailCode"></div></div>
+      <div class="detail-row"><div class="detail-label">行业</div><div id="detailIndustry"></div></div>
+      <div class="detail-row"><div class="detail-label">市值</div><div id="detailMarketCap"></div></div>
+      <div class="detail-row"><div class="detail-label">市值占比</div><div id="detailShare"></div></div>
+      <div class="detail-row"><div class="detail-label">公司简介</div><div id="detailIntro"></div></div>
+    </div>
+  </div>
+</div>
+
 <script>
-const SEARCH_DATA = [{"name": "台积电", "aliases": ["TSMC", "台湾积体电路制造"], "category": "图中公司", "logo": "logo-086.png"}, {"name": "联发科", "aliases": ["MediaTek"], "category": "图中公司", "logo": "logo-088.png"}, {"name": "台达电子", "aliases": ["Delta Electronics", "台达电"], "category": "图中公司", "logo": null}, {"name": "鸿海精密", "aliases": ["Foxconn", "鸿海"], "category": "图中公司", "logo": null}, {"name": "日月光投控", "aliases": ["ASE HOLDINGS"], "category": "图中公司", "logo": "logo-090.png"}, {"name": "联华电子", "aliases": ["UMC"], "category": "图中公司", "logo": "logo-093.png"}, {"name": "智邦科技", "aliases": ["Accton"], "category": "图中公司", "logo": "logo-094.png"}, {"name": "富邦金控", "aliases": ["Fubon Financial"], "category": "图中公司", "logo": "logo-084.png"}, {"name": "欣兴电子", "aliases": ["Unimicron"], "category": "图中公司", "logo": "logo-087.png"}, {"name": "国泰金控", "aliases": ["Cathay Financial Holdings"], "category": "图中公司", "logo": "logo-081.png"}, {"name": "广达电脑", "aliases": ["Quanta Computer"], "category": "图中公司", "logo": "logo-085.png"}, {"name": "中信金控", "aliases": ["CTBC Holding"], "category": "图中公司", "logo": "logo-089.png"}, {"name": "中华电信", "aliases": ["Chunghwa Telecom"], "category": "图中公司", "logo": "logo-091.png"}, {"name": "国巨", "aliases": ["Yageo"], "category": "图中公司", "logo": null}, {"name": "纬颖", "aliases": ["Wiwynn"], "category": "图中公司", "logo": "logo-008.png"}, {"name": "致茂电子", "aliases": ["Chroma ATE"], "category": "图中公司", "logo": null}, {"name": "南亚科技", "aliases": ["Nanya Technology"], "category": "图中公司", "logo": "logo-002.png"}, {"name": "元大金控", "aliases": ["Yuanta Financial"], "category": "图中公司", "logo": "logo-006.png"}, {"name": "南亚塑胶", "aliases": ["Nan Ya Plastics"], "category": "图中公司", "logo": "logo-010.png"}, {"name": "兆丰金控", "aliases": ["Mega Holdings"], "category": "图中公司", "logo": "logo-004.png"}, {"name": "创意电子", "aliases": ["GUC"], "category": "图中公司", "logo": "logo-007.png"}, {"name": "中钢", "aliases": ["CSC"], "category": "图中公司", "logo": "logo-001.png"}, {"name": "台新金控", "aliases": ["TS Financial"], "category": "图中公司", "logo": "logo-005.png"}, {"name": "玉山金控", "aliases": ["E.SUN FHC"], "category": "图中公司", "logo": "logo-009.png"}, {"name": "南亚电路板", "aliases": ["NAN YA PCB"], "category": "图中公司", "logo": "logo-003.png"}, {"name": "台塑石化", "aliases": ["Formosa Petrochemical"], "category": "图中公司", "logo": "logo-016.png"}, {"name": "华硕", "aliases": ["ASUS"], "category": "图中公司", "logo": "logo-020.png"}, {"name": "光宝科技", "aliases": ["LITEON"], "category": "图中公司", "logo": "logo-014.png"}, {"name": "华南金控", "aliases": ["Hua Nan Financial"], "category": "图中公司", "logo": "logo-018.png"}, {"name": "大立光", "aliases": ["Largan"], "category": "图中公司", "logo": "logo-012.png"}, {"name": "永丰金控", "aliases": ["SinoPac Holdings"], "category": "图中公司", "logo": "logo-015.png"}, {"name": "长荣海运", "aliases": ["Evergreen Marine"], "category": "图中公司", "logo": "logo-019.png"}, {"name": "统一企业", "aliases": ["Uni-President"], "category": "图中公司", "logo": "logo-013.png"}, {"name": "纬创", "aliases": ["Wistron"], "category": "图中公司", "logo": "logo-017.png"}, {"name": "第一金控", "aliases": ["First Financial Holding"], "category": "图中公司", "logo": "logo-011.png"}, {"name": "研华", "aliases": ["Advantech"], "category": "图中公司", "logo": "logo-024.png"}, {"name": "凯基金控", "aliases": ["KGI Financial"], "category": "图中公司", "logo": "logo-028.png"}, {"name": "世芯-KY", "aliases": ["Alchip"], "category": "图中公司", "logo": "logo-022.png"}, {"name": "合作金库金控", "aliases": ["Taiwan Cooperative Holdings"], "category": "图中公司", "logo": "logo-026.png"}, {"name": "远传电信", "aliases": ["Far EasTone"], "category": "图中公司", "logo": "logo-056.png"}, {"name": "台湾大哥大", "aliases": ["Taiwan Mobile"], "category": "图中公司", "logo": "logo-023.png"}, {"name": "环球晶圆", "aliases": ["GlobalWafers"], "category": "图中公司", "logo": "logo-027.png"}, {"name": "群创光电", "aliases": ["Innolux"], "category": "图中公司", "logo": "logo-021.png"}, {"name": "药华医药", "aliases": ["PharmaEssentia"], "category": "图中公司", "logo": "logo-025.png"}, {"name": "世界先进", "aliases": ["VIS"], "category": "图中公司", "logo": "logo-029.png"}, {"name": "台塑", "aliases": ["Formosa Plastics"], "category": "图中公司", "logo": "logo-033.png"}, {"name": "亚德客", "aliases": ["AirTAC"], "category": "图中公司", "logo": "logo-037.png"}, {"name": "瑞昱半导体", "aliases": ["Realtek"], "category": "图中公司", "logo": "logo-031.png"}, {"name": "联咏科技", "aliases": ["Novatek"], "category": "图中公司", "logo": "logo-035.png"}, {"name": "台化", "aliases": ["Formosa Chemicals & Fibre"], "category": "图中公司", "logo": "logo-039.png"}, {"name": "和泰汽车", "aliases": ["Hotai"], "category": "图中公司", "logo": "logo-032.png"}, {"name": "力积电", "aliases": ["PSMC"], "category": "图中公司", "logo": "logo-036.png"}, {"name": "力旺电子", "aliases": ["eMemory"], "category": "图中公司", "logo": "logo-040.png"}, {"name": "彰化银行", "aliases": ["Chang Hwa Bank"], "category": "图中公司", "logo": "logo-034.png"}, {"name": "万海航运", "aliases": ["Wan Hai Lines"], "category": "图中公司", "logo": "logo-042.png"}, {"name": "新光金控", "aliases": ["SKFH"], "category": "图中公司", "logo": "logo-046.png"}, {"name": "和硕", "aliases": ["Pegatron"], "category": "图中公司", "logo": "logo-050.png"}, {"name": "鈊象电子", "aliases": ["IGS"], "category": "图中公司", "logo": "logo-044.png"}, {"name": "上海商银", "aliases": ["Shanghai Commercial & Savings Bank"], "category": "图中公司", "logo": "logo-048.png"}, {"name": "稳懋半导体", "aliases": ["IWIN Semiconductors"], "category": "图中公司", "logo": "logo-041.png"}, {"name": "中租", "aliases": ["Chailease"], "category": "图中公司", "logo": "logo-045.png"}, {"name": "长荣航空", "aliases": ["EVA Air"], "category": "图中公司", "logo": "logo-049.png"}, {"name": "台湾水泥", "aliases": ["TCC"], "category": "图中公司", "logo": "logo-043.png"}, {"name": "阳明海运", "aliases": ["Yang Ming"], "category": "图中公司", "logo": "logo-047.png"}, {"name": "采钰科技", "aliases": ["VisEra"], "category": "图中公司", "logo": "logo-052.png"}, {"name": "康霈生技", "aliases": ["Caliway"], "category": "图中公司", "logo": "logo-053.png"}, {"name": "台湾企银", "aliases": ["Taiwan Business Bank"], "category": "图中公司", "logo": "logo-054.png"}, {"name": "台湾高铁", "aliases": ["Taiwan High Speed Rail"], "category": "图中公司", "logo": "logo-055.png"}, {"name": "远东新世纪", "aliases": ["Far Eastern New Century"], "category": "图中公司", "logo": "logo-056.png"}, {"name": "联强国际", "aliases": ["Synnex"], "category": "图中公司", "logo": "logo-051.png"}, {"name": "亚洲水泥", "aliases": ["Asia Cement"], "category": "图中公司", "logo": "logo-058.png"}, {"name": "中华航空", "aliases": ["China Airlines"], "category": "图中公司", "logo": "logo-057.png"}, {"name": "奇景光电", "aliases": ["Himax"], "category": "图中公司", "logo": null}, {"name": "微星科技", "aliases": ["MSI"], "category": "图中公司", "logo": null}, {"name": "群光电子", "aliases": ["Chicony"], "category": "图中公司", "logo": "logo-066.png"}, {"name": "中美晶", "aliases": ["Sino-American Silicon"], "category": "图中公司", "logo": "logo-060.png"}, {"name": "宏碁", "aliases": ["Acer"], "category": "图中公司", "logo": "logo-064.png"}, {"name": "台胜科", "aliases": ["Taiwan Semiconductor"], "category": "图中公司", "logo": null}, {"name": "南茂科技", "aliases": ["ChipMOS"], "category": "图中公司", "logo": "logo-062.png"}, {"name": "牧德科技", "aliases": ["Machvision"], "category": "图中公司", "logo": "logo-065.png"}, {"name": "富邦媒", "aliases": ["momo"], "category": "图中公司", "logo": "logo-059.png"}, {"name": "保瑞药业", "aliases": ["Bora Pharmaceuticals"], "category": "图中公司", "logo": "logo-063.png"}, {"name": "宏达电", "aliases": ["HTC"], "category": "图中公司", "logo": "logo-067.png"}, {"name": "永擎电子", "aliases": ["ASRock Rack"], "category": "图中公司", "logo": "logo-075.png"}, {"name": "国泰建设", "aliases": ["Cathay Real Estate"], "category": "图中公司", "logo": "logo-069.png"}, {"name": "福懋兴业", "aliases": ["Formosa Taffeta"], "category": "图中公司", "logo": "logo-073.png"}, {"name": "美利达", "aliases": ["MERIDA"], "category": "图中公司", "logo": "logo-077.png"}, {"name": "OBOOK 控股", "aliases": ["OBOOK"], "category": "图中公司", "logo": null}, {"name": "智冠科技", "aliases": ["Soft-World"], "category": "图中公司", "logo": "logo-074.png"}, {"name": "八方云集", "aliases": ["Bafang Yunji"], "category": "图中公司", "logo": "logo-083.png"}, {"name": "Gorilla Technology", "aliases": ["Gorilla"], "category": "图中公司", "logo": "logo-092.png"}, {"name": "华义国际", "aliases": ["Wayi"], "category": "图中公司", "logo": "logo-078.png"}, {"name": "亚洲航空", "aliases": ["Asia Aviation"], "category": "图中公司", "logo": "logo-082.png"}, {"name": "游戏橘子", "aliases": ["Gamania"], "category": "图中公司", "logo": "logo-072.png"}, {"name": "传奇网络", "aliases": ["X-Legend"], "category": "图中公司", "logo": "logo-076.png"}, {"name": "玩美移动", "aliases": ["Perfect Corp"], "category": "图中公司", "logo": "logo-070.png"}, {"name": "宇峻奥汀", "aliases": ["UserJoy"], "category": "图中公司", "logo": "logo-080.png"}, {"name": "大宇资讯", "aliases": ["SOFTSTAR"], "category": "图中公司", "logo": "logo-079.png"}, {"name": "康师傅", "aliases": ["Tingyi"], "category": "图中公司", "logo": "logo-097.png"}, {"name": "旺旺", "aliases": ["Want Want"], "category": "图中公司", "logo": "logo-096.png"}, {"name": "徐福记", "aliases": ["Hsu Fu Chi"], "category": "图中公司", "logo": "logo-095.png"}, {"name": "友达光电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "仁宝电脑", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "英业达", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "佳世达", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "技嘉科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华擎科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "蓝天电脑", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "神达投资控股", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "神基控股", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "精英电脑", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "浩鑫", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "建碁", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "威强电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "研扬科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "研勤科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "友通资讯", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "立端科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "振桦电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "飞捷科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "新唐科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "旺宏电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华邦电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "力成科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "京元电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "矽格", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "颀邦", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "欣铨", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "精材", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "硅创电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "敦泰电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "群联电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "威刚科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "创见资讯", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "宜鼎国际", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "广明光电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "金像电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "耀华电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "嘉联益", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "臻鼎-KY", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华通电脑", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "健鼎科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "竞国实业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "志超科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台郡科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "景硕科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "友劲科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "大同", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "东元电机", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华城电机", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "亚力电机", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "士林电机", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "中兴电工", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "和大工业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "东阳实业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "堤维西", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "胡连精密", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "江申工业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "丽清科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台湾玻璃", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "正新橡胶", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "建大工业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "南港轮胎", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "裕隆汽车", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "中华汽车", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "和泰兴业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "乔山健康科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "巨大机械", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "桂盟国际", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "南侨投控", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "味全", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "泰山企业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "大成食品", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "卜蜂企业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "佳格食品", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "联华食品", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "黑松", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "爱之味", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "大统益", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "统一超商", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "全家便利商店", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "宝雅国际", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "远东百货", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "新光三越", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "PChome网路家庭", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "诚品生活", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台湾金控", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "京城银行", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "高雄银行", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "王道银行", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台中商业银行", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "三商寿", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台湾人寿", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "立荣航空", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华信航空", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台骅投控", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "宅配通", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台湾大车队", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "神脑国际", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "精诚资讯", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "叡扬资讯", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "关贸网络", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "美时化学", "aliases": [], "category": "新增台湾企业", "logo": null}];
+const COMPANY_DATA = [{"name": "台积电", "code": "2330", "industry": "半导体制造", "marketCap": "待更新", "share": "待更新", "intro": "全球领先晶圆代工企业，提供先进制程与特殊制程服务。", "logo": "logo-086.png", "source": "图中公司"}, {"name": "联发科", "code": "2454", "industry": "IC设计", "marketCap": "待更新", "share": "待更新", "intro": "台湾主要IC设计公司，产品涵盖手机、电视、网络与物联网芯片。", "logo": "logo-088.png", "source": "图中公司"}, {"name": "台达电子", "code": "2308", "industry": "电源与自动化", "marketCap": "待更新", "share": "待更新", "intro": "电源管理、散热、工业自动化与基础设施解决方案供应商。", "logo": null, "source": "图中公司"}, {"name": "鸿海精密", "code": "2317", "industry": "电子制造服务", "marketCap": "待更新", "share": "待更新", "intro": "全球大型电子制造服务企业，业务涵盖消费电子、云端网络与电动车。", "logo": null, "source": "图中公司"}, {"name": "日月光投控", "code": "3711", "industry": "半导体封测", "marketCap": "待更新", "share": "待更新", "intro": "全球主要半导体封装测试服务供应商。", "logo": "logo-090.png", "source": "图中公司"}, {"name": "联华电子", "code": "2303", "industry": "半导体制造", "marketCap": "待更新", "share": "待更新", "intro": "台湾晶圆代工企业，专注成熟制程与特殊制程。", "logo": "logo-093.png", "source": "图中公司"}, {"name": "智邦科技", "code": "2345", "industry": "网络通信设备", "marketCap": "待更新", "share": "待更新", "intro": "网络交换器、资料中心与企业网络设备制造商。", "logo": "logo-094.png", "source": "图中公司"}, {"name": "富邦金控", "code": "2881", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "台湾大型金融控股公司，业务包含银行、保险与证券。", "logo": "logo-084.png", "source": "图中公司"}, {"name": "欣兴电子", "code": "3037", "industry": "PCB/载板", "marketCap": "待更新", "share": "待更新", "intro": "IC载板与印刷电路板制造商。", "logo": "logo-087.png", "source": "图中公司"}, {"name": "国泰金控", "code": "2882", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "台湾大型金融控股公司，旗下包含寿险、银行、证券等业务。", "logo": "logo-081.png", "source": "图中公司"}, {"name": "广达电脑", "code": "2382", "industry": "电子代工/服务器", "marketCap": "待更新", "share": "待更新", "intro": "笔电、服务器与云端硬体设计制造服务企业。", "logo": "logo-085.png", "source": "图中公司"}, {"name": "中信金控", "code": "2891", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "台湾金融控股公司，核心业务为银行、证券、保险等。", "logo": "logo-089.png", "source": "图中公司"}, {"name": "中华电信", "code": "2412", "industry": "电信服务", "marketCap": "待更新", "share": "待更新", "intro": "台湾主要电信服务商，提供固定、行动、宽频与企业资通讯服务。", "logo": "logo-091.png", "source": "图中公司"}, {"name": "国巨", "code": "2327", "industry": "被动元件", "marketCap": "待更新", "share": "待更新", "intro": "被动元件制造商，产品包括电阻、电容及无线元件。", "logo": null, "source": "图中公司"}, {"name": "纬颖", "code": "6669", "industry": "服务器/云端硬体", "marketCap": "待更新", "share": "待更新", "intro": "云端资料中心服务器、储存与机柜级解决方案供应商。", "logo": "logo-008.png", "source": "图中公司"}, {"name": "致茂电子", "code": "2360", "industry": "测试量测设备", "marketCap": "待更新", "share": "待更新", "intro": "测试量测、自自动化检测与电源电子相关设备供应商。", "logo": null, "source": "图中公司"}, {"name": "南亚科技", "code": "2408", "industry": "DRAM记忆体", "marketCap": "待更新", "share": "待更新", "intro": "台湾DRAM记忆体制造公司。", "logo": "logo-002.png", "source": "图中公司"}, {"name": "元大金控", "code": "2885", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "金融控股集团，业务包含证券、银行、投信与期货。", "logo": "logo-006.png", "source": "图中公司"}, {"name": "南亚塑胶", "code": "1303", "industry": "塑化材料", "marketCap": "待更新", "share": "待更新", "intro": "塑胶、化纤、电子材料与化工产品制造商。", "logo": "logo-010.png", "source": "图中公司"}, {"name": "兆丰金控", "code": "2886", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "台湾金融控股公司，业务涵盖银行、证券、票券与保险。", "logo": "logo-004.png", "source": "图中公司"}, {"name": "创意电子", "code": "3443", "industry": "IC设计服务", "marketCap": "待更新", "share": "待更新", "intro": "ASIC设计服务与IP整合公司。", "logo": "logo-007.png", "source": "图中公司"}, {"name": "中钢", "code": "2002", "industry": "钢铁", "marketCap": "待更新", "share": "待更新", "intro": "台湾主要一贯作业钢铁厂，供应钢品与相关材料。", "logo": "logo-001.png", "source": "图中公司"}, {"name": "台新金控", "code": "2887", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "金融控股公司，业务涵盖银行、证券与保险代理等。", "logo": "logo-005.png", "source": "图中公司"}, {"name": "玉山金控", "code": "2884", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "以银行为核心的金融控股公司。", "logo": "logo-009.png", "source": "图中公司"}, {"name": "南亚电路板", "code": "8046", "industry": "PCB/载板", "marketCap": "待更新", "share": "待更新", "intro": "IC载板与印刷电路板制造商。", "logo": "logo-003.png", "source": "图中公司"}, {"name": "台塑石化", "code": "6505", "industry": "石化/炼油", "marketCap": "待更新", "share": "待更新", "intro": "炼油、烯烃与石化原料生产企业。", "logo": "logo-016.png", "source": "图中公司"}, {"name": "华硕", "code": "2357", "industry": "电脑与消费电子", "marketCap": "待更新", "share": "待更新", "intro": "电脑、主机板、笔电、电竞与消费电子品牌。", "logo": "logo-020.png", "source": "图中公司"}, {"name": "光宝科技", "code": "2301", "industry": "光电/电源", "marketCap": "待更新", "share": "待更新", "intro": "电源供应、光电、车用电子与云端应用产品制造商。", "logo": "logo-014.png", "source": "图中公司"}, {"name": "华南金控", "code": "2880", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "台湾金融控股公司，主要业务包含银行与证券。", "logo": "logo-018.png", "source": "图中公司"}, {"name": "大立光", "code": "3008", "industry": "光学镜头", "marketCap": "待更新", "share": "待更新", "intro": "精密光学镜头供应商，应用于手机与电子装置。", "logo": "logo-012.png", "source": "图中公司"}, {"name": "永丰金控", "code": "2890", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "金融控股集团，业务包含银行、证券与租赁等。", "logo": "logo-015.png", "source": "图中公司"}, {"name": "长荣海运", "code": "2603", "industry": "航运", "marketCap": "待更新", "share": "待更新", "intro": "全球货柜航运公司，经营国际海运航线。", "logo": "logo-019.png", "source": "图中公司"}, {"name": "统一企业", "code": "1216", "industry": "食品饮料", "marketCap": "待更新", "share": "待更新", "intro": "食品饮料与通路事业集团。", "logo": "logo-013.png", "source": "图中公司"}, {"name": "纬创", "code": "3231", "industry": "电子代工", "marketCap": "待更新", "share": "待更新", "intro": "资讯产品与服务器等电子制造服务企业。", "logo": "logo-017.png", "source": "图中公司"}, {"name": "第一金控", "code": "2892", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "台湾金融控股公司，核心为第一银行。", "logo": "logo-011.png", "source": "图中公司"}, {"name": "研华", "code": "2395", "industry": "工业电脑", "marketCap": "待更新", "share": "待更新", "intro": "工业电脑、嵌入式系统与物联网解决方案供应商。", "logo": "logo-024.png", "source": "图中公司"}, {"name": "凯基金控", "code": "2883", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "金融控股集团，业务覆盖证券、银行、保险与资产管理。", "logo": "logo-028.png", "source": "图中公司"}, {"name": "世芯-KY", "code": "3661", "industry": "IC设计服务", "marketCap": "待更新", "share": "待更新", "intro": "ASIC设计服务公司，服务高效能运算与客制化芯片需求。", "logo": "logo-022.png", "source": "图中公司"}, {"name": "合作金库金控", "code": "5880", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "台湾金融控股公司，核心为合作金库银行。", "logo": "logo-026.png", "source": "图中公司"}, {"name": "远传电信", "code": "4904", "industry": "电信服务", "marketCap": "待更新", "share": "待更新", "intro": "行动通信、宽频、企业资通讯与数位服务提供商。", "logo": "logo-056.png", "source": "图中公司"}, {"name": "台湾大哥大", "code": "3045", "industry": "电信服务", "marketCap": "待更新", "share": "待更新", "intro": "行动通信、宽频与数位服务供应商。", "logo": "logo-023.png", "source": "图中公司"}, {"name": "环球晶圆", "code": "6488", "industry": "半导体材料", "marketCap": "待更新", "share": "待更新", "intro": "半导体硅晶圆供应商。", "logo": "logo-027.png", "source": "图中公司"}, {"name": "群创光电", "code": "3481", "industry": "面板", "marketCap": "待更新", "share": "待更新", "intro": "TFT-LCD面板与显示器解决方案制造商。", "logo": "logo-021.png", "source": "图中公司"}, {"name": "药华医药", "code": "6446", "industry": "生技医药", "marketCap": "待更新", "share": "待更新", "intro": "生技药品研发与商业化公司。", "logo": "logo-025.png", "source": "图中公司"}, {"name": "世界先进", "code": "5347", "industry": "半导体制造", "marketCap": "待更新", "share": "待更新", "intro": "晶圆代工企业，专注成熟制程与特殊制程。", "logo": "logo-029.png", "source": "图中公司"}, {"name": "台塑", "code": "1301", "industry": "塑化材料", "marketCap": "待更新", "share": "待更新", "intro": "塑胶原料与石化产品制造商。", "logo": "logo-033.png", "source": "图中公司"}, {"name": "亚德客", "code": "1590", "industry": "气动元件", "marketCap": "待更新", "share": "待更新", "intro": "气动元件与自动化零组件制造商。", "logo": "logo-037.png", "source": "图中公司"}, {"name": "瑞昱半导体", "code": "2379", "industry": "IC设计", "marketCap": "待更新", "share": "待更新", "intro": "网络通信、多媒体与电脑周边芯片设计公司。", "logo": "logo-031.png", "source": "图中公司"}, {"name": "联咏科技", "code": "3034", "industry": "IC设计", "marketCap": "待更新", "share": "待更新", "intro": "显示驱动IC与影像相关芯片设计公司。", "logo": "logo-035.png", "source": "图中公司"}, {"name": "台化", "code": "1326", "industry": "石化/纺织", "marketCap": "待更新", "share": "待更新", "intro": "石化、塑胶、纤维与纺织相关产品制造商。", "logo": "logo-039.png", "source": "图中公司"}, {"name": "和泰汽车", "code": "2207", "industry": "汽车销售", "marketCap": "待更新", "share": "待更新", "intro": "台湾主要汽车代理与销售服务集团。", "logo": "logo-032.png", "source": "图中公司"}, {"name": "力积电", "code": "6770", "industry": "半导体制造", "marketCap": "待更新", "share": "待更新", "intro": "晶圆代工与记忆体相关制造企业。", "logo": "logo-036.png", "source": "图中公司"}, {"name": "力旺电子", "code": "3529", "industry": "半导体IP", "marketCap": "待更新", "share": "待更新", "intro": "嵌入式非挥发性记忆体IP供应商。", "logo": "logo-040.png", "source": "图中公司"}, {"name": "彰化银行", "code": "2801", "industry": "银行", "marketCap": "待更新", "share": "待更新", "intro": "台湾商业银行，提供存放款、外汇与金融服务。", "logo": "logo-034.png", "source": "图中公司"}, {"name": "万海航运", "code": "2615", "industry": "航运", "marketCap": "待更新", "share": "待更新", "intro": "货柜航运公司，经营亚洲与国际航线。", "logo": "logo-042.png", "source": "图中公司"}, {"name": "新光金控", "code": "2888", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "金融控股公司，业务包含寿险与银行。", "logo": "logo-046.png", "source": "图中公司"}, {"name": "和硕", "code": "4938", "industry": "电子代工", "marketCap": "待更新", "share": "待更新", "intro": "电子制造服务企业，提供电脑、通讯与消费电子产品制造。", "logo": "logo-050.png", "source": "图中公司"}, {"name": "鈊象电子", "code": "3293", "industry": "游戏软件", "marketCap": "待更新", "share": "待更新", "intro": "游戏研发与营运公司，产品涵盖商用游戏与线上游戏。", "logo": "logo-044.png", "source": "图中公司"}, {"name": "上海商银", "code": "5876", "industry": "银行", "marketCap": "待更新", "share": "待更新", "intro": "商业银行，提供个人与企业金融服务。", "logo": "logo-048.png", "source": "图中公司"}, {"name": "稳懋半导体", "code": "3105", "industry": "化合物半导体", "marketCap": "待更新", "share": "待更新", "intro": "砷化镓与化合物半导体晶圆代工企业。", "logo": "logo-041.png", "source": "图中公司"}, {"name": "中租", "code": "5871", "industry": "租赁金融", "marketCap": "待更新", "share": "待更新", "intro": "租赁、分期、企业金融与国际金融服务集团。", "logo": "logo-045.png", "source": "图中公司"}, {"name": "长荣航空", "code": "2618", "industry": "航空运输", "marketCap": "待更新", "share": "待更新", "intro": "台湾国际航空公司，提供客运与货运服务。", "logo": "logo-049.png", "source": "图中公司"}, {"name": "台湾水泥", "code": "1101", "industry": "水泥/建材", "marketCap": "待更新", "share": "待更新", "intro": "水泥、建材、能源与环保相关事业集团。", "logo": "logo-043.png", "source": "图中公司"}, {"name": "阳明海运", "code": "2609", "industry": "航运", "marketCap": "待更新", "share": "待更新", "intro": "台湾货柜航运公司，经营国际航线。", "logo": "logo-047.png", "source": "图中公司"}, {"name": "采钰科技", "code": "6789", "industry": "影像感测/半导体", "marketCap": "待更新", "share": "待更新", "intro": "影像感测晶圆级封装与光学相关技术企业。", "logo": "logo-052.png", "source": "图中公司"}, {"name": "康霈生技", "code": "6919", "industry": "生技医药", "marketCap": "待更新", "share": "待更新", "intro": "生技医药公司，聚焦新药研发。", "logo": "logo-053.png", "source": "图中公司"}, {"name": "台湾企银", "code": "2834", "industry": "银行", "marketCap": "待更新", "share": "待更新", "intro": "台湾中小企业银行，服务中小企业与个人金融。", "logo": "logo-054.png", "source": "图中公司"}, {"name": "台湾高铁", "code": "2633", "industry": "铁路运输", "marketCap": "待更新", "share": "待更新", "intro": "经营台湾高速铁路运输服务。", "logo": "logo-055.png", "source": "图中公司"}, {"name": "远东新世纪", "code": "1402", "industry": "纺织/化工", "marketCap": "待更新", "share": "待更新", "intro": "聚酯、纺织、化工材料与投资事业集团。", "logo": "logo-056.png", "source": "图中公司"}, {"name": "联强国际", "code": "2347", "industry": "资讯通路", "marketCap": "待更新", "share": "待更新", "intro": "资讯、通讯与电子产品通路服务商。", "logo": "logo-051.png", "source": "图中公司"}, {"name": "亚洲水泥", "code": "1102", "industry": "水泥/建材", "marketCap": "待更新", "share": "待更新", "intro": "水泥与建材制造企业。", "logo": "logo-058.png", "source": "图中公司"}, {"name": "中华航空", "code": "2610", "industry": "航空运输", "marketCap": "待更新", "share": "待更新", "intro": "台湾航空公司，经营国际客货运航线。", "logo": "logo-057.png", "source": "图中公司"}, {"name": "奇景光电", "code": "HIMX", "industry": "IC设计/显示芯片", "marketCap": "待更新", "share": "待更新", "intro": "显示驱动IC、影像处理与光学相关芯片设计公司。", "logo": null, "source": "图中公司"}, {"name": "微星科技", "code": "2377", "industry": "电脑与电竞硬体", "marketCap": "待更新", "share": "待更新", "intro": "主机板、显卡、笔电与电竞硬体品牌。", "logo": null, "source": "图中公司"}, {"name": "群光电子", "code": "2385", "industry": "电脑周边/电源", "marketCap": "待更新", "share": "待更新", "intro": "键盘、摄像头、电源供应器与电子零组件制造商。", "logo": "logo-066.png", "source": "图中公司"}, {"name": "中美晶", "code": "5483", "industry": "半导体材料/太阳能", "marketCap": "待更新", "share": "待更新", "intro": "硅晶圆与半导体材料相关企业。", "logo": "logo-060.png", "source": "图中公司"}, {"name": "宏碁", "code": "2353", "industry": "电脑品牌", "marketCap": "待更新", "share": "待更新", "intro": "电脑、显示器与消费电子品牌。", "logo": "logo-064.png", "source": "图中公司"}, {"name": "台胜科", "code": "3532", "industry": "半导体材料", "marketCap": "待更新", "share": "待更新", "intro": "硅晶圆材料制造商。", "logo": "logo-086.png", "source": "图中公司"}, {"name": "南茂科技", "code": "8150", "industry": "半导体封测", "marketCap": "待更新", "share": "待更新", "intro": "记忆体与显示驱动IC封测服务供应商。", "logo": "logo-062.png", "source": "图中公司"}, {"name": "牧德科技", "code": "3563", "industry": "AOI检测设备", "marketCap": "待更新", "share": "待更新", "intro": "自动光学检测设备制造商。", "logo": "logo-065.png", "source": "图中公司"}, {"name": "富邦媒", "code": "8454", "industry": "电商/零售", "marketCap": "待更新", "share": "待更新", "intro": "momo电商平台经营者。", "logo": "logo-059.png", "source": "图中公司"}, {"name": "保瑞药业", "code": "6472", "industry": "制药", "marketCap": "待更新", "share": "待更新", "intro": "药品制造、研发与CDMO服务企业。", "logo": "logo-063.png", "source": "图中公司"}, {"name": "宏达电", "code": "2498", "industry": "消费电子/VR", "marketCap": "待更新", "share": "待更新", "intro": "智慧手机、虚拟实境与沉浸式科技品牌。", "logo": "logo-067.png", "source": "图中公司"}, {"name": "永擎电子", "code": "7711", "industry": "服务器/硬体", "marketCap": "待更新", "share": "待更新", "intro": "服务器与云端应用硬体解决方案供应商。", "logo": "logo-075.png", "source": "图中公司"}, {"name": "国泰建设", "code": "2501", "industry": "营建", "marketCap": "待更新", "share": "待更新", "intro": "住宅、商业不动产与开发建设公司。", "logo": "logo-069.png", "source": "图中公司"}, {"name": "福懋兴业", "code": "1434", "industry": "纺织", "marketCap": "待更新", "share": "待更新", "intro": "纺织、染整与布料制造企业。", "logo": "logo-073.png", "source": "图中公司"}, {"name": "美利达", "code": "9914", "industry": "自行车", "marketCap": "待更新", "share": "待更新", "intro": "自行车品牌与制造商。", "logo": "logo-077.png", "source": "图中公司"}, {"name": "OBOOK 控股", "code": "6906", "industry": "控股/数位服务", "marketCap": "待更新", "share": "待更新", "intro": "控股型企业，聚焦数位服务与相关投资。", "logo": null, "source": "图中公司"}, {"name": "智冠科技", "code": "5478", "industry": "游戏通路/数位娱乐", "marketCap": "待更新", "share": "待更新", "intro": "游戏通路、点数与数位娱乐服务公司。", "logo": "logo-074.png", "source": "图中公司"}, {"name": "八方云集", "code": "2753", "industry": "餐饮", "marketCap": "待更新", "share": "待更新", "intro": "连锁餐饮品牌，主营锅贴、水饺等餐饮服务。", "logo": "logo-083.png", "source": "图中公司"}, {"name": "Gorilla Technology", "code": "GRRR", "industry": "AI/资安/影像分析", "marketCap": "待更新", "share": "待更新", "intro": "AI影像分析、资安与智慧城市技术公司。", "logo": "logo-092.png", "source": "图中公司"}, {"name": "华义国际", "code": "3086", "industry": "游戏软件", "marketCap": "待更新", "share": "待更新", "intro": "线上游戏与数位娱乐公司。", "logo": "logo-078.png", "source": "图中公司"}, {"name": "亚洲航空", "code": "2630", "industry": "航空维修/服务", "marketCap": "待更新", "share": "待更新", "intro": "航空维修与相关服务公司。", "logo": "logo-082.png", "source": "图中公司"}, {"name": "游戏橘子", "code": "6180", "industry": "游戏营运", "marketCap": "待更新", "share": "待更新", "intro": "线上游戏与数位娱乐服务公司。", "logo": "logo-072.png", "source": "图中公司"}, {"name": "传奇网络", "code": "4994", "industry": "游戏研发", "marketCap": "待更新", "share": "待更新", "intro": "线上游戏研发公司。", "logo": "logo-076.png", "source": "图中公司"}, {"name": "玩美移动", "code": "PERF", "industry": "美妆科技/AI影像", "marketCap": "待更新", "share": "待更新", "intro": "提供AI美妆、影像与AR虚拟试用技术。", "logo": "logo-070.png", "source": "图中公司"}, {"name": "宇峻奥汀", "code": "3546", "industry": "游戏研发", "marketCap": "待更新", "share": "待更新", "intro": "电脑与手机游戏研发公司。", "logo": "logo-080.png", "source": "图中公司"}, {"name": "大宇资讯", "code": "6111", "industry": "游戏研发", "marketCap": "待更新", "share": "待更新", "intro": "游戏开发与发行公司。", "logo": "logo-079.png", "source": "图中公司"}, {"name": "康师傅", "code": "0322.HK", "industry": "食品饮料", "marketCap": "待更新", "share": "待更新", "intro": "食品饮料集团，产品涵盖方便面、饮料与糕饼。", "logo": "logo-097.png", "source": "图中公司"}, {"name": "旺旺", "code": "0151.HK", "industry": "食品饮料", "marketCap": "待更新", "share": "待更新", "intro": "食品饮料集团，产品涵盖米果、乳饮与休闲食品。", "logo": "logo-096.png", "source": "图中公司"}, {"name": "徐福记", "code": "未上市", "industry": "食品", "marketCap": "待更新", "share": "待更新", "intro": "糖果、糕点与休闲食品品牌。", "logo": "logo-095.png", "source": "图中公司"}, {"name": "友达光电", "code": "2409", "industry": "面板", "marketCap": "待更新", "share": "待更新", "intro": "显示面板与相关显示技术企业。", "logo": null, "source": "新增台湾企业"}, {"name": "仁宝电脑", "code": "2324", "industry": "电子代工", "marketCap": "待更新", "share": "待更新", "intro": "笔电、智慧装置与电子产品代工制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "英业达", "code": "2356", "industry": "电子代工/服务器", "marketCap": "待更新", "share": "待更新", "intro": "笔电、服务器与云端设备制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "佳世达", "code": "2352", "industry": "电子/医疗科技", "marketCap": "待更新", "share": "待更新", "intro": "显示器、投影、医疗与智能解决方案企业。", "logo": null, "source": "新增台湾企业"}, {"name": "技嘉科技", "code": "2376", "industry": "电脑硬体", "marketCap": "待更新", "share": "待更新", "intro": "主机板、显卡、服务器与电竞产品品牌。", "logo": null, "source": "新增台湾企业"}, {"name": "华擎科技", "code": "3515", "industry": "电脑硬体", "marketCap": "待更新", "share": "待更新", "intro": "主机板、迷你电脑与服务器产品公司。", "logo": null, "source": "新增台湾企业"}, {"name": "蓝天电脑", "code": "2362", "industry": "电脑/通路", "marketCap": "待更新", "share": "待更新", "intro": "电脑产品制造与通路相关企业。", "logo": null, "source": "新增台湾企业"}, {"name": "神达投资控股", "code": "3706", "industry": "电脑/车用电子", "marketCap": "待更新", "share": "待更新", "intro": "车用电子、工业电脑与投资控股集团。", "logo": null, "source": "新增台湾企业"}, {"name": "神基控股", "code": "3005", "industry": "强固型电脑", "marketCap": "待更新", "share": "待更新", "intro": "强固型电脑、车用电子与通讯设备制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "精英电脑", "code": "2331", "industry": "电脑硬体", "marketCap": "待更新", "share": "待更新", "intro": "主机板、电脑与电子产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "浩鑫", "code": "2405", "industry": "迷你电脑", "marketCap": "待更新", "share": "待更新", "intro": "迷你电脑、主机板与系统产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "建碁", "code": "3046", "industry": "电脑系统", "marketCap": "待更新", "share": "待更新", "intro": "电脑系统、显示与相关电子产品公司。", "logo": null, "source": "新增台湾企业"}, {"name": "威强电", "code": "3022", "industry": "工业电脑", "marketCap": "待更新", "share": "待更新", "intro": "工业电脑、嵌入式系统与网络通讯设备供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "研扬科技", "code": "6579", "industry": "工业电脑", "marketCap": "待更新", "share": "待更新", "intro": "工业电脑与嵌入式平台供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "研勤科技", "code": "3632", "industry": "导航/车载系统", "marketCap": "待更新", "share": "待更新", "intro": "车载导航与智能交通相关设备企业。", "logo": null, "source": "新增台湾企业"}, {"name": "友通资讯", "code": "2397", "industry": "工业电脑", "marketCap": "待更新", "share": "待更新", "intro": "嵌入式电脑与工业自动化平台供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "立端科技", "code": "6245", "industry": "工业电脑", "marketCap": "待更新", "share": "待更新", "intro": "工业电脑与嵌入式系统供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "振桦电", "code": "8114", "industry": "POS系统", "marketCap": "待更新", "share": "待更新", "intro": "POS终端、工业电脑与零售解决方案供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "飞捷科技", "code": "6206", "industry": "POS系统", "marketCap": "待更新", "share": "待更新", "intro": "POS终端、工业电脑与零售设备制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "新唐科技", "code": "4919", "industry": "半导体", "marketCap": "待更新", "share": "待更新", "intro": "微控制器、语音IC与半导体解决方案供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "旺宏电子", "code": "2337", "industry": "记忆体", "marketCap": "待更新", "share": "待更新", "intro": "非挥发性记忆体与NOR Flash制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "华邦电子", "code": "2344", "industry": "记忆体", "marketCap": "待更新", "share": "待更新", "intro": "DRAM与Flash记忆体设计制造公司。", "logo": null, "source": "新增台湾企业"}, {"name": "力成科技", "code": "6239", "industry": "半导体封测", "marketCap": "待更新", "share": "待更新", "intro": "记忆体与逻辑IC封装测试服务供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "京元电子", "code": "2449", "industry": "半导体测试", "marketCap": "待更新", "share": "待更新", "intro": "IC测试与半导体后段服务企业。", "logo": null, "source": "新增台湾企业"}, {"name": "矽格", "code": "6257", "industry": "半导体封测", "marketCap": "待更新", "share": "待更新", "intro": "IC测试与封装服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "颀邦", "code": "6147", "industry": "半导体封测", "marketCap": "待更新", "share": "待更新", "intro": "显示驱动IC封装测试与金凸块服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "欣铨", "code": "3264", "industry": "半导体测试", "marketCap": "待更新", "share": "待更新", "intro": "晶圆测试与IC测试服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "精材", "code": "3374", "industry": "晶圆级封装", "marketCap": "待更新", "share": "待更新", "intro": "晶圆级封装与影像感测相关服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "硅创电子", "code": "8016", "industry": "IC设计", "marketCap": "待更新", "share": "待更新", "intro": "显示驱动IC与混合信号IC设计公司。", "logo": null, "source": "新增台湾企业"}, {"name": "敦泰电子", "code": "3545", "industry": "IC设计", "marketCap": "待更新", "share": "待更新", "intro": "触控与显示驱动整合芯片设计公司。", "logo": null, "source": "新增台湾企业"}, {"name": "群联电子", "code": "8299", "industry": "储存控制IC", "marketCap": "待更新", "share": "待更新", "intro": "NAND Flash控制芯片与储存解决方案供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "威刚科技", "code": "3260", "industry": "记忆体模组", "marketCap": "待更新", "share": "待更新", "intro": "DRAM、SSD与储存产品品牌。", "logo": null, "source": "新增台湾企业"}, {"name": "创见资讯", "code": "2451", "industry": "记忆体模组", "marketCap": "待更新", "share": "待更新", "intro": "记忆体模组、SSD与储存产品品牌。", "logo": null, "source": "新增台湾企业"}, {"name": "宜鼎国际", "code": "5289", "industry": "工业储存", "marketCap": "待更新", "share": "待更新", "intro": "工业级记忆体与嵌入式储存解决方案供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "广明光电", "code": "6188", "industry": "光储存/电子制造", "marketCap": "待更新", "share": "待更新", "intro": "光电与电子制造相关企业。", "logo": null, "source": "新增台湾企业"}, {"name": "金像电", "code": "2368", "industry": "PCB", "marketCap": "待更新", "share": "待更新", "intro": "印刷电路板制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "耀华电子", "code": "2367", "industry": "PCB", "marketCap": "待更新", "share": "待更新", "intro": "印刷电路板制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "嘉联益", "code": "6153", "industry": "软板PCB", "marketCap": "待更新", "share": "待更新", "intro": "软性印刷电路板制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "臻鼎-KY", "code": "4958", "industry": "PCB", "marketCap": "待更新", "share": "待更新", "intro": "全球大型PCB制造集团。", "logo": null, "source": "新增台湾企业"}, {"name": "华通电脑", "code": "2313", "industry": "PCB", "marketCap": "待更新", "share": "待更新", "intro": "印刷电路板与HDI板制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "健鼎科技", "code": "3044", "industry": "PCB", "marketCap": "待更新", "share": "待更新", "intro": "印刷电路板制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "竞国实业", "code": "6108", "industry": "PCB", "marketCap": "待更新", "share": "待更新", "intro": "印刷电路板制造企业。", "logo": null, "source": "新增台湾企业"}, {"name": "志超科技", "code": "8213", "industry": "PCB", "marketCap": "待更新", "share": "待更新", "intro": "印刷电路板制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "台郡科技", "code": "6269", "industry": "软板PCB", "marketCap": "待更新", "share": "待更新", "intro": "软性印刷电路板制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "景硕科技", "code": "3189", "industry": "IC载板", "marketCap": "待更新", "share": "待更新", "intro": "IC载板与印刷电路板制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "友劲科技", "code": "6142", "industry": "网络通信", "marketCap": "待更新", "share": "待更新", "intro": "网络通讯设备与电子产品制造公司。", "logo": null, "source": "新增台湾企业"}, {"name": "大同", "code": "2371", "industry": "电机/家电", "marketCap": "待更新", "share": "待更新", "intro": "电机、能源、家电与系统工程企业。", "logo": null, "source": "新增台湾企业"}, {"name": "东元电机", "code": "1504", "industry": "电机", "marketCap": "待更新", "share": "待更新", "intro": "马达、机电系统与能源解决方案供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "华城电机", "code": "1519", "industry": "重电设备", "marketCap": "待更新", "share": "待更新", "intro": "变压器、重电设备与电力工程企业。", "logo": null, "source": "新增台湾企业"}, {"name": "亚力电机", "code": "1514", "industry": "电机设备", "marketCap": "待更新", "share": "待更新", "intro": "电力设备、自动化与工程服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "士林电机", "code": "1503", "industry": "电机设备", "marketCap": "待更新", "share": "待更新", "intro": "电机、重电与车用电装品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "中兴电工", "code": "1513", "industry": "电机工程", "marketCap": "待更新", "share": "待更新", "intro": "电力设备、工程服务与能源相关企业。", "logo": null, "source": "新增台湾企业"}, {"name": "和大工业", "code": "1536", "industry": "汽车零组件", "marketCap": "待更新", "share": "待更新", "intro": "汽车传动系统与精密零组件制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "东阳实业", "code": "1319", "industry": "汽车零组件", "marketCap": "待更新", "share": "待更新", "intro": "汽车塑胶件、钣金件与售后维修件供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "堤维西", "code": "1522", "industry": "汽车零组件", "marketCap": "待更新", "share": "待更新", "intro": "车灯与汽车零组件制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "胡连精密", "code": "6279", "industry": "汽车连接器", "marketCap": "待更新", "share": "待更新", "intro": "车用端子与连接器制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "江申工业", "code": "1525", "industry": "汽车零组件", "marketCap": "待更新", "share": "待更新", "intro": "汽车零组件与车体结构件制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "丽清科技", "code": "3346", "industry": "车用照明", "marketCap": "待更新", "share": "待更新", "intro": "LED车灯模组与车用照明产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "台湾玻璃", "code": "1802", "industry": "玻璃", "marketCap": "待更新", "share": "待更新", "intro": "玻璃与建材产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "正新橡胶", "code": "2105", "industry": "轮胎", "marketCap": "待更新", "share": "待更新", "intro": "轮胎品牌与制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "建大工业", "code": "2106", "industry": "轮胎", "marketCap": "待更新", "share": "待更新", "intro": "轮胎与橡胶产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "南港轮胎", "code": "2101", "industry": "轮胎", "marketCap": "待更新", "share": "待更新", "intro": "轮胎制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "裕隆汽车", "code": "2201", "industry": "汽车制造", "marketCap": "待更新", "share": "待更新", "intro": "汽车制造与品牌经营企业。", "logo": null, "source": "新增台湾企业"}, {"name": "中华汽车", "code": "2204", "industry": "汽车制造", "marketCap": "待更新", "share": "待更新", "intro": "汽车制造、销售与相关服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "和泰兴业", "code": "6592", "industry": "空调/家电代理", "marketCap": "待更新", "share": "待更新", "intro": "空调与家电代理销售及服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "乔山健康科技", "code": "1736", "industry": "健身器材", "marketCap": "待更新", "share": "待更新", "intro": "健身器材与健康科技产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "巨大机械", "code": "9921", "industry": "自行车", "marketCap": "待更新", "share": "待更新", "intro": "Giant自行车品牌与制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "桂盟国际", "code": "5306", "industry": "自行车零组件", "marketCap": "待更新", "share": "待更新", "intro": "自行车链条与传动零组件供应商。", "logo": null, "source": "新增台湾企业"}, {"name": "南侨投控", "code": "1702", "industry": "食品/油脂", "marketCap": "待更新", "share": "待更新", "intro": "食品、油脂与餐饮相关事业集团。", "logo": null, "source": "新增台湾企业"}, {"name": "味全", "code": "1201", "industry": "食品饮料", "marketCap": "待更新", "share": "待更新", "intro": "食品、乳品与饮料企业。", "logo": null, "source": "新增台湾企业"}, {"name": "泰山企业", "code": "1218", "industry": "食品饮料", "marketCap": "待更新", "share": "待更新", "intro": "食用油、饮料与食品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "大成食品", "code": "1210", "industry": "食品/饲料", "marketCap": "待更新", "share": "待更新", "intro": "食品、饲料与畜产相关企业。", "logo": null, "source": "新增台湾企业"}, {"name": "卜蜂企业", "code": "1215", "industry": "食品/饲料", "marketCap": "待更新", "share": "待更新", "intro": "饲料、畜产与食品加工企业。", "logo": null, "source": "新增台湾企业"}, {"name": "佳格食品", "code": "1227", "industry": "食品饮料", "marketCap": "待更新", "share": "待更新", "intro": "营养食品、饮品与食用油品牌企业。", "logo": null, "source": "新增台湾企业"}, {"name": "联华食品", "code": "1231", "industry": "食品", "marketCap": "待更新", "share": "待更新", "intro": "休闲食品与鲜食产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "黑松", "code": "1234", "industry": "饮料", "marketCap": "待更新", "share": "待更新", "intro": "饮料品牌与制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "爱之味", "code": "1217", "industry": "食品饮料", "marketCap": "待更新", "share": "待更新", "intro": "食品罐头、饮料与保健产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "大统益", "code": "1232", "industry": "油脂", "marketCap": "待更新", "share": "待更新", "intro": "食用油脂与相关产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "统一超商", "code": "2912", "industry": "零售通路", "marketCap": "待更新", "share": "待更新", "intro": "7-ELEVEN台湾经营者，便利商店与零售服务企业。", "logo": null, "source": "新增台湾企业"}, {"name": "全家便利商店", "code": "5903", "industry": "零售通路", "marketCap": "待更新", "share": "待更新", "intro": "FamilyMart台湾经营者，便利商店连锁企业。", "logo": null, "source": "新增台湾企业"}, {"name": "宝雅国际", "code": "5904", "industry": "零售通路", "marketCap": "待更新", "share": "待更新", "intro": "生活百货与美妆零售连锁。", "logo": null, "source": "新增台湾企业"}, {"name": "远东百货", "code": "2903", "industry": "百货零售", "marketCap": "待更新", "share": "待更新", "intro": "百货商场与零售通路企业。", "logo": null, "source": "新增台湾企业"}, {"name": "新光三越", "code": "未上市", "industry": "百货零售", "marketCap": "待更新", "share": "待更新", "intro": "台湾大型百货零售集团。", "logo": null, "source": "新增台湾企业"}, {"name": "PChome网路家庭", "code": "8044", "industry": "电商", "marketCap": "待更新", "share": "待更新", "intro": "电商平台与网络服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "诚品生活", "code": "2926", "industry": "文创零售", "marketCap": "待更新", "share": "待更新", "intro": "书店、百货与文创生活通路企业。", "logo": null, "source": "新增台湾企业"}, {"name": "台湾金控", "code": "未上市", "industry": "金融控股", "marketCap": "待更新", "share": "待更新", "intro": "台湾金融控股集团，旗下含台湾银行等事业。", "logo": null, "source": "新增台湾企业"}, {"name": "京城银行", "code": "2809", "industry": "银行", "marketCap": "待更新", "share": "待更新", "intro": "商业银行，提供个人与企业金融服务。", "logo": null, "source": "新增台湾企业"}, {"name": "高雄银行", "code": "2836", "industry": "银行", "marketCap": "待更新", "share": "待更新", "intro": "商业银行，提供存放款与金融服务。", "logo": null, "source": "新增台湾企业"}, {"name": "王道银行", "code": "2897", "industry": "银行", "marketCap": "待更新", "share": "待更新", "intro": "商业银行，提供数位金融与企业金融服务。", "logo": null, "source": "新增台湾企业"}, {"name": "台中商业银行", "code": "2812", "industry": "银行", "marketCap": "待更新", "share": "待更新", "intro": "台湾商业银行，服务个人与企业客户。", "logo": null, "source": "新增台湾企业"}, {"name": "三商寿", "code": "2867", "industry": "保险", "marketCap": "待更新", "share": "待更新", "intro": "人寿保险公司。", "logo": null, "source": "新增台湾企业"}, {"name": "台湾人寿", "code": "中信金控子公司", "industry": "保险", "marketCap": "待更新", "share": "待更新", "intro": "人寿保险公司，现属中信金控体系。", "logo": null, "source": "新增台湾企业"}, {"name": "立荣航空", "code": "长荣航空子公司", "industry": "航空运输", "marketCap": "待更新", "share": "待更新", "intro": "区域航线航空公司。", "logo": null, "source": "新增台湾企业"}, {"name": "华信航空", "code": "中华航空子公司", "industry": "航空运输", "marketCap": "待更新", "share": "待更新", "intro": "区域航空公司，经营国内与区域航线。", "logo": null, "source": "新增台湾企业"}, {"name": "台骅投控", "code": "2636", "industry": "物流运输", "marketCap": "待更新", "share": "待更新", "intro": "国际物流、货运承揽与供应链服务公司。", "logo": null, "source": "新增台湾企业"}, {"name": "大江生医", "code": "8436", "industry": "生技保健", "marketCap": "待更新", "share": "待更新", "intro": "保健食品、机能性食品与生技产品研发制造公司。", "logo": null, "source": "新增台湾企业"}, {"name": "葡萄王", "code": "1707", "industry": "生技保健", "marketCap": "待更新", "share": "待更新", "intro": "保健食品、饮品与生技发酵产品制造商。", "logo": null, "source": "新增台湾企业"}, {"name": "中化生", "code": "1762", "industry": "原料药", "marketCap": "待更新", "share": "待更新", "intro": "原料药与医药中间体生产企业。", "logo": null, "source": "新增台湾企业"}, {"name": "杏国新药", "code": "4192", "industry": "生技医药", "marketCap": "待更新", "share": "待更新", "intro": "新药研发公司，聚焦肿瘤与特殊疾病治疗领域。", "logo": null, "source": "新增台湾企业"}, {"name": "台康生技", "code": "6589", "industry": "生技医药", "marketCap": "待更新", "share": "待更新", "intro": "生物相似药与抗体药物研发制造公司。", "logo": null, "source": "新增台湾企业"}, {"name": "顺药", "code": "6535", "industry": "生技医药", "marketCap": "待更新", "share": "待更新", "intro": "新药研发公司，专注中枢神经与急重症治疗领域。", "logo": null, "source": "新增台湾企业"}, {"name": "松瑞药", "code": "4167", "industry": "制药", "marketCap": "待更新", "share": "待更新", "intro": "药品研发、制造与销售公司。", "logo": null, "source": "新增台湾企业"}];
 
-const input = document.getElementById('companySearch');
-const results = document.getElementById('searchResults');
-const count = document.getElementById('searchCount');
+const tableBody = document.getElementById('companyTableBody');
+const searchInput = document.getElementById('companySearch');
+const dataCount = document.getElementById('dataCount');
+const modal = document.getElementById('detailModal');
+const closeBtn = document.getElementById('detailClose');
 
-function normalizeText(s) {
+function norm(s) {
   return String(s || '').toLowerCase().replace(/\s+/g, '');
 }
 
@@ -312,58 +393,52 @@ function focusLogo(file) {
   setTimeout(() => logo.classList.remove('search-hit'), 2600);
 }
 
-function renderResults(q) {
-  const key = normalizeText(q);
-  if (!key) {
-    results.classList.remove('active');
-    results.innerHTML = '';
-    count.textContent = `${SEARCH_DATA.length} 家`;
-    clearHits();
-    return;
-  }
+function showDetail(item) {
+  document.getElementById('detailTitle').textContent = item.name || '—';
+  document.getElementById('detailCode').textContent = item.code || '—';
+  document.getElementById('detailIndustry').textContent = item.industry || '—';
+  document.getElementById('detailMarketCap').textContent = item.marketCap || '待更新';
+  document.getElementById('detailShare').textContent = item.share || '待更新';
+  document.getElementById('detailIntro').textContent = item.intro || '—';
+  modal.style.display = 'flex';
+  focusLogo(item.logo);
+}
 
-  const matched = SEARCH_DATA.filter(item => {
-    const haystack = normalizeText([item.name, ...(item.aliases || [])].join(' '));
-    return haystack.includes(key);
-  }).slice(0, 20);
+function renderTable() {
+  const q = norm(searchInput.value);
+  const filtered = COMPANY_DATA.filter(item => {
+    const hay = norm([item.name, item.code, item.industry, item.intro, item.source].join(' '));
+    return !q || hay.includes(q);
+  });
 
-  count.textContent = `${matched.length} / ${SEARCH_DATA.length}`;
+  dataCount.textContent = `${filtered.length} / ${COMPANY_DATA.length} 家`;
 
-  if (!matched.length) {
-    results.classList.add('active');
-    results.innerHTML = '<div class="result-item"><div class="result-main"><span class="result-name">没有找到匹配公司</span><span class="result-alias">可以换繁体/简体、中文/英文再试</span></div></div>';
-    return;
-  }
-
-  results.classList.add('active');
-  results.innerHTML = matched.map((item, idx) => `
-    <button class="result-item" type="button" data-index="${idx}">
-      <span class="result-main">
-        <span class="result-name">${item.name}</span>
-        <span class="result-alias">${(item.aliases || []).join(' / ') || '&nbsp;'}</span>
-      </span>
-      <span class="result-tag">${item.logo ? '图中有 logo' : item.category}</span>
-    </button>
+  tableBody.innerHTML = filtered.map((item, i) => `
+    <tr data-index="${COMPANY_DATA.indexOf(item)}">
+      <td>${item.name}</td>
+      <td>${item.code || '—'}</td>
+      <td>${item.industry || '—'}</td>
+      <td>${item.marketCap || '待更新'}</td>
+      <td>${item.share || '待更新'}</td>
+      <td class="intro-cell">${item.intro || '—'}</td>
+    </tr>
   `).join('');
 
-  results.querySelectorAll('.result-item').forEach((btn, idx) => {
-    btn.addEventListener('click', () => {
-      const item = matched[idx];
-      input.value = item.name;
-      results.classList.remove('active');
-      count.textContent = item.logo ? '已定位' : item.category;
-      focusLogo(item.logo);
+  tableBody.querySelectorAll('tr').forEach(row => {
+    row.addEventListener('click', () => {
+      const item = COMPANY_DATA[Number(row.dataset.index)];
+      showDetail(item);
     });
   });
 }
 
-input.addEventListener('input', e => renderResults(e.target.value));
-input.addEventListener('focus', e => renderResults(e.target.value));
-document.addEventListener('click', e => {
-  if (!e.target.closest('.search-panel')) {
-    results.classList.remove('active');
-  }
+searchInput.addEventListener('input', renderTable);
+closeBtn.addEventListener('click', () => modal.style.display = 'none');
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.style.display = 'none';
 });
+
+renderTable();
 </script>
 
 </body>
