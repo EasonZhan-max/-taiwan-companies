@@ -136,16 +136,235 @@ body {
     width: min(28vw, 150px);
   }
 }
+
+.search-panel {
+  position: fixed;
+  left: 50%;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(760px, calc(100vw - 28px));
+  z-index: 9999;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.96);
+  border: 1px solid rgba(0,0,0,.16);
+  border-radius: 999px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.12);
+  padding: 8px 12px;
+  backdrop-filter: blur(8px);
+}
+
+.search-box input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: #111;
+}
+
+.search-count {
+  flex: 0 0 auto;
+  color: #666;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.search-results {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 54px;
+  max-height: min(360px, 48vh);
+  overflow: auto;
+  background: rgba(255,255,255,0.98);
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  padding: 8px;
+}
+
+.search-results.active {
+  display: block;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  padding: 9px 10px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+  color: #111;
+}
+
+.result-item:hover {
+  background: rgba(0,0,0,.06);
+}
+
+.result-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.result-name {
+  font-weight: 700;
+}
+
+.result-alias {
+  color: #666;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-tag {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: #555;
+  background: rgba(0,0,0,.06);
+  border-radius: 999px;
+  padding: 3px 8px;
+}
+
+.logo.search-hit {
+  outline: 3px solid #ff3b30;
+  outline-offset: 6px;
+  border-radius: 10px;
+  z-index: 9998;
+  animation: hitPulse 1.2s ease-in-out 2;
+}
+
+@keyframes hitPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+@media (max-width: 700px) {
+  .search-panel {
+    width: calc(100vw - 20px);
+  }
+  .search-box input {
+    font-size: 14px;
+  }
+  .search-results {
+    bottom: 50px;
+  }
+}
+
 </style>
 </head>
 <body>
 <main class="stage">
   <div class="wall">
-    <div class="logo slot-r1 slot-c1"><img src="./assets/logos/logo-001.png" alt="logo 1"></div><div class="logo slot-r1 slot-c2"><img src="./assets/logos/logo-002.png" alt="logo 2"></div><div class="logo slot-r1 slot-c3"><img src="./assets/logos/logo-003.png" alt="logo 3"></div><div class="logo slot-r1 slot-c4"><img src="./assets/logos/logo-004.png" alt="logo 4"></div><div class="logo slot-r1 slot-c5"><img src="./assets/logos/logo-005.png" alt="logo 5"></div><div class="logo slot-r1 slot-c6"><img src="./assets/logos/logo-006.png" alt="logo 6"></div><div class="logo slot-r1 slot-c7"><img src="./assets/logos/logo-007.png" alt="logo 7"></div><div class="logo slot-r1 slot-c8"><img src="./assets/logos/logo-008.png" alt="logo 8"></div><div class="logo slot-r1 slot-c9"><img src="./assets/logos/logo-009.png" alt="logo 9"></div><div class="logo slot-r1 slot-c10"><img src="./assets/logos/logo-010.png" alt="logo 10"></div><div class="logo slot-r1 slot-c11"><img src="./assets/logos/logo-011.png" alt="logo 11"></div><div class="logo slot-r2 slot-c1"><img src="./assets/logos/logo-012.png" alt="logo 12"></div><div class="logo slot-r2 slot-c2"><img src="./assets/logos/logo-013.png" alt="logo 13"></div><div class="logo slot-r2 slot-c3"><img src="./assets/logos/logo-014.png" alt="logo 14"></div><div class="logo slot-r2 slot-c4"><img src="./assets/logos/logo-015.png" alt="logo 15"></div><div class="logo slot-r2 slot-c5"><img src="./assets/logos/logo-016.png" alt="logo 16"></div><div class="logo slot-r2 slot-c6"><img src="./assets/logos/logo-017.png" alt="logo 17"></div><div class="logo slot-r2 slot-c7"><img src="./assets/logos/logo-018.png" alt="logo 18"></div><div class="logo slot-r2 slot-c8"><img src="./assets/logos/logo-019.png" alt="logo 19"></div><div class="logo slot-r2 slot-c9"><img src="./assets/logos/logo-020.png" alt="logo 20"></div><div class="logo slot-r2 slot-c10"><img src="./assets/logos/logo-021.png" alt="logo 21"></div><div class="logo slot-r2 slot-c11"><img src="./assets/logos/logo-022.png" alt="logo 22"></div><div class="logo slot-r3 slot-c1"><img src="./assets/logos/logo-023.png" alt="logo 23"></div><div class="logo slot-r3 slot-c2"><img src="./assets/logos/logo-024.png" alt="logo 24"></div><div class="logo slot-r3 slot-c3"><img src="./assets/logos/logo-025.png" alt="logo 25"></div><div class="logo slot-r3 slot-c4"><img src="./assets/logos/logo-026.png" alt="logo 26"></div><div class="logo slot-r3 slot-c5"><img src="./assets/logos/logo-027.png" alt="logo 27"></div><div class="logo slot-r3 slot-c6"><img src="./assets/logos/logo-028.png" alt="logo 28"></div><div class="logo slot-r3 slot-c7"><img src="./assets/logos/logo-029.png" alt="logo 29"></div><div class="logo slot-r3 slot-c8"><img src="./assets/logos/logo-030.png" alt="logo 30"></div><div class="logo slot-r3 slot-c9"><img src="./assets/logos/logo-031.png" alt="logo 31"></div><div class="logo slot-r3 slot-c10"><img src="./assets/logos/logo-032.png" alt="logo 32"></div><div class="logo slot-r3 slot-c11"><img src="./assets/logos/logo-033.png" alt="logo 33"></div><div class="logo slot-r4 slot-c1"><img src="./assets/logos/logo-034.png" alt="logo 34"></div><div class="logo slot-r4 slot-c2"><img src="./assets/logos/logo-035.png" alt="logo 35"></div><div class="logo slot-r4 slot-c3"><img src="./assets/logos/logo-036.png" alt="logo 36"></div><div class="logo slot-r4 slot-c4"><img src="./assets/logos/logo-037.png" alt="logo 37"></div><div class="logo slot-r4 slot-c7"><img src="./assets/logos/logo-095.png" alt="logo 95"></div><div class="logo slot-r4 slot-c8"><img src="./assets/logos/logo-039.png" alt="logo 39"></div><div class="logo slot-r4 slot-c9"><img src="./assets/logos/logo-040.png" alt="logo 40"></div><div class="logo slot-r4 slot-c10"><img src="./assets/logos/logo-041.png" alt="logo 41"></div><div class="logo slot-r4 slot-c11"><img src="./assets/logos/logo-042.png" alt="logo 42"></div><div class="logo slot-r5 slot-c1"><img src="./assets/logos/logo-043.png" alt="logo 43"></div><div class="logo slot-r5 slot-c2"><img src="./assets/logos/logo-044.png" alt="logo 44"></div><div class="logo slot-r5 slot-c3"><img src="./assets/logos/logo-045.png" alt="logo 45"></div><div class="logo slot-r5 slot-c4"><img src="./assets/logos/logo-046.png" alt="logo 46"></div><div class="logo slot-r5 slot-c7"><img src="./assets/logos/logo-047.png" alt="logo 47"></div><div class="logo slot-r5 slot-c8"><img src="./assets/logos/logo-048.png" alt="logo 48"></div><div class="logo slot-r5 slot-c9"><img src="./assets/logos/logo-049.png" alt="logo 49"></div><div class="logo slot-r5 slot-c10"><img src="./assets/logos/logo-050.png" alt="logo 50"></div><div class="logo slot-r5 slot-c11"><img src="./assets/logos/logo-051.png" alt="logo 51"></div><div class="logo slot-r6 slot-c1"><img src="./assets/logos/logo-052.png" alt="logo 52"></div><div class="logo slot-r6 slot-c2"><img src="./assets/logos/logo-053.png" alt="logo 53"></div><div class="logo slot-r6 slot-c3"><img src="./assets/logos/logo-054.png" alt="logo 54"></div><div class="logo slot-r6 slot-c4"><img src="./assets/logos/logo-055.png" alt="logo 55"></div><div class="logo slot-r6 slot-c7"><img src="./assets/logos/logo-056.png" alt="logo 56"></div><div class="logo slot-r6 slot-c8"><img src="./assets/logos/logo-057.png" alt="logo 57"></div><div class="logo slot-r6 slot-c9"><img src="./assets/logos/logo-058.png" alt="logo 58"></div><div class="logo slot-r6 slot-c10"><img src="./assets/logos/logo-059.png" alt="logo 59"></div><div class="logo slot-r6 slot-c11"><img src="./assets/logos/logo-060.png" alt="logo 60"></div><div class="logo slot-r7 slot-c1"><img src="./assets/logos/logo-061.png" alt="logo 61"></div><div class="logo slot-r7 slot-c2"><img src="./assets/logos/logo-062.png" alt="logo 62"></div><div class="logo slot-r7 slot-c3"><img src="./assets/logos/logo-063.png" alt="logo 63"></div><div class="logo slot-r7 slot-c4"><img src="./assets/logos/logo-064.png" alt="logo 64"></div><div class="logo slot-r7 slot-c5"><img src="./assets/logos/logo-065.png" alt="logo 65"></div><div class="logo slot-r4 slot-c5"><img src="./assets/logos/logo-066.png" alt="logo 66"></div><div class="logo slot-r7 slot-c7"><img src="./assets/logos/logo-067.png" alt="logo 67"></div><div class="logo slot-r7 slot-c8"><img src="./assets/logos/logo-068.png" alt="logo 68"></div><div class="logo slot-r7 slot-c9"><img src="./assets/logos/logo-069.png" alt="logo 69"></div><div class="logo slot-r7 slot-c10"><img src="./assets/logos/logo-070.png" alt="logo 70"></div><div class="logo slot-r7 slot-c11"><img src="./assets/logos/logo-071.png" alt="logo 71"></div><div class="logo slot-r8 slot-c1"><img src="./assets/logos/logo-072.png" alt="logo 72"></div><div class="logo slot-r8 slot-c2"><img src="./assets/logos/logo-073.png" alt="logo 73"></div><div class="logo slot-r8 slot-c3"><img src="./assets/logos/logo-074.png" alt="logo 74"></div><div class="logo slot-r8 slot-c4"><img src="./assets/logos/logo-075.png" alt="logo 75"></div><div class="logo slot-r8 slot-c5"><img src="./assets/logos/logo-076.png" alt="logo 76"></div><div class="logo slot-r8 slot-c6"><img src="./assets/logos/logo-077.png" alt="logo 77"></div><div class="logo slot-r8 slot-c7"><img src="./assets/logos/logo-078.png" alt="logo 78"></div><div class="logo slot-r8 slot-c8"><img src="./assets/logos/logo-079.png" alt="logo 79"></div><div class="logo slot-r8 slot-c9"><img src="./assets/logos/logo-080.png" alt="logo 80"></div><div class="logo slot-r8 slot-c10"><img src="./assets/logos/logo-081.png" alt="logo 81"></div><div class="logo slot-r8 slot-c11"><img src="./assets/logos/logo-082.png" alt="logo 82"></div><div class="logo slot-r9 slot-c1"><img src="./assets/logos/logo-083.png" alt="logo 83"></div><div class="logo slot-r9 slot-c2"><img src="./assets/logos/logo-084.png" alt="logo 84"></div><div class="logo slot-r9 slot-c3"><img src="./assets/logos/logo-085.png" alt="logo 85"></div><div class="logo slot-r9 slot-c4"><img src="./assets/logos/logo-086.png" alt="logo 86"></div><div class="logo slot-r9 slot-c5"><img src="./assets/logos/logo-087.png" alt="logo 87"></div><div class="logo slot-r9 slot-c6"><img src="./assets/logos/logo-088.png" alt="logo 88"></div><div class="logo slot-r9 slot-c7"><img src="./assets/logos/logo-089.png" alt="logo 89"></div><div class="logo slot-r9 slot-c8"><img src="./assets/logos/logo-090.png" alt="logo 90"></div><div class="logo slot-r9 slot-c9"><img src="./assets/logos/logo-091.png" alt="logo 91"></div><div class="logo slot-r9 slot-c10"><img src="./assets/logos/logo-092.png" alt="logo 92"></div><div class="logo slot-r9 slot-c11"><img src="./assets/logos/logo-093.png" alt="logo 93"></div><div class="logo slot-r10 slot-c1"><img src="./assets/logos/logo-094.png" alt="logo 94"></div><div class="logo slot-r5 slot-c5"><img src="./assets/logos/logo-096.png" alt="logo 96"></div><div class="logo slot-r6 slot-c5"><img src="./assets/logos/logo-097.png" alt="logo 97"></div><div class="logo slot-r10 slot-c5"><img src="./assets/logos/logo-098.png" alt="logo 98"></div>
+    <div class="logo slot-r1 slot-c1"><img src="./assets/logos/logo-001.png" alt="logo 1"></div><div class="logo slot-r1 slot-c2"><img src="./assets/logos/logo-002.png" alt="logo 2"></div><div class="logo slot-r1 slot-c3"><img src="./assets/logos/logo-003.png" alt="logo 3"></div><div class="logo slot-r1 slot-c4"><img src="./assets/logos/logo-004.png" alt="logo 4"></div><div class="logo slot-r1 slot-c5"><img src="./assets/logos/logo-005.png" alt="logo 5"></div><div class="logo slot-r1 slot-c6"><img src="./assets/logos/logo-006.png" alt="logo 6"></div><div class="logo slot-r1 slot-c7"><img src="./assets/logos/logo-007.png" alt="logo 7"></div><div class="logo slot-r1 slot-c8"><img src="./assets/logos/logo-008.png" alt="logo 8"></div><div class="logo slot-r1 slot-c9"><img src="./assets/logos/logo-009.png" alt="logo 9"></div><div class="logo slot-r1 slot-c10"><img src="./assets/logos/logo-010.png" alt="logo 10"></div><div class="logo slot-r1 slot-c11"><img src="./assets/logos/logo-011.png" alt="logo 11"></div><div class="logo slot-r2 slot-c1"><img src="./assets/logos/logo-012.png" alt="logo 12"></div><div class="logo slot-r2 slot-c2"><img src="./assets/logos/logo-013.png" alt="logo 13"></div><div class="logo slot-r2 slot-c3"><img src="./assets/logos/logo-014.png" alt="logo 14"></div><div class="logo slot-r2 slot-c4"><img src="./assets/logos/logo-015.png" alt="logo 15"></div><div class="logo slot-r2 slot-c5"><img src="./assets/logos/logo-016.png" alt="logo 16"></div><div class="logo slot-r2 slot-c6"><img src="./assets/logos/logo-017.png" alt="logo 17"></div><div class="logo slot-r2 slot-c7"><img src="./assets/logos/logo-018.png" alt="logo 18"></div><div class="logo slot-r2 slot-c8"><img src="./assets/logos/logo-019.png" alt="logo 19"></div><div class="logo slot-r2 slot-c9"><img src="./assets/logos/logo-020.png" alt="logo 20"></div><div class="logo slot-r2 slot-c10"><img src="./assets/logos/logo-021.png" alt="logo 21"></div><div class="logo slot-r2 slot-c11"><img src="./assets/logos/logo-022.png" alt="logo 22"></div><div class="logo slot-r3 slot-c1"><img src="./assets/logos/logo-023.png" alt="logo 23"></div><div class="logo slot-r3 slot-c2"><img src="./assets/logos/logo-024.png" alt="logo 24"></div><div class="logo slot-r3 slot-c3"><img src="./assets/logos/logo-025.png" alt="logo 25"></div><div class="logo slot-r3 slot-c4"><img src="./assets/logos/logo-026.png" alt="logo 26"></div><div class="logo slot-r3 slot-c5"><img src="./assets/logos/logo-027.png" alt="logo 27"></div><div class="logo slot-r3 slot-c6"><img src="./assets/logos/logo-028.png" alt="logo 28"></div><div class="logo slot-r3 slot-c7"><img src="./assets/logos/logo-029.png" alt="logo 29"></div><div class="logo slot-r3 slot-c8"><img src="./assets/logos/logo-030.png" alt="logo 30"></div><div class="logo slot-r3 slot-c9"><img src="./assets/logos/logo-031.png" alt="logo 31"></div><div class="logo slot-r3 slot-c10"><img src="./assets/logos/logo-032.png" alt="logo 32"></div><div class="logo slot-r3 slot-c11"><img src="./assets/logos/logo-033.png" alt="logo 33"></div><div class="logo slot-r4 slot-c1"><img src="./assets/logos/logo-034.png" alt="logo 34"></div><div class="logo slot-r4 slot-c2"><img src="./assets/logos/logo-035.png" alt="logo 35"></div><div class="logo slot-r4 slot-c3"><img src="./assets/logos/logo-036.png" alt="logo 36"></div><div class="logo slot-r4 slot-c4"><img src="./assets/logos/logo-037.png" alt="logo 37"></div><div class="logo slot-r4 slot-c7"><img src="./assets/logos/logo-095.png" alt="logo 95"></div><div class="logo slot-r4 slot-c8"><img src="./assets/logos/logo-039.png" alt="logo 39"></div><div class="logo slot-r4 slot-c9"><img src="./assets/logos/logo-040.png" alt="logo 40"></div><div class="logo slot-r4 slot-c10"><img src="./assets/logos/logo-041.png" alt="logo 41"></div><div class="logo slot-r4 slot-c11"><img src="./assets/logos/logo-042.png" alt="logo 42"></div><div class="logo slot-r5 slot-c1"><img src="./assets/logos/logo-043.png" alt="logo 43"></div><div class="logo slot-r5 slot-c2"><img src="./assets/logos/logo-044.png" alt="logo 44"></div><div class="logo slot-r5 slot-c3"><img src="./assets/logos/logo-045.png" alt="logo 45"></div><div class="logo slot-r5 slot-c4"><img src="./assets/logos/logo-046.png" alt="logo 46"></div><div class="logo slot-r5 slot-c7"><img src="./assets/logos/logo-047.png" alt="logo 47"></div><div class="logo slot-r5 slot-c8"><img src="./assets/logos/logo-048.png" alt="logo 48"></div><div class="logo slot-r5 slot-c9"><img src="./assets/logos/logo-049.png" alt="logo 49"></div><div class="logo slot-r5 slot-c10"><img src="./assets/logos/logo-050.png" alt="logo 50"></div><div class="logo slot-r5 slot-c11"><img src="./assets/logos/logo-051.png" alt="logo 51"></div><div class="logo slot-r6 slot-c1"><img src="./assets/logos/logo-052.png" alt="logo 52"></div><div class="logo slot-r6 slot-c2"><img src="./assets/logos/logo-053.png" alt="logo 53"></div><div class="logo slot-r6 slot-c3"><img src="./assets/logos/logo-054.png" alt="logo 54"></div><div class="logo slot-r6 slot-c4"><img src="./assets/logos/logo-055.png" alt="logo 55"></div><div class="logo slot-r6 slot-c7"><img src="./assets/logos/logo-056.png" alt="logo 56"></div><div class="logo slot-r6 slot-c8"><img src="./assets/logos/logo-057.png" alt="logo 57"></div><div class="logo slot-r6 slot-c9"><img src="./assets/logos/logo-058.png" alt="logo 58"></div><div class="logo slot-r6 slot-c10"><img src="./assets/logos/logo-059.png" alt="logo 59"></div><div class="logo slot-r6 slot-c11"><img src="./assets/logos/logo-060.png" alt="logo 60"></div><div class="logo slot-r7 slot-c2"><img src="./assets/logos/logo-062.png" alt="logo 62"></div><div class="logo slot-r7 slot-c3"><img src="./assets/logos/logo-063.png" alt="logo 63"></div><div class="logo slot-r7 slot-c4"><img src="./assets/logos/logo-064.png" alt="logo 64"></div><div class="logo slot-r7 slot-c5"><img src="./assets/logos/logo-065.png" alt="logo 65"></div><div class="logo slot-r4 slot-c5"><img src="./assets/logos/logo-066.png" alt="logo 66"></div><div class="logo slot-r7 slot-c7"><img src="./assets/logos/logo-067.png" alt="logo 67"></div><div class="logo slot-r7 slot-c8"><img src="./assets/logos/logo-068.png" alt="logo 68"></div><div class="logo slot-r7 slot-c9"><img src="./assets/logos/logo-069.png" alt="logo 69"></div><div class="logo slot-r7 slot-c10"><img src="./assets/logos/logo-070.png" alt="logo 70"></div><div class="logo slot-r7 slot-c11"><img src="./assets/logos/logo-071.png" alt="logo 71"></div><div class="logo slot-r8 slot-c1"><img src="./assets/logos/logo-072.png" alt="logo 72"></div><div class="logo slot-r8 slot-c2"><img src="./assets/logos/logo-073.png" alt="logo 73"></div><div class="logo slot-r8 slot-c3"><img src="./assets/logos/logo-074.png" alt="logo 74"></div><div class="logo slot-r8 slot-c4"><img src="./assets/logos/logo-075.png" alt="logo 75"></div><div class="logo slot-r8 slot-c5"><img src="./assets/logos/logo-076.png" alt="logo 76"></div><div class="logo slot-r8 slot-c6"><img src="./assets/logos/logo-077.png" alt="logo 77"></div><div class="logo slot-r8 slot-c7"><img src="./assets/logos/logo-078.png" alt="logo 78"></div><div class="logo slot-r8 slot-c8"><img src="./assets/logos/logo-079.png" alt="logo 79"></div><div class="logo slot-r8 slot-c9"><img src="./assets/logos/logo-080.png" alt="logo 80"></div><div class="logo slot-r8 slot-c10"><img src="./assets/logos/logo-081.png" alt="logo 81"></div><div class="logo slot-r8 slot-c11"><img src="./assets/logos/logo-082.png" alt="logo 82"></div><div class="logo slot-r9 slot-c1"><img src="./assets/logos/logo-083.png" alt="logo 83"></div><div class="logo slot-r9 slot-c2"><img src="./assets/logos/logo-084.png" alt="logo 84"></div><div class="logo slot-r9 slot-c3"><img src="./assets/logos/logo-085.png" alt="logo 85"></div><div class="logo slot-r9 slot-c4"><img src="./assets/logos/logo-086.png" alt="logo 86"></div><div class="logo slot-r9 slot-c5"><img src="./assets/logos/logo-087.png" alt="logo 87"></div><div class="logo slot-r9 slot-c6"><img src="./assets/logos/logo-088.png" alt="logo 88"></div><div class="logo slot-r9 slot-c7"><img src="./assets/logos/logo-089.png" alt="logo 89"></div><div class="logo slot-r9 slot-c8"><img src="./assets/logos/logo-090.png" alt="logo 90"></div><div class="logo slot-r9 slot-c9"><img src="./assets/logos/logo-091.png" alt="logo 91"></div><div class="logo slot-r9 slot-c10"><img src="./assets/logos/logo-092.png" alt="logo 92"></div><div class="logo slot-r9 slot-c11"><img src="./assets/logos/logo-093.png" alt="logo 93"></div><div class="logo slot-r7 slot-c1"><img src="./assets/logos/logo-094.png" alt="logo 94"></div><div class="logo slot-r5 slot-c5"><img src="./assets/logos/logo-096.png" alt="logo 96"></div><div class="logo slot-r6 slot-c5"><img src="./assets/logos/logo-097.png" alt="logo 97"></div>
   </div>
   <div class="map-wrap">
     <img class="map" src="./assets/taiwan-map.jpg" alt="Taiwan map">
   </div>
 </main>
+
+<div class="search-panel">
+  <div id="searchResults" class="search-results"></div>
+  <div class="search-box">
+    <input id="companySearch" type="search" placeholder="搜索公司名称，例如：台积电、联发科、友达光电" autocomplete="off">
+    <span id="searchCount" class="search-count">203 家</span>
+  </div>
+</div>
+<script>
+const SEARCH_DATA = [{"name": "台积电", "aliases": ["TSMC", "台湾积体电路制造"], "category": "图中公司", "logo": "logo-086.png"}, {"name": "联发科", "aliases": ["MediaTek"], "category": "图中公司", "logo": "logo-088.png"}, {"name": "台达电子", "aliases": ["Delta Electronics", "台达电"], "category": "图中公司", "logo": null}, {"name": "鸿海精密", "aliases": ["Foxconn", "鸿海"], "category": "图中公司", "logo": null}, {"name": "日月光投控", "aliases": ["ASE HOLDINGS"], "category": "图中公司", "logo": "logo-090.png"}, {"name": "联华电子", "aliases": ["UMC"], "category": "图中公司", "logo": "logo-093.png"}, {"name": "智邦科技", "aliases": ["Accton"], "category": "图中公司", "logo": "logo-094.png"}, {"name": "富邦金控", "aliases": ["Fubon Financial"], "category": "图中公司", "logo": "logo-084.png"}, {"name": "欣兴电子", "aliases": ["Unimicron"], "category": "图中公司", "logo": "logo-087.png"}, {"name": "国泰金控", "aliases": ["Cathay Financial Holdings"], "category": "图中公司", "logo": "logo-081.png"}, {"name": "广达电脑", "aliases": ["Quanta Computer"], "category": "图中公司", "logo": "logo-085.png"}, {"name": "中信金控", "aliases": ["CTBC Holding"], "category": "图中公司", "logo": "logo-089.png"}, {"name": "中华电信", "aliases": ["Chunghwa Telecom"], "category": "图中公司", "logo": "logo-091.png"}, {"name": "国巨", "aliases": ["Yageo"], "category": "图中公司", "logo": null}, {"name": "纬颖", "aliases": ["Wiwynn"], "category": "图中公司", "logo": "logo-008.png"}, {"name": "致茂电子", "aliases": ["Chroma ATE"], "category": "图中公司", "logo": null}, {"name": "南亚科技", "aliases": ["Nanya Technology"], "category": "图中公司", "logo": "logo-002.png"}, {"name": "元大金控", "aliases": ["Yuanta Financial"], "category": "图中公司", "logo": "logo-006.png"}, {"name": "南亚塑胶", "aliases": ["Nan Ya Plastics"], "category": "图中公司", "logo": "logo-010.png"}, {"name": "兆丰金控", "aliases": ["Mega Holdings"], "category": "图中公司", "logo": "logo-004.png"}, {"name": "创意电子", "aliases": ["GUC"], "category": "图中公司", "logo": "logo-007.png"}, {"name": "中钢", "aliases": ["CSC"], "category": "图中公司", "logo": "logo-001.png"}, {"name": "台新金控", "aliases": ["TS Financial"], "category": "图中公司", "logo": "logo-005.png"}, {"name": "玉山金控", "aliases": ["E.SUN FHC"], "category": "图中公司", "logo": "logo-009.png"}, {"name": "南亚电路板", "aliases": ["NAN YA PCB"], "category": "图中公司", "logo": "logo-003.png"}, {"name": "台塑石化", "aliases": ["Formosa Petrochemical"], "category": "图中公司", "logo": "logo-016.png"}, {"name": "华硕", "aliases": ["ASUS"], "category": "图中公司", "logo": "logo-020.png"}, {"name": "光宝科技", "aliases": ["LITEON"], "category": "图中公司", "logo": "logo-014.png"}, {"name": "华南金控", "aliases": ["Hua Nan Financial"], "category": "图中公司", "logo": "logo-018.png"}, {"name": "大立光", "aliases": ["Largan"], "category": "图中公司", "logo": "logo-012.png"}, {"name": "永丰金控", "aliases": ["SinoPac Holdings"], "category": "图中公司", "logo": "logo-015.png"}, {"name": "长荣海运", "aliases": ["Evergreen Marine"], "category": "图中公司", "logo": "logo-019.png"}, {"name": "统一企业", "aliases": ["Uni-President"], "category": "图中公司", "logo": "logo-013.png"}, {"name": "纬创", "aliases": ["Wistron"], "category": "图中公司", "logo": "logo-017.png"}, {"name": "第一金控", "aliases": ["First Financial Holding"], "category": "图中公司", "logo": "logo-011.png"}, {"name": "研华", "aliases": ["Advantech"], "category": "图中公司", "logo": "logo-024.png"}, {"name": "凯基金控", "aliases": ["KGI Financial"], "category": "图中公司", "logo": "logo-028.png"}, {"name": "世芯-KY", "aliases": ["Alchip"], "category": "图中公司", "logo": "logo-022.png"}, {"name": "合作金库金控", "aliases": ["Taiwan Cooperative Holdings"], "category": "图中公司", "logo": "logo-026.png"}, {"name": "远传电信", "aliases": ["Far EasTone"], "category": "图中公司", "logo": "logo-056.png"}, {"name": "台湾大哥大", "aliases": ["Taiwan Mobile"], "category": "图中公司", "logo": "logo-023.png"}, {"name": "环球晶圆", "aliases": ["GlobalWafers"], "category": "图中公司", "logo": "logo-027.png"}, {"name": "群创光电", "aliases": ["Innolux"], "category": "图中公司", "logo": "logo-021.png"}, {"name": "药华医药", "aliases": ["PharmaEssentia"], "category": "图中公司", "logo": "logo-025.png"}, {"name": "世界先进", "aliases": ["VIS"], "category": "图中公司", "logo": "logo-029.png"}, {"name": "台塑", "aliases": ["Formosa Plastics"], "category": "图中公司", "logo": "logo-033.png"}, {"name": "亚德客", "aliases": ["AirTAC"], "category": "图中公司", "logo": "logo-037.png"}, {"name": "瑞昱半导体", "aliases": ["Realtek"], "category": "图中公司", "logo": "logo-031.png"}, {"name": "联咏科技", "aliases": ["Novatek"], "category": "图中公司", "logo": "logo-035.png"}, {"name": "台化", "aliases": ["Formosa Chemicals & Fibre"], "category": "图中公司", "logo": "logo-039.png"}, {"name": "和泰汽车", "aliases": ["Hotai"], "category": "图中公司", "logo": "logo-032.png"}, {"name": "力积电", "aliases": ["PSMC"], "category": "图中公司", "logo": "logo-036.png"}, {"name": "力旺电子", "aliases": ["eMemory"], "category": "图中公司", "logo": "logo-040.png"}, {"name": "彰化银行", "aliases": ["Chang Hwa Bank"], "category": "图中公司", "logo": "logo-034.png"}, {"name": "万海航运", "aliases": ["Wan Hai Lines"], "category": "图中公司", "logo": "logo-042.png"}, {"name": "新光金控", "aliases": ["SKFH"], "category": "图中公司", "logo": "logo-046.png"}, {"name": "和硕", "aliases": ["Pegatron"], "category": "图中公司", "logo": "logo-050.png"}, {"name": "鈊象电子", "aliases": ["IGS"], "category": "图中公司", "logo": "logo-044.png"}, {"name": "上海商银", "aliases": ["Shanghai Commercial & Savings Bank"], "category": "图中公司", "logo": "logo-048.png"}, {"name": "稳懋半导体", "aliases": ["IWIN Semiconductors"], "category": "图中公司", "logo": "logo-041.png"}, {"name": "中租", "aliases": ["Chailease"], "category": "图中公司", "logo": "logo-045.png"}, {"name": "长荣航空", "aliases": ["EVA Air"], "category": "图中公司", "logo": "logo-049.png"}, {"name": "台湾水泥", "aliases": ["TCC"], "category": "图中公司", "logo": "logo-043.png"}, {"name": "阳明海运", "aliases": ["Yang Ming"], "category": "图中公司", "logo": "logo-047.png"}, {"name": "采钰科技", "aliases": ["VisEra"], "category": "图中公司", "logo": "logo-052.png"}, {"name": "康霈生技", "aliases": ["Caliway"], "category": "图中公司", "logo": "logo-053.png"}, {"name": "台湾企银", "aliases": ["Taiwan Business Bank"], "category": "图中公司", "logo": "logo-054.png"}, {"name": "台湾高铁", "aliases": ["Taiwan High Speed Rail"], "category": "图中公司", "logo": "logo-055.png"}, {"name": "远东新世纪", "aliases": ["Far Eastern New Century"], "category": "图中公司", "logo": "logo-056.png"}, {"name": "联强国际", "aliases": ["Synnex"], "category": "图中公司", "logo": "logo-051.png"}, {"name": "亚洲水泥", "aliases": ["Asia Cement"], "category": "图中公司", "logo": "logo-058.png"}, {"name": "中华航空", "aliases": ["China Airlines"], "category": "图中公司", "logo": "logo-057.png"}, {"name": "奇景光电", "aliases": ["Himax"], "category": "图中公司", "logo": null}, {"name": "微星科技", "aliases": ["MSI"], "category": "图中公司", "logo": null}, {"name": "群光电子", "aliases": ["Chicony"], "category": "图中公司", "logo": "logo-066.png"}, {"name": "中美晶", "aliases": ["Sino-American Silicon"], "category": "图中公司", "logo": "logo-060.png"}, {"name": "宏碁", "aliases": ["Acer"], "category": "图中公司", "logo": "logo-064.png"}, {"name": "台胜科", "aliases": ["Taiwan Semiconductor"], "category": "图中公司", "logo": null}, {"name": "南茂科技", "aliases": ["ChipMOS"], "category": "图中公司", "logo": "logo-062.png"}, {"name": "牧德科技", "aliases": ["Machvision"], "category": "图中公司", "logo": "logo-065.png"}, {"name": "富邦媒", "aliases": ["momo"], "category": "图中公司", "logo": "logo-059.png"}, {"name": "保瑞药业", "aliases": ["Bora Pharmaceuticals"], "category": "图中公司", "logo": "logo-063.png"}, {"name": "宏达电", "aliases": ["HTC"], "category": "图中公司", "logo": "logo-067.png"}, {"name": "永擎电子", "aliases": ["ASRock Rack"], "category": "图中公司", "logo": "logo-075.png"}, {"name": "国泰建设", "aliases": ["Cathay Real Estate"], "category": "图中公司", "logo": "logo-069.png"}, {"name": "福懋兴业", "aliases": ["Formosa Taffeta"], "category": "图中公司", "logo": "logo-073.png"}, {"name": "美利达", "aliases": ["MERIDA"], "category": "图中公司", "logo": "logo-077.png"}, {"name": "OBOOK 控股", "aliases": ["OBOOK"], "category": "图中公司", "logo": null}, {"name": "智冠科技", "aliases": ["Soft-World"], "category": "图中公司", "logo": "logo-074.png"}, {"name": "八方云集", "aliases": ["Bafang Yunji"], "category": "图中公司", "logo": "logo-083.png"}, {"name": "Gorilla Technology", "aliases": ["Gorilla"], "category": "图中公司", "logo": "logo-092.png"}, {"name": "华义国际", "aliases": ["Wayi"], "category": "图中公司", "logo": "logo-078.png"}, {"name": "亚洲航空", "aliases": ["Asia Aviation"], "category": "图中公司", "logo": "logo-082.png"}, {"name": "游戏橘子", "aliases": ["Gamania"], "category": "图中公司", "logo": "logo-072.png"}, {"name": "传奇网络", "aliases": ["X-Legend"], "category": "图中公司", "logo": "logo-076.png"}, {"name": "玩美移动", "aliases": ["Perfect Corp"], "category": "图中公司", "logo": "logo-070.png"}, {"name": "宇峻奥汀", "aliases": ["UserJoy"], "category": "图中公司", "logo": "logo-080.png"}, {"name": "大宇资讯", "aliases": ["SOFTSTAR"], "category": "图中公司", "logo": "logo-079.png"}, {"name": "康师傅", "aliases": ["Tingyi"], "category": "图中公司", "logo": "logo-097.png"}, {"name": "旺旺", "aliases": ["Want Want"], "category": "图中公司", "logo": "logo-096.png"}, {"name": "徐福记", "aliases": ["Hsu Fu Chi"], "category": "图中公司", "logo": "logo-095.png"}, {"name": "友达光电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "仁宝电脑", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "英业达", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "佳世达", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "技嘉科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华擎科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "蓝天电脑", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "神达投资控股", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "神基控股", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "精英电脑", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "浩鑫", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "建碁", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "威强电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "研扬科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "研勤科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "友通资讯", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "立端科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "振桦电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "飞捷科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "新唐科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "旺宏电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华邦电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "力成科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "京元电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "矽格", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "颀邦", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "欣铨", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "精材", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "硅创电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "敦泰电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "群联电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "威刚科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "创见资讯", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "宜鼎国际", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "广明光电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "金像电", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "耀华电子", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "嘉联益", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "臻鼎-KY", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华通电脑", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "健鼎科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "竞国实业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "志超科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台郡科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "景硕科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "友劲科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "大同", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "东元电机", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华城电机", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "亚力电机", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "士林电机", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "中兴电工", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "和大工业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "东阳实业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "堤维西", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "胡连精密", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "江申工业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "丽清科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台湾玻璃", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "正新橡胶", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "建大工业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "南港轮胎", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "裕隆汽车", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "中华汽车", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "和泰兴业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "乔山健康科技", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "巨大机械", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "桂盟国际", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "南侨投控", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "味全", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "泰山企业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "大成食品", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "卜蜂企业", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "佳格食品", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "联华食品", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "黑松", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "爱之味", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "大统益", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "统一超商", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "全家便利商店", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "宝雅国际", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "远东百货", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "新光三越", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "PChome网路家庭", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "诚品生活", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台湾金控", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "京城银行", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "高雄银行", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "王道银行", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台中商业银行", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "三商寿", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台湾人寿", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "立荣航空", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "华信航空", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台骅投控", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "宅配通", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "台湾大车队", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "神脑国际", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "精诚资讯", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "叡扬资讯", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "关贸网络", "aliases": [], "category": "新增台湾企业", "logo": null}, {"name": "美时化学", "aliases": [], "category": "新增台湾企业", "logo": null}];
+
+const input = document.getElementById('companySearch');
+const results = document.getElementById('searchResults');
+const count = document.getElementById('searchCount');
+
+function normalizeText(s) {
+  return String(s || '').toLowerCase().replace(/\s+/g, '');
+}
+
+function clearHits() {
+  document.querySelectorAll('.logo.search-hit').forEach(el => el.classList.remove('search-hit'));
+}
+
+function focusLogo(file) {
+  clearHits();
+  if (!file) return;
+  const img = document.querySelector(`img[src$="${file}"]`);
+  if (!img) return;
+  const logo = img.closest('.logo');
+  if (!logo) return;
+  logo.classList.add('search-hit');
+  setTimeout(() => logo.classList.remove('search-hit'), 2600);
+}
+
+function renderResults(q) {
+  const key = normalizeText(q);
+  if (!key) {
+    results.classList.remove('active');
+    results.innerHTML = '';
+    count.textContent = `${SEARCH_DATA.length} 家`;
+    clearHits();
+    return;
+  }
+
+  const matched = SEARCH_DATA.filter(item => {
+    const haystack = normalizeText([item.name, ...(item.aliases || [])].join(' '));
+    return haystack.includes(key);
+  }).slice(0, 20);
+
+  count.textContent = `${matched.length} / ${SEARCH_DATA.length}`;
+
+  if (!matched.length) {
+    results.classList.add('active');
+    results.innerHTML = '<div class="result-item"><div class="result-main"><span class="result-name">没有找到匹配公司</span><span class="result-alias">可以换繁体/简体、中文/英文再试</span></div></div>';
+    return;
+  }
+
+  results.classList.add('active');
+  results.innerHTML = matched.map((item, idx) => `
+    <button class="result-item" type="button" data-index="${idx}">
+      <span class="result-main">
+        <span class="result-name">${item.name}</span>
+        <span class="result-alias">${(item.aliases || []).join(' / ') || '&nbsp;'}</span>
+      </span>
+      <span class="result-tag">${item.logo ? '图中有 logo' : item.category}</span>
+    </button>
+  `).join('');
+
+  results.querySelectorAll('.result-item').forEach((btn, idx) => {
+    btn.addEventListener('click', () => {
+      const item = matched[idx];
+      input.value = item.name;
+      results.classList.remove('active');
+      count.textContent = item.logo ? '已定位' : item.category;
+      focusLogo(item.logo);
+    });
+  });
+}
+
+input.addEventListener('input', e => renderResults(e.target.value));
+input.addEventListener('focus', e => renderResults(e.target.value));
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-panel')) {
+    results.classList.remove('active');
+  }
+});
+</script>
+
 </body>
 </html>
