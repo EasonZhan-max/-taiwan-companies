@@ -1,0 +1,1630 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Taiwan Logo Wall</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #ffffff;
+  color: #222;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+body {
+  overflow: hidden;
+}
+
+.stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 700px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.wall {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+  grid-template-rows: repeat(10, minmax(0, 1fr));
+  padding: clamp(18px, 2vw, 28px);
+  column-gap: clamp(10px, 0.95vw, 18px);
+  row-gap: clamp(8px, 1vh, 14px);
+  align-items: center;
+  justify-items: center;
+  z-index: 2;
+}
+
+.logo {
+  width: 100%;
+  max-width: clamp(80px, 7.1vw, 138px);
+  height: clamp(32px, 4.8vh, 62px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2px 4px;
+}
+
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.map-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(21vw, 290px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.map {
+  width: 100%;
+  display: block;
+}
+
+.slot-r1{grid-row:1;}
+.slot-r2{grid-row:2;}
+.slot-r3{grid-row:3;}
+.slot-r4{grid-row:4;}
+.slot-r5{grid-row:5;}
+.slot-r6{grid-row:6;}
+.slot-r7{grid-row:7;}
+.slot-r8{grid-row:8;}
+.slot-r9{grid-row:9;}
+.slot-r10{grid-row:10;}
+.slot-c1{grid-column:1;}
+.slot-c2{grid-column:2;}
+.slot-c3{grid-column:3;}
+.slot-c4{grid-column:4;}
+.slot-c5{grid-column:5;}
+.slot-c6{grid-column:6;}
+.slot-c7{grid-column:7;}
+.slot-c8{grid-column:8;}
+.slot-c9{grid-column:9;}
+.slot-c10{grid-column:10;}
+.slot-c11{grid-column:11;}
+
+@media (max-width: 1100px) {
+  .wall {
+    padding: 14px;
+    column-gap: 8px;
+    row-gap: 8px;
+  }
+
+  .logo {
+    max-width: clamp(58px, 7.8vw, 100px);
+    height: clamp(24px, 4.2vh, 44px);
+  }
+
+  .map-wrap {
+    width: min(24vw, 220px);
+  }
+}
+
+@media (max-width: 700px) {
+  .wall {
+    padding: 10px;
+    column-gap: 5px;
+    row-gap: 6px;
+  }
+
+  .logo {
+    max-width: clamp(40px, 8.4vw, 72px);
+    height: clamp(18px, 3.2vh, 30px);
+  }
+
+  .map-wrap {
+    width: min(28vw, 150px);
+  }
+}
+
+
+.data-panel {
+  position: fixed;
+  left: 50%;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(1080px, calc(100vw - 22px));
+  max-height: 42vh;
+  z-index: 9999;
+  background: rgba(255,255,255,.97);
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.16);
+  overflow: hidden;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+.data-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.data-toolbar input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid rgba(0,0,0,.18);
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.data-count {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.table-wrap {
+  max-height: calc(42vh - 56px);
+  overflow: auto;
+}
+
+.company-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #111;
+}
+
+.company-table th,
+.company-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.company-table th {
+  position: sticky;
+  top: 0;
+  background: #f7f7f7;
+  z-index: 1;
+  font-weight: 700;
+}
+
+.company-table tr {
+  cursor: pointer;
+}
+
+.company-table tr:hover {
+  background: rgba(0,0,0,.045);
+}
+
+.company-table td.intro-cell {
+  max-width: 360px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logo.search-hit {
+  outline: 3px solid #ff3b30;
+  outline-offset: 6px;
+  border-radius: 10px;
+  z-index: 9998;
+  animation: hitPulse 1.2s ease-in-out 2;
+}
+
+@keyframes hitPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+.detail-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,.32);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.detail-card {
+  width: min(560px, 100%);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.28);
+  overflow: hidden;
+}
+
+.detail-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.detail-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.detail-close {
+  border: 0;
+  background: rgba(0,0,0,.06);
+  border-radius: 999px;
+  padding: 7px 11px;
+  cursor: pointer;
+}
+
+.detail-body {
+  padding: 16px 18px 18px;
+  display: grid;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+}
+
+.detail-label {
+  color: #666;
+}
+
+@media (max-width: 700px) {
+  .data-panel {
+    max-height: 45vh;
+    border-radius: 14px;
+  }
+  .table-wrap {
+    max-height: calc(45vh - 55px);
+  }
+  .company-table {
+    font-size: 12px;
+  }
+  .company-table th,
+  .company-table td {
+    padding: 8px 9px;
+  }
+  .company-table td.intro-cell,
+  .company-table th:nth-child(6),
+  .company-table td:nth-child(6) {
+    display: none;
+  }
+}
+
+
+/* compact override: default only search bar, table opens on demand */
+.data-panel {
+  max-height: none !important;
+  border-radius: 999px !important;
+  transition: border-radius .18s ease, max-height .18s ease;
+}
+
+.data-panel.open {
+  max-height: 34vh !important;
+  border-radius: 16px !important;
+}
+
+.data-toolbar {
+  border-bottom: 0 !important;
+}
+
+.data-panel.open .data-toolbar {
+  border-bottom: 1px solid rgba(0,0,0,.08) !important;
+}
+
+.table-wrap {
+  display: none !important;
+  max-height: calc(34vh - 56px) !important;
+}
+
+.data-panel.open .table-wrap {
+  display: block !important;
+}
+
+.table-toggle {
+  flex: 0 0 auto;
+  border: 1px solid rgba(0,0,0,.18);
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.table-toggle:active {
+  transform: scale(.98);
+}
+
+@media (max-width: 700px) {
+  .data-panel.open {
+    max-height: 36vh !important;
+  }
+  .table-wrap {
+    max-height: calc(36vh - 55px) !important;
+  }
+  .table-toggle {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+
+/* clean company table panel */
+.company-drawer {
+  position: fixed;
+  left: 50%;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(1120px, calc(100vw - 22px));
+  max-height: 38vh;
+  z-index: 9999;
+  background: rgba(255,255,255,.97);
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 18px;
+  box-shadow: 0 10px 32px rgba(0,0,0,.16);
+  overflow: hidden;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  backdrop-filter: blur(10px);
+}
+
+.company-drawer.collapsed {
+  max-height: 58px;
+  border-radius: 999px;
+}
+
+.company-drawer.collapsed .company-table-wrap,
+.company-drawer.collapsed .company-header {
+  display: none;
+}
+
+.company-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px 8px;
+}
+
+.company-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.company-count {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #1f2937;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.company-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 14px 12px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.company-search {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid rgba(0,0,0,.14);
+  background: #f5f7fb;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.company-toggle {
+  flex: 0 0 auto;
+  border: 1px solid rgba(0,0,0,.14);
+  background: #fff;
+  border-radius: 999px;
+  padding: 9px 13px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.company-table-wrap {
+  max-height: calc(38vh - 106px);
+  overflow: auto;
+}
+
+.company-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #111827;
+}
+
+.company-table th,
+.company-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.company-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f1f5f9;
+  color: #111827;
+  font-weight: 800;
+}
+
+.company-table tbody tr {
+  cursor: pointer;
+}
+
+.company-table tbody tr:hover {
+  background: rgba(15, 23, 42, .05);
+}
+
+.company-table .intro-cell {
+  white-space: nowrap;
+  max-width: 520px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.company-detail-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,.30);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.company-detail-card {
+  width: min(560px, 100%);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 18px 48px rgba(0,0,0,.25);
+  overflow: hidden;
+}
+
+.company-detail-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.company-detail-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.company-detail-close {
+  border: 0;
+  background: rgba(0,0,0,.06);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.company-detail-body {
+  padding: 16px 18px 18px;
+  display: grid;
+  gap: 11px;
+  font-size: 14px;
+}
+
+.company-detail-row {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+}
+
+.company-detail-label {
+  color: #6b7280;
+}
+
+.logo.search-hit {
+  outline: 3px solid #ff3b30;
+  outline-offset: 6px;
+  border-radius: 10px;
+  z-index: 9998;
+  animation: hitPulse 1.2s ease-in-out 2;
+}
+
+@keyframes hitPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+@media (max-width: 700px) {
+  .company-drawer {
+    width: calc(100vw - 18px);
+    max-height: 40vh;
+    border-radius: 14px;
+  }
+
+  .company-drawer.collapsed {
+    max-height: 56px;
+    border-radius: 999px;
+  }
+
+  .company-title {
+    font-size: 16px;
+  }
+
+  .company-table-wrap {
+    max-height: calc(40vh - 104px);
+  }
+
+  .company-table {
+    font-size: 12px;
+  }
+
+  .company-table th,
+  .company-table td {
+    padding: 8px 9px;
+  }
+
+  .company-table th:nth-child(4),
+  .company-table td:nth-child(4) {
+    display: none;
+  }
+}
+
+
+/* scroll page + bottom data table override */
+html,
+body {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+body {
+  padding-top: 18px;
+  background: #fff;
+}
+
+.stage {
+  position: relative !important;
+  height: 100vh !important;
+  min-height: 720px !important;
+  overflow: hidden !important;
+}
+
+/* keep the logo wall itself unchanged; only give the whole wall a little top breathing room */
+@media (min-width: 701px) {
+  .stage {
+    margin-top: 8px;
+  }
+}
+
+.company-section {
+  width: min(1120px, calc(100vw - 22px));
+  margin: 28px auto 44px;
+  background: rgba(255,255,255,.98);
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 18px;
+  box-shadow: 0 10px 32px rgba(0,0,0,.10);
+  overflow: hidden;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+.company-section-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 18px 18px 10px;
+}
+
+.company-section-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.company-section-count {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #1f2937;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.company-section-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 18px 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.company-section-search {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid rgba(0,0,0,.14);
+  background: #f5f7fb;
+  border-radius: 999px;
+  padding: 11px 15px;
+  font-size: 14px;
+  outline: none;
+}
+
+.company-section-table-wrap {
+  max-height: 520px;
+  overflow: auto;
+}
+
+.company-section-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #111827;
+}
+
+.company-section-table th,
+.company-section-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.company-section-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f1f5f9;
+  color: #111827;
+  font-weight: 800;
+}
+
+.company-section-table tbody tr {
+  cursor: pointer;
+}
+
+.company-section-table tbody tr:hover {
+  background: rgba(15, 23, 42, .05);
+}
+
+.company-section-table .intro-cell {
+  white-space: nowrap;
+  max-width: 560px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.company-detail-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,.30);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.company-detail-card {
+  width: min(560px, 100%);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 18px 48px rgba(0,0,0,.25);
+  overflow: hidden;
+}
+
+.company-detail-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.company-detail-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.company-detail-close {
+  border: 0;
+  background: rgba(0,0,0,.06);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.company-detail-body {
+  padding: 16px 18px 18px;
+  display: grid;
+  gap: 11px;
+  font-size: 14px;
+}
+
+.company-detail-row {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+}
+
+.company-detail-label {
+  color: #6b7280;
+}
+
+.logo.search-hit {
+  outline: 3px solid #ff3b30;
+  outline-offset: 6px;
+  border-radius: 10px;
+  z-index: 9998;
+  animation: hitPulse 1.2s ease-in-out 2;
+}
+
+@keyframes hitPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+@media (max-width: 700px) {
+  body {
+    padding-top: 12px;
+  }
+
+  .company-section {
+    width: calc(100vw - 18px);
+    margin: 20px auto 34px;
+    border-radius: 14px;
+  }
+
+  .company-section-title {
+    font-size: 17px;
+  }
+
+  .company-section-table-wrap {
+    max-height: 60vh;
+  }
+
+  .company-section-table {
+    font-size: 12px;
+  }
+
+  .company-section-table th,
+  .company-section-table td {
+    padding: 8px 9px;
+  }
+
+  .company-section-table th:nth-child(4),
+  .company-section-table td:nth-child(4) {
+    display: none;
+  }
+}
+
+
+/* top story header */
+.hero-story {
+  width: min(1120px, calc(100vw - 24px));
+  margin: 0 auto 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(260px, .96fr);
+  gap: 18px;
+  align-items: stretch;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+.hero-copy {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(0,0,0,.10);
+  border-radius: 22px;
+  box-shadow: 0 8px 26px rgba(0,0,0,.08);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-self: flex-start;
+  background: #e91e63;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: .04em;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.hero-title {
+  margin: 0 0 12px;
+  font-size: clamp(26px, 3.4vw, 48px);
+  line-height: 1.08;
+  font-weight: 950;
+  color: #101827;
+}
+
+.hero-subtitle {
+  margin: 0;
+  font-size: clamp(15px, 1.55vw, 20px);
+  line-height: 1.65;
+  color: #374151;
+}
+
+.hero-source {
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.hero-image-card {
+  position: relative;
+  min-height: 280px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 8px 26px rgba(0,0,0,.12);
+  background: #111827;
+}
+
+.hero-image-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.logo-wall-heading {
+  width: min(1120px, calc(100vw - 24px));
+  margin: 4px auto 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+.logo-wall-heading h1 {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 42px);
+  line-height: 1.1;
+  font-weight: 950;
+  color: #111827;
+}
+
+.logo-wall-heading span {
+  color: #6b7280;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 700;
+}
+
+@media (max-width: 780px) {
+  .hero-story {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .hero-copy {
+    padding: 18px 18px;
+    border-radius: 18px;
+  }
+
+  .hero-image-card {
+    min-height: 220px;
+    border-radius: 18px;
+  }
+
+  .hero-image-card img {
+    min-height: 220px;
+  }
+
+  .logo-wall-heading {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+}
+
+
+/* compact hero override */
+.hero-story {
+  grid-template-columns: minmax(0, 1.18fr) minmax(240px, .82fr) !important;
+  gap: 14px !important;
+  margin: 0 auto 10px !important;
+  align-items: stretch !important;
+}
+
+.hero-copy {
+  padding: 14px 18px !important;
+  border-radius: 18px !important;
+}
+
+.hero-kicker {
+  margin-bottom: 8px !important;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
+.hero-title {
+  margin: 0 0 8px !important;
+  font-size: clamp(20px, 2.2vw, 34px) !important;
+  line-height: 1.16 !important;
+}
+
+.hero-subtitle {
+  font-size: clamp(13px, 1.15vw, 16px) !important;
+  line-height: 1.55 !important;
+}
+
+.hero-source {
+  margin-top: 8px !important;
+  font-size: 12px !important;
+}
+
+.hero-image-card {
+  min-height: 170px !important;
+  max-height: 230px !important;
+  border-radius: 18px !important;
+}
+
+.hero-image-card img {
+  min-height: 170px !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.logo-wall-heading {
+  margin: 2px auto 8px !important;
+}
+
+.logo-wall-heading h1 {
+  font-size: clamp(22px, 2.4vw, 34px) !important;
+}
+
+@media (max-width: 780px) {
+  .hero-story {
+    grid-template-columns: minmax(0, 1fr) minmax(128px, .52fr) !important;
+    gap: 8px !important;
+    width: calc(100vw - 18px) !important;
+  }
+
+  .hero-copy {
+    padding: 11px 12px !important;
+    border-radius: 14px !important;
+  }
+
+  .hero-kicker {
+    font-size: 10px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .hero-title {
+    font-size: clamp(16px, 4.4vw, 22px) !important;
+    line-height: 1.18 !important;
+  }
+
+  .hero-subtitle {
+    font-size: 12px !important;
+    line-height: 1.42 !important;
+  }
+
+  .hero-source {
+    font-size: 11px !important;
+    margin-top: 6px !important;
+  }
+
+  .hero-image-card {
+    min-height: 150px !important;
+    max-height: 190px !important;
+    border-radius: 14px !important;
+  }
+
+  .hero-image-card img {
+    min-height: 150px !important;
+  }
+}
+
+
+/* ranking columns */
+.rank-pill {
+  display: inline-flex;
+  min-width: 46px;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 900;
+  background: #eef2ff;
+  color: #3730a3;
+}
+.rank-impact {
+  background: #ecfdf5;
+  color: #047857;
+}
+.score-text {
+  color: #6b7280;
+  font-size: 12px;
+  margin-left: 4px;
+}
+.company-section-table th:nth-child(1),
+.company-section-table th:nth-child(2),
+.company-section-table td:nth-child(1),
+.company-section-table td:nth-child(2) {
+  text-align: center;
+}
+@media (max-width: 700px) {
+  .company-section-table th:nth-child(6),
+  .company-section-table td:nth-child(6) {
+    display: none;
+  }
+  .score-text {
+    display: none;
+  }
+}
+
+
+/* clickable logo wall + inline detail popover */
+.wall .logo {
+  cursor: pointer;
+  transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+}
+
+.wall .logo:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.10));
+}
+
+.wall .logo.active-logo {
+  outline: 3px solid #2563eb;
+  outline-offset: 5px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.92);
+  z-index: 9998;
+}
+
+.logo-popover {
+  position: fixed;
+  z-index: 10001;
+  width: min(340px, calc(100vw - 24px));
+  background: rgba(255,255,255,.98);
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 18px;
+  box-shadow: 0 18px 46px rgba(15,23,42,.20);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  display: none;
+}
+
+.logo-popover-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+}
+
+.logo-popover-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.logo-popover-close {
+  border: 0;
+  background: rgba(0,0,0,.06);
+  border-radius: 999px;
+  padding: 8px 11px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.logo-popover-body {
+  padding: 14px 16px 16px;
+  display: grid;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.logo-popover-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.logo-popover-stat {
+  background: #f8fafc;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.logo-popover-stat-label {
+  color: #6b7280;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.logo-popover-stat-value {
+  color: #111827;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.logo-popover-row {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.logo-popover-label {
+  color: #6b7280;
+}
+
+.logo-popover-intro {
+  color: #1f2937;
+  line-height: 1.65;
+}
+
+.logo-popover-tip {
+  margin-top: 2px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .logo-popover {
+    width: calc(100vw - 18px);
+  }
+  .logo-popover-title {
+    font-size: 16px;
+  }
+  .logo-popover-body {
+    font-size: 13px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<section class="hero-story">
+  <div class="hero-copy">
+    <div class="hero-kicker">BREAKING</div>
+    <h2 class="hero-title">台湾地区在股市总值上超过了英国，科技公司倍受青睐使其成为全球第六大</h2>
+    <p class="hero-subtitle">—世界第四次智能化革命浪潮里，全球顶级科技公司都被动沦为台韩的提款机。</p>
+    <div class="hero-source">图片来源于 Bloomberg 彭博社四月发文</div>
+  </div>
+  <div class="hero-image-card">
+    <img src="./assets/bloomberg-taiwan-market.jpg" alt="Bloomberg Taiwan stock market value news image">
+  </div>
+</section>
+
+<section class="logo-wall-heading">
+  <h1>台湾知名企业约110家</h1>
+  <span>Taiwan Logo Wall</span>
+</section>
+
+<main class="stage">
+  <div class="wall">
+    <div class="logo slot-r1 slot-c1"><img src="./assets/logos/logo-001.png" alt="logo 1"></div><div class="logo slot-r1 slot-c2"><img src="./assets/logos/logo-002.png" alt="logo 2"></div><div class="logo slot-r1 slot-c3"><img src="./assets/logos/logo-003.png" alt="logo 3"></div><div class="logo slot-r1 slot-c4"><img src="./assets/logos/logo-004.png" alt="logo 4"></div><div class="logo slot-r1 slot-c5"><img src="./assets/logos/logo-005.png" alt="logo 5"></div><div class="logo slot-r1 slot-c6"><img src="./assets/logos/logo-006.png" alt="logo 6"></div><div class="logo slot-r1 slot-c7"><img src="./assets/logos/logo-007.png" alt="logo 7"></div><div class="logo slot-r1 slot-c8"><img src="./assets/logos/logo-008.png" alt="logo 8"></div><div class="logo slot-r1 slot-c9"><img src="./assets/logos/logo-009.png" alt="logo 9"></div><div class="logo slot-r1 slot-c10"><img src="./assets/logos/logo-010.png" alt="logo 10"></div><div class="logo slot-r1 slot-c11"><img src="./assets/logos/logo-011.png" alt="logo 11"></div><div class="logo slot-r2 slot-c1"><img src="./assets/logos/logo-012.png" alt="logo 12"></div><div class="logo slot-r2 slot-c2"><img src="./assets/logos/logo-013.png" alt="logo 13"></div><div class="logo slot-r2 slot-c3"><img src="./assets/logos/logo-014.png" alt="logo 14"></div><div class="logo slot-r2 slot-c4"><img src="./assets/logos/logo-015.png" alt="logo 15"></div><div class="logo slot-r2 slot-c5"><img src="./assets/logos/logo-016.png" alt="logo 16"></div><div class="logo slot-r2 slot-c6"><img src="./assets/logos/logo-017.png" alt="logo 17"></div><div class="logo slot-r2 slot-c7"><img src="./assets/logos/logo-018.png" alt="logo 18"></div><div class="logo slot-r2 slot-c8"><img src="./assets/logos/logo-019.png" alt="logo 19"></div><div class="logo slot-r2 slot-c9"><img src="./assets/logos/logo-020.png" alt="logo 20"></div><div class="logo slot-r2 slot-c10"><img src="./assets/logos/logo-021.png" alt="logo 21"></div><div class="logo slot-r2 slot-c11"><img src="./assets/logos/logo-022.png" alt="logo 22"></div><div class="logo slot-r3 slot-c1"><img src="./assets/logos/logo-023.png" alt="logo 23"></div><div class="logo slot-r3 slot-c2"><img src="./assets/logos/logo-024.png" alt="logo 24"></div><div class="logo slot-r3 slot-c3"><img src="./assets/logos/logo-025.png" alt="logo 25"></div><div class="logo slot-r3 slot-c4"><img src="./assets/logos/logo-026.png" alt="logo 26"></div><div class="logo slot-r3 slot-c5"><img src="./assets/logos/logo-027.png" alt="logo 27"></div><div class="logo slot-r3 slot-c6"><img src="./assets/logos/logo-028.png" alt="logo 28"></div><div class="logo slot-r3 slot-c7"><img src="./assets/logos/logo-029.png" alt="logo 29"></div><div class="logo slot-r3 slot-c8"><img src="./assets/logos/logo-030.png" alt="logo 30"></div><div class="logo slot-r3 slot-c9"><img src="./assets/logos/logo-031.png" alt="logo 31"></div><div class="logo slot-r3 slot-c10"><img src="./assets/logos/logo-032.png" alt="logo 32"></div><div class="logo slot-r3 slot-c11"><img src="./assets/logos/logo-033.png" alt="logo 33"></div><div class="logo slot-r4 slot-c1"><img src="./assets/logos/logo-034.png" alt="logo 34"></div><div class="logo slot-r4 slot-c2"><img src="./assets/logos/logo-035.png" alt="logo 35"></div><div class="logo slot-r4 slot-c3"><img src="./assets/logos/logo-036.png" alt="logo 36"></div><div class="logo slot-r4 slot-c4"><img src="./assets/logos/logo-037.png" alt="logo 37"></div><div class="logo slot-r4 slot-c7"><img src="./assets/logos/logo-095.png" alt="logo 95"></div><div class="logo slot-r4 slot-c8"><img src="./assets/logos/logo-039.png" alt="logo 39"></div><div class="logo slot-r4 slot-c9"><img src="./assets/logos/logo-040.png" alt="logo 40"></div><div class="logo slot-r4 slot-c10"><img src="./assets/logos/logo-041.png" alt="logo 41"></div><div class="logo slot-r4 slot-c11"><img src="./assets/logos/logo-042.png" alt="logo 42"></div><div class="logo slot-r5 slot-c1"><img src="./assets/logos/logo-043.png" alt="logo 43"></div><div class="logo slot-r5 slot-c2"><img src="./assets/logos/logo-044.png" alt="logo 44"></div><div class="logo slot-r5 slot-c3"><img src="./assets/logos/logo-045.png" alt="logo 45"></div><div class="logo slot-r5 slot-c4"><img src="./assets/logos/logo-046.png" alt="logo 46"></div><div class="logo slot-r5 slot-c7"><img src="./assets/logos/logo-047.png" alt="logo 47"></div><div class="logo slot-r5 slot-c8"><img src="./assets/logos/logo-048.png" alt="logo 48"></div><div class="logo slot-r5 slot-c9"><img src="./assets/logos/logo-049.png" alt="logo 49"></div><div class="logo slot-r5 slot-c10"><img src="./assets/logos/logo-050.png" alt="logo 50"></div><div class="logo slot-r5 slot-c11"><img src="./assets/logos/logo-051.png" alt="logo 51"></div><div class="logo slot-r6 slot-c1"><img src="./assets/logos/logo-052.png" alt="logo 52"></div><div class="logo slot-r6 slot-c2"><img src="./assets/logos/logo-053.png" alt="logo 53"></div><div class="logo slot-r6 slot-c3"><img src="./assets/logos/logo-054.png" alt="logo 54"></div><div class="logo slot-r6 slot-c4"><img src="./assets/logos/logo-055.png" alt="logo 55"></div><div class="logo slot-r6 slot-c7"><img src="./assets/logos/logo-056.png" alt="logo 56"></div><div class="logo slot-r6 slot-c8"><img src="./assets/logos/logo-057.png" alt="logo 57"></div><div class="logo slot-r6 slot-c9"><img src="./assets/logos/logo-058.png" alt="logo 58"></div><div class="logo slot-r6 slot-c10"><img src="./assets/logos/logo-059.png" alt="logo 59"></div><div class="logo slot-r6 slot-c11"><img src="./assets/logos/logo-060.png" alt="logo 60"></div><div class="logo slot-r7 slot-c2"><img src="./assets/logos/logo-062.png" alt="logo 62"></div><div class="logo slot-r7 slot-c3"><img src="./assets/logos/logo-063.png" alt="logo 63"></div><div class="logo slot-r7 slot-c4"><img src="./assets/logos/logo-064.png" alt="logo 64"></div><div class="logo slot-r7 slot-c5"><img src="./assets/logos/logo-065.png" alt="logo 65"></div><div class="logo slot-r4 slot-c5"><img src="./assets/logos/logo-066.png" alt="logo 66"></div><div class="logo slot-r7 slot-c7"><img src="./assets/logos/logo-067.png" alt="logo 67"></div><div class="logo slot-r7 slot-c8"><img src="./assets/logos/logo-068.png" alt="logo 68"></div><div class="logo slot-r7 slot-c9"><img src="./assets/logos/logo-069.png" alt="logo 69"></div><div class="logo slot-r7 slot-c10"><img src="./assets/logos/logo-070.png" alt="logo 70"></div><div class="logo slot-r7 slot-c11"><img src="./assets/logos/logo-071.png" alt="logo 71"></div><div class="logo slot-r8 slot-c1"><img src="./assets/logos/logo-072.png" alt="logo 72"></div><div class="logo slot-r8 slot-c2"><img src="./assets/logos/logo-073.png" alt="logo 73"></div><div class="logo slot-r8 slot-c3"><img src="./assets/logos/logo-074.png" alt="logo 74"></div><div class="logo slot-r8 slot-c4"><img src="./assets/logos/logo-075.png" alt="logo 75"></div><div class="logo slot-r8 slot-c5"><img src="./assets/logos/logo-076.png" alt="logo 76"></div><div class="logo slot-r8 slot-c6"><img src="./assets/logos/logo-077.png" alt="logo 77"></div><div class="logo slot-r8 slot-c7"><img src="./assets/logos/logo-078.png" alt="logo 78"></div><div class="logo slot-r8 slot-c8"><img src="./assets/logos/logo-079.png" alt="logo 79"></div><div class="logo slot-r8 slot-c9"><img src="./assets/logos/logo-080.png" alt="logo 80"></div><div class="logo slot-r8 slot-c10"><img src="./assets/logos/logo-081.png" alt="logo 81"></div><div class="logo slot-r8 slot-c11"><img src="./assets/logos/logo-082.png" alt="logo 82"></div><div class="logo slot-r9 slot-c1"><img src="./assets/logos/logo-083.png" alt="logo 83"></div><div class="logo slot-r9 slot-c2"><img src="./assets/logos/logo-084.png" alt="logo 84"></div><div class="logo slot-r9 slot-c3"><img src="./assets/logos/logo-085.png" alt="logo 85"></div><div class="logo slot-r9 slot-c4"><img src="./assets/logos/logo-086.png" alt="logo 86"></div><div class="logo slot-r9 slot-c5"><img src="./assets/logos/logo-087.png" alt="logo 87"></div><div class="logo slot-r9 slot-c6"><img src="./assets/logos/logo-088.png" alt="logo 88"></div><div class="logo slot-r9 slot-c7"><img src="./assets/logos/logo-089.png" alt="logo 89"></div><div class="logo slot-r9 slot-c8"><img src="./assets/logos/logo-090.png" alt="logo 90"></div><div class="logo slot-r9 slot-c9"><img src="./assets/logos/logo-091.png" alt="logo 91"></div><div class="logo slot-r9 slot-c10"><img src="./assets/logos/logo-092.png" alt="logo 92"></div><div class="logo slot-r9 slot-c11"><img src="./assets/logos/logo-093.png" alt="logo 93"></div><div class="logo slot-r7 slot-c1"><img src="./assets/logos/logo-094.png" alt="logo 94"></div><div class="logo slot-r5 slot-c5"><img src="./assets/logos/logo-096.png" alt="logo 96"></div><div class="logo slot-r6 slot-c5"><img src="./assets/logos/logo-097.png" alt="logo 97"></div>
+<div class="logo slot-r10 slot-c1"><img src="./assets/logos/logo-099.png" alt="Garmin"></div><div class="logo slot-r10 slot-c2"><img src="./assets/logos/logo-100.png" alt="友嘉国际"></div><div class="logo slot-r10 slot-c3"><img src="./assets/logos/logo-101.png" alt="大润发"></div><div class="logo slot-r10 slot-c4"><img src="./assets/logos/logo-102.png" alt="宝岛眼镜"></div><div class="logo slot-r10 slot-c5"><img src="./assets/logos/logo-103.png" alt="震旦"></div><div class="logo slot-r10 slot-c6"><img src="./assets/logos/logo-104.png" alt="技嘉科技"></div><div class="logo slot-r10 slot-c7"><img src="./assets/logos/logo-105.png" alt="Victor"></div><div class="logo slot-r10 slot-c8"><img src="./assets/logos/logo-106.png" alt="妙洁"></div><div class="logo slot-r10 slot-c9"><img src="./assets/logos/logo-107.png" alt="巨大机械"></div><div class="logo slot-r10 slot-c10"><img src="./assets/logos/logo-108.png" alt="正新轮胎"></div><div class="logo slot-r10 slot-c11"><img src="./assets/logos/logo-109.png" alt="富士康科技集团"></div>
+  </div>
+  <div class="map-wrap">
+    <img class="map" src="./assets/taiwan-map.jpg" alt="Taiwan map">
+  </div>
+</main>
+
+
+
+
+
+
+
+<section class="company-section" id="companySection">
+  <div class="company-section-header">
+    <div class="company-section-title">公司数据总览 · 国际知名度 / 影响力排名</div>
+    <div id="companySectionCount" class="company-section-count"></div>
+  </div>
+  <div class="company-section-toolbar">
+    <input id="companySectionSearch" class="company-section-search" type="search" placeholder="搜索公司名称、代码、行业，例如：台积电、2330、半导体；默认按知名度排名" autocomplete="off">
+  </div>
+  <div class="company-section-table-wrap">
+    <table class="company-section-table">
+      <thead>
+        <tr>
+          <th>知名度排名</th>
+          <th>影响力排名</th>
+          <th>公司名称</th>
+          <th>代码</th>
+          <th>行业</th>
+          <th>公司简介</th>
+        </tr>
+      </thead>
+      <tbody id="companySectionBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<div id="companyDetailModal" class="company-detail-modal">
+  <div class="company-detail-card">
+    <div class="company-detail-head">
+      <div id="companyDetailTitle" class="company-detail-title"></div>
+      <button id="companyDetailClose" class="company-detail-close" type="button">关闭</button>
+    </div>
+    <div class="company-detail-body">
+      <div class="company-detail-row"><div class="company-detail-label">知名度排名</div><div id="companyDetailFameRank"></div></div>
+      <div class="company-detail-row"><div class="company-detail-label">影响力排名</div><div id="companyDetailImpactRank"></div></div>
+      <div class="company-detail-row"><div class="company-detail-label">代码</div><div id="companyDetailCode"></div></div>
+      <div class="company-detail-row"><div class="company-detail-label">行业</div><div id="companyDetailIndustry"></div></div>
+      <div class="company-detail-row"><div class="company-detail-label">国际知名度</div><div id="companyDetailFame"></div></div>
+      <div class="company-detail-row"><div class="company-detail-label">国际影响力</div><div id="companyDetailImpact"></div></div>
+      <div class="company-detail-row"><div class="company-detail-label">公司简介</div><div id="companyDetailIntro"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const COMPANY_DATA = [{"name": "台积电", "code": "2330", "industry": "半导体制造", "intro": "全球领先晶圆代工企业，提供先进制程与特殊制程服务。", "logo": "logo-086.png", "source": "图中公司", "国际知名度评分": 10.0, "国际影响力评分": 10.0, "知名度排名": 1, "影响力排名": 1, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 1, "impactRank": 1, "fameScore": 10.0, "impactScore": 10.0}, {"name": "华硕", "code": "2357", "industry": "电脑与消费电子", "intro": "电脑、主机板、笔电、电竞与消费电子品牌。", "logo": "logo-020.png", "source": "图中公司", "国际知名度评分": 9.6, "国际影响力评分": 8.4, "知名度排名": 2, "影响力排名": 9, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 2, "impactRank": 9, "fameScore": 9.6, "impactScore": 8.4}, {"name": "鸿海精密", "code": "2317", "industry": "电子制造服务", "intro": "全球大型电子制造服务企业，业务涵盖消费电子、云端网络与电动车。又常以富士康/Foxconn 名称被全球熟知。", "logo": "", "source": "图中公司", "国际知名度评分": 9.5, "国际影响力评分": 9.8, "知名度排名": 3, "影响力排名": 2, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 3, "impactRank": 2, "fameScore": 9.5, "impactScore": 9.8}, {"name": "宏碁", "code": "2353", "industry": "电脑品牌", "intro": "电脑、显示器与消费电子品牌。", "logo": "logo-064.png", "source": "图中公司", "国际知名度评分": 9.2, "国际影响力评分": 7.3, "知名度排名": 4, "影响力排名": 32, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 4, "impactRank": 32, "fameScore": 9.2, "impactScore": 7.3}, {"name": "佳明", "code": "GRMN", "industry": "GPS/穿戴设备", "intro": "Garmin，全球知名 GPS 导航、运动穿戴与户外设备品牌。", "logo": "logo-099.png", "source": "logo墙新增", "国际知名度评分": 9.2, "国际影响力评分": 7.2, "知名度排名": 5, "影响力排名": 36, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 5, "impactRank": 36, "fameScore": 9.2, "impactScore": 7.2}, {"name": "联发科", "code": "2454", "industry": "IC设计", "intro": "台湾主要IC设计公司，产品涵盖手机、电视、网络与物联网芯片。", "logo": "logo-088.png", "source": "图中公司", "国际知名度评分": 9.0, "国际影响力评分": 9.3, "知名度排名": 6, "影响力排名": 3, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 6, "impactRank": 3, "fameScore": 9.0, "impactScore": 9.3}, {"name": "微星科技", "code": "2377", "industry": "电脑与电竞硬体", "intro": "主机板、显卡、笔电与电竞硬体品牌。", "logo": "", "source": "图中公司", "国际知名度评分": 8.8, "国际影响力评分": 7.6, "知名度排名": 7, "影响力排名": 25, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 7, "impactRank": 25, "fameScore": 8.8, "impactScore": 7.6}, {"name": "巨大机械", "code": "9921", "industry": "自行车", "intro": "Giant自行车品牌与制造商。旗下捷安特 Giant 是全球知名自行车品牌。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 8.8, "国际影响力评分": 7.0, "知名度排名": 8, "影响力排名": 42, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 8, "impactRank": 42, "fameScore": 8.8, "impactScore": 7.0}, {"name": "宏达电", "code": "2498", "industry": "消费电子/VR", "intro": "智慧手机、虚拟实境与沉浸式科技品牌。", "logo": "logo-067.png", "source": "图中公司", "国际知名度评分": 8.5, "国际影响力评分": 6.7, "知名度排名": 9, "影响力排名": 68, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 9, "impactRank": 68, "fameScore": 8.5, "impactScore": 6.7}, {"name": "技嘉科技", "code": "2376", "industry": "电脑硬体", "intro": "主机板、显卡、服务器与电竞产品品牌。旗下 GIGABYTE 品牌在主板、显卡与电竞硬件领域具备国际知名度。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 8.5, "国际影响力评分": 7.4, "知名度排名": 10, "影响力排名": 29, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 10, "impactRank": 29, "fameScore": 8.5, "impactScore": 7.4}, {"name": "长荣海运", "code": "2603", "industry": "航运", "intro": "全球货柜航运公司，经营国际海运航线。", "logo": "logo-019.png", "source": "图中公司", "国际知名度评分": 8.4, "国际影响力评分": 8.6, "知名度排名": 11, "影响力排名": 8, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 11, "impactRank": 8, "fameScore": 8.4, "impactScore": 8.6}, {"name": "康师傅", "code": "0322.HK", "industry": "食品饮料", "intro": "食品饮料集团，产品涵盖方便面、饮料与糕饼。", "logo": "logo-097.png", "source": "图中公司", "国际知名度评分": 8.3, "国际影响力评分": 6.6, "知名度排名": 12, "影响力排名": 73, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 12, "impactRank": 73, "fameScore": 8.3, "impactScore": 6.6}, {"name": "美利达", "code": "9914", "industry": "自行车", "intro": "自行车品牌与制造商。", "logo": "logo-077.png", "source": "图中公司", "国际知名度评分": 8.2, "国际影响力评分": 6.7, "知名度排名": 13, "影响力排名": 69, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 13, "impactRank": 69, "fameScore": 8.2, "impactScore": 6.7}, {"name": "旺旺", "code": "0151.HK", "industry": "食品饮料", "intro": "食品饮料集团，产品涵盖米果、乳饮与休闲食品。", "logo": "logo-096.png", "source": "图中公司", "国际知名度评分": 8.1, "国际影响力评分": 6.0, "知名度排名": 14, "影响力排名": 84, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 14, "impactRank": 84, "fameScore": 8.1, "impactScore": 6.0}, {"name": "正新橡胶", "code": "2105", "industry": "轮胎", "intro": "轮胎品牌与制造商。旗下正新轮胎/Maxxis 是国际轮胎品牌。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 7.8, "国际影响力评分": 7.1, "知名度排名": 15, "影响力排名": 39, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 15, "impactRank": 39, "fameScore": 7.8, "impactScore": 7.1}, {"name": "长荣航空", "code": "2618", "industry": "航空运输", "intro": "台湾国际航空公司，提供客运与货运服务。", "logo": "logo-049.png", "source": "图中公司", "国际知名度评分": 7.7, "国际影响力评分": 6.7, "知名度排名": 16, "影响力排名": 64, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 16, "impactRank": 64, "fameScore": 7.7, "impactScore": 6.7}, {"name": "中华航空", "code": "2610", "industry": "航空运输", "intro": "台湾航空公司，经营国际客货运航线。", "logo": "logo-057.png", "source": "图中公司", "国际知名度评分": 7.5, "国际影响力评分": 6.5, "知名度排名": 17, "影响力排名": 78, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 17, "impactRank": 78, "fameScore": 7.5, "impactScore": 6.5}, {"name": "台达电子", "code": "2308", "industry": "电源与自动化", "intro": "电源管理、散热、工业自动化与基础设施解决方案供应商。", "logo": "", "source": "图中公司", "国际知名度评分": 7.4, "国际影响力评分": 8.9, "知名度排名": 18, "影响力排名": 5, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 18, "impactRank": 5, "fameScore": 7.4, "impactScore": 8.9}, {"name": "统一企业", "code": "1216", "industry": "食品饮料", "intro": "食品饮料与通路事业集团。", "logo": "logo-013.png", "source": "图中公司", "国际知名度评分": 7.3, "国际影响力评分": 6.2, "知名度排名": 19, "影响力排名": 80, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 19, "impactRank": 80, "fameScore": 7.3, "impactScore": 6.2}, {"name": "威克多", "code": "未上市", "industry": "体育用品", "intro": "VICTOR，台湾羽毛球运动用品品牌，产品包括球拍、球鞋、服装与专业装备。", "logo": "logo-105.png", "source": "logo墙新增", "国际知名度评分": 7.3, "国际影响力评分": 5.3, "知名度排名": 20, "影响力排名": 108, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 20, "impactRank": 108, "fameScore": 7.3, "impactScore": 5.3}, {"name": "研华", "code": "2395", "industry": "工业电脑", "intro": "工业电脑、嵌入式系统与物联网解决方案供应商。", "logo": "logo-024.png", "source": "图中公司", "国际知名度评分": 7.0, "国际影响力评分": 7.7, "知名度排名": 21, "影响力排名": 22, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 21, "impactRank": 22, "fameScore": 7.0, "impactScore": 7.7}, {"name": "联华电子", "code": "2303", "industry": "半导体制造", "intro": "台湾晶圆代工企业，专注成熟制程与特殊制程。", "logo": "logo-093.png", "source": "图中公司", "国际知名度评分": 6.9, "国际影响力评分": 8.8, "知名度排名": 22, "影响力排名": 6, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 22, "impactRank": 6, "fameScore": 6.9, "impactScore": 8.8}, {"name": "大润发", "code": "未上市", "industry": "零售/量贩超市", "intro": "RT-MART，大型连锁量贩零售品牌，经营超市与综合零售通路。", "logo": "logo-101.png", "source": "logo墙新增", "国际知名度评分": 6.9, "国际影响力评分": 5.1, "知名度排名": 23, "影响力排名": 126, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 23, "impactRank": 126, "fameScore": 6.9, "impactScore": 5.1}, {"name": "日月光投控", "code": "3711", "industry": "半导体封测", "intro": "全球主要半导体封装测试服务供应商。", "logo": "logo-090.png", "source": "图中公司", "国际知名度评分": 6.8, "国际影响力评分": 9.1, "知名度排名": 24, "影响力排名": 4, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 24, "impactRank": 4, "fameScore": 6.8, "impactScore": 9.1}, {"name": "华擎科技", "code": "3515", "industry": "电脑硬体", "intro": "主机板、迷你电脑与服务器产品公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.8, "国际影响力评分": 6.2, "知名度排名": 25, "影响力排名": 81, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 25, "impactRank": 81, "fameScore": 6.8, "impactScore": 6.2}, {"name": "精英电脑", "code": "2331", "industry": "电脑硬体", "intro": "主机板、电脑与电子产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.8, "国际影响力评分": 6.2, "知名度排名": 26, "影响力排名": 82, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 26, "impactRank": 82, "fameScore": 6.8, "impactScore": 6.2}, {"name": "威刚科技", "code": "3260", "industry": "记忆体模组", "intro": "DRAM、SSD与储存产品品牌。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.8, "国际影响力评分": 5.8, "知名度排名": 27, "影响力排名": 97, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 27, "impactRank": 97, "fameScore": 6.8, "impactScore": 5.8}, {"name": "阳明海运", "code": "2609", "industry": "航运", "intro": "台湾货柜航运公司，经营国际航线。", "logo": "logo-047.png", "source": "图中公司", "国际知名度评分": 6.7, "国际影响力评分": 7.6, "知名度排名": 28, "影响力排名": 24, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 28, "impactRank": 24, "fameScore": 6.7, "impactScore": 7.6}, {"name": "创见资讯", "code": "2451", "industry": "记忆体模组", "intro": "记忆体模组、SSD与储存产品品牌。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.7, "国际影响力评分": 5.7, "知名度排名": 29, "影响力排名": 101, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 29, "impactRank": 101, "fameScore": 6.7, "impactScore": 5.7}, {"name": "广达电脑", "code": "2382", "industry": "电子代工/服务器", "intro": "笔电、服务器与云端硬体设计制造服务企业。", "logo": "logo-085.png", "source": "图中公司", "国际知名度评分": 6.6, "国际影响力评分": 8.7, "知名度排名": 30, "影响力排名": 7, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 30, "impactRank": 7, "fameScore": 6.6, "impactScore": 8.7}, {"name": "台塑", "code": "1301", "industry": "塑化材料", "intro": "塑胶原料与石化产品制造商。", "logo": "logo-033.png", "source": "图中公司", "国际知名度评分": 6.6, "国际影响力评分": 6.9, "知名度排名": 31, "影响力排名": 45, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 31, "impactRank": 45, "fameScore": 6.6, "impactScore": 6.9}, {"name": "桂盟国际", "code": "5306", "industry": "自行车零组件", "intro": "自行车链条与传动零组件供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.6, "国际影响力评分": 5.9, "知名度排名": 32, "影响力排名": 90, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 32, "impactRank": 90, "fameScore": 6.6, "impactScore": 5.9}, {"name": "统一超商", "code": "2912", "industry": "零售通路", "intro": "7-ELEVEN台湾经营者，便利商店与零售服务企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.5, "国际影响力评分": 5.5, "知名度排名": 33, "影响力排名": 104, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 33, "impactRank": 104, "fameScore": 6.5, "impactScore": 5.5}, {"name": "纬创", "code": "3231", "industry": "电子代工", "intro": "资讯产品与服务器等电子制造服务企业。", "logo": "logo-017.png", "source": "图中公司", "国际知名度评分": 6.4, "国际影响力评分": 8.2, "知名度排名": 34, "影响力排名": 10, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 34, "impactRank": 10, "fameScore": 6.4, "impactScore": 8.2}, {"name": "全家便利商店", "code": "5903", "industry": "零售通路", "intro": "FamilyMart台湾经营者，便利商店连锁企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.4, "国际影响力评分": 5.1, "知名度排名": 35, "影响力排名": 125, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 35, "impactRank": 125, "fameScore": 6.4, "impactScore": 5.1}, {"name": "瑞昱半导体", "code": "2379", "industry": "IC设计", "intro": "网络通信、多媒体与电脑周边芯片设计公司。", "logo": "logo-031.png", "source": "图中公司", "国际知名度评分": 6.3, "国际影响力评分": 7.5, "知名度排名": 36, "影响力排名": 28, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 36, "impactRank": 28, "fameScore": 6.3, "impactScore": 7.5}, {"name": "玩美移动", "code": "PERF", "industry": "美妆科技/AI影像", "intro": "提供AI美妆、影像与AR虚拟试用技术。", "logo": "logo-070.png", "source": "图中公司", "国际知名度评分": 6.3, "国际影响力评分": 5.9, "知名度排名": 37, "影响力排名": 89, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 37, "impactRank": 89, "fameScore": 6.3, "impactScore": 5.9}, {"name": "友达光电", "code": "2409", "industry": "面板", "intro": "显示面板与相关显示技术企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.3, "国际影响力评分": 6.7, "知名度排名": 38, "影响力排名": 70, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 38, "impactRank": 70, "fameScore": 6.3, "impactScore": 6.7}, {"name": "和硕", "code": "4938", "industry": "电子代工", "intro": "电子制造服务企业，提供电脑、通讯与消费电子产品制造。", "logo": "logo-050.png", "source": "图中公司", "国际知名度评分": 6.2, "国际影响力评分": 7.9, "知名度排名": 39, "影响力排名": 15, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 39, "impactRank": 15, "fameScore": 6.2, "impactScore": 7.9}, {"name": "群联电子", "code": "8299", "industry": "储存控制IC", "intro": "NAND Flash控制芯片与储存解决方案供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.1, "国际影响力评分": 7.0, "知名度排名": 40, "影响力排名": 40, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 40, "impactRank": 40, "fameScore": 6.1, "impactScore": 7.0}, {"name": "中华电信", "code": "2412", "industry": "电信服务", "intro": "台湾主要电信服务商，提供固定、行动、宽频与企业资通讯服务。", "logo": "logo-091.png", "source": "图中公司", "国际知名度评分": 6.0, "国际影响力评分": 5.9, "知名度排名": 41, "影响力排名": 87, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 41, "impactRank": 87, "fameScore": 6.0, "impactScore": 5.9}, {"name": "大立光", "code": "3008", "industry": "光学镜头", "intro": "精密光学镜头供应商，应用于手机与电子装置。", "logo": "logo-012.png", "source": "图中公司", "国际知名度评分": 6.0, "国际影响力评分": 7.2, "知名度排名": 42, "影响力排名": 34, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 42, "impactRank": 34, "fameScore": 6.0, "impactScore": 7.2}, {"name": "大同", "code": "2371", "industry": "电机/家电", "intro": "电机、能源、家电与系统工程企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 6.0, "国际影响力评分": 4.8, "知名度排名": 43, "影响力排名": 134, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 43, "impactRank": 134, "fameScore": 6.0, "impactScore": 4.8}, {"name": "纬颖", "code": "6669", "industry": "服务器/云端硬体", "intro": "云端资料中心服务器、储存与机柜级解决方案供应商。", "logo": "logo-008.png", "source": "图中公司", "国际知名度评分": 5.9, "国际影响力评分": 8.1, "知名度排名": 44, "影响力排名": 13, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 44, "impactRank": 13, "fameScore": 5.9, "impactScore": 8.1}, {"name": "台塑石化", "code": "6505", "industry": "石化/炼油", "intro": "炼油、烯烃与石化原料生产企业。", "logo": "logo-016.png", "source": "图中公司", "国际知名度评分": 5.9, "国际影响力评分": 6.9, "知名度排名": 45, "影响力排名": 44, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 45, "impactRank": 44, "fameScore": 5.9, "impactScore": 6.9}, {"name": "群创光电", "code": "3481", "industry": "面板", "intro": "TFT-LCD面板与显示器解决方案制造商。", "logo": "logo-021.png", "source": "图中公司", "国际知名度评分": 5.9, "国际影响力评分": 6.6, "知名度排名": 46, "影响力排名": 71, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 46, "impactRank": 71, "fameScore": 5.9, "impactScore": 6.6}, {"name": "世界先进", "code": "5347", "industry": "半导体制造", "intro": "晶圆代工企业，专注成熟制程与特殊制程。", "logo": "logo-029.png", "source": "图中公司", "国际知名度评分": 5.9, "国际影响力评分": 8.2, "知名度排名": 47, "影响力排名": 11, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 47, "impactRank": 11, "fameScore": 5.9, "impactScore": 8.2}, {"name": "联咏科技", "code": "3034", "industry": "IC设计", "intro": "显示驱动IC与影像相关芯片设计公司。", "logo": "logo-035.png", "source": "图中公司", "国际知名度评分": 5.9, "国际影响力评分": 6.9, "知名度排名": 48, "影响力排名": 46, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 48, "impactRank": 46, "fameScore": 5.9, "impactScore": 6.9}, {"name": "力积电", "code": "6770", "industry": "半导体制造", "intro": "晶圆代工与记忆体相关制造企业。", "logo": "logo-036.png", "source": "图中公司", "国际知名度评分": 5.9, "国际影响力评分": 8.2, "知名度排名": 49, "影响力排名": 12, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 49, "impactRank": 12, "fameScore": 5.9, "impactScore": 8.2}, {"name": "立荣航空", "code": "长荣航空子公司", "industry": "航空运输", "intro": "区域航线航空公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.9, "国际影响力评分": 5.8, "知名度排名": 50, "影响力排名": 99, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 50, "impactRank": 99, "fameScore": 5.9, "impactScore": 5.8}, {"name": "华信航空", "code": "中华航空子公司", "industry": "航空运输", "intro": "区域航空公司，经营国内与区域航线。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.9, "国际影响力评分": 5.8, "知名度排名": 51, "影响力排名": 100, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 51, "impactRank": 100, "fameScore": 5.9, "impactScore": 5.8}, {"name": "国巨", "code": "2327", "industry": "被动元件", "intro": "被动元件制造商，产品包括电阻、电容及无线元件。", "logo": "", "source": "图中公司", "国际知名度评分": 5.8, "国际影响力评分": 7.3, "知名度排名": 52, "影响力排名": 31, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 52, "impactRank": 31, "fameScore": 5.8, "impactScore": 7.3}, {"name": "南亚塑胶", "code": "1303", "industry": "塑化材料", "intro": "塑胶、化纤、电子材料与化工产品制造商。", "logo": "logo-010.png", "source": "图中公司", "国际知名度评分": 5.8, "国际影响力评分": 6.5, "知名度排名": 53, "影响力排名": 77, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 53, "impactRank": 77, "fameScore": 5.8, "impactScore": 6.5}, {"name": "创意电子", "code": "3443", "industry": "IC设计服务", "intro": "ASIC设计服务与IP整合公司。", "logo": "logo-007.png", "source": "图中公司", "国际知名度评分": 5.8, "国际影响力评分": 7.7, "知名度排名": 54, "影响力排名": 21, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 54, "impactRank": 21, "fameScore": 5.8, "impactScore": 7.7}, {"name": "世芯-KY", "code": "3661", "industry": "IC设计服务", "intro": "ASIC设计服务公司，服务高效能运算与客制化芯片需求。", "logo": "logo-022.png", "source": "图中公司", "国际知名度评分": 5.8, "国际影响力评分": 7.7, "知名度排名": 55, "影响力排名": 23, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 55, "impactRank": 23, "fameScore": 5.8, "impactScore": 7.7}, {"name": "万海航运", "code": "2615", "industry": "航运", "intro": "货柜航运公司，经营亚洲与国际航线。", "logo": "logo-042.png", "source": "图中公司", "国际知名度评分": 5.8, "国际影响力评分": 6.8, "知名度排名": 56, "影响力排名": 51, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 56, "impactRank": 51, "fameScore": 5.8, "impactScore": 6.8}, {"name": "奇景光电", "code": "HIMX", "industry": "IC设计/显示芯片", "intro": "显示驱动IC、影像处理与光学相关芯片设计公司。", "logo": "", "source": "图中公司", "国际知名度评分": 5.8, "国际影响力评分": 6.6, "知名度排名": 57, "影响力排名": 72, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 57, "impactRank": 72, "fameScore": 5.8, "impactScore": 6.6}, {"name": "新唐科技", "code": "4919", "industry": "半导体", "intro": "微控制器、语音IC与半导体解决方案供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.8, "国际影响力评分": 8.1, "知名度排名": 58, "影响力排名": 14, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 58, "impactRank": 14, "fameScore": 5.8, "impactScore": 8.1}, {"name": "建大工业", "code": "2106", "industry": "轮胎", "intro": "轮胎与橡胶产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.8, "国际影响力评分": 6.0, "知名度排名": 59, "影响力排名": 85, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 59, "impactRank": 85, "fameScore": 5.8, "impactScore": 6.0}, {"name": "南港轮胎", "code": "2101", "industry": "轮胎", "intro": "轮胎制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.8, "国际影响力评分": 6.0, "知名度排名": 60, "影响力排名": 86, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 60, "impactRank": 86, "fameScore": 5.8, "impactScore": 6.0}, {"name": "南亚科技", "code": "2408", "industry": "DRAM记忆体", "intro": "台湾DRAM记忆体制造公司。", "logo": "logo-002.png", "source": "图中公司", "国际知名度评分": 5.7, "国际影响力评分": 6.9, "知名度排名": 61, "影响力排名": 43, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 61, "impactRank": 43, "fameScore": 5.7, "impactScore": 6.9}, {"name": "中钢", "code": "2002", "industry": "钢铁", "intro": "台湾主要一贯作业钢铁厂，供应钢品与相关材料。", "logo": "logo-001.png", "source": "图中公司", "国际知名度评分": 5.7, "国际影响力评分": 6.4, "知名度排名": 62, "影响力排名": 79, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 62, "impactRank": 79, "fameScore": 5.7, "impactScore": 6.4}, {"name": "威强电", "code": "3022", "industry": "工业电脑", "intro": "工业电脑、嵌入式系统与网络通讯设备供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.7, "国际影响力评分": 6.9, "知名度排名": 63, "影响力排名": 47, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 63, "impactRank": 47, "fameScore": 5.7, "impactScore": 6.9}, {"name": "研扬科技", "code": "6579", "industry": "工业电脑", "intro": "工业电脑与嵌入式平台供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.7, "国际影响力评分": 6.9, "知名度排名": 64, "影响力排名": 48, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 64, "impactRank": 48, "fameScore": 5.7, "impactScore": 6.9}, {"name": "友通资讯", "code": "2397", "industry": "工业电脑", "intro": "嵌入式电脑与工业自动化平台供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.7, "国际影响力评分": 6.9, "知名度排名": 65, "影响力排名": 49, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 65, "impactRank": 49, "fameScore": 5.7, "impactScore": 6.9}, {"name": "立端科技", "code": "6245", "industry": "工业电脑", "intro": "工业电脑与嵌入式系统供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.7, "国际影响力评分": 6.9, "知名度排名": 66, "影响力排名": 50, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 66, "impactRank": 50, "fameScore": 5.7, "impactScore": 6.9}, {"name": "硅创电子", "code": "8016", "industry": "IC设计", "intro": "显示驱动IC与混合信号IC设计公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.7, "国际影响力评分": 7.6, "知名度排名": 67, "影响力排名": 26, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 67, "impactRank": 26, "fameScore": 5.7, "impactScore": 7.6}, {"name": "敦泰电子", "code": "3545", "industry": "IC设计", "intro": "触控与显示驱动整合芯片设计公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.7, "国际影响力评分": 7.6, "知名度排名": 68, "影响力排名": 27, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 68, "impactRank": 27, "fameScore": 5.7, "impactScore": 7.6}, {"name": "宝岛眼镜", "code": "未上市", "industry": "眼镜零售", "intro": "台湾知名眼镜零售连锁品牌，提供眼镜销售、验光与配镜服务。", "logo": "logo-102.png", "source": "logo墙新增", "国际知名度评分": 5.7, "国际影响力评分": 4.0, "知名度排名": 69, "影响力排名": 208, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 69, "impactRank": 208, "fameScore": 5.7, "impactScore": 4.0}, {"name": "震旦集团", "code": "2373", "industry": "办公设备/服务", "intro": "台湾办公设备、办公家具与商务服务集团。", "logo": "logo-103.png", "source": "logo墙新增", "国际知名度评分": 5.7, "国际影响力评分": 4.2, "知名度排名": 70, "影响力排名": 174, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 70, "impactRank": 174, "fameScore": 5.7, "impactScore": 4.2}, {"name": "富邦媒", "code": "8454", "industry": "电商/零售", "intro": "momo电商平台经营者。", "logo": "logo-059.png", "source": "图中公司", "国际知名度评分": 5.6, "国际影响力评分": 5.0, "知名度排名": 71, "影响力排名": 127, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 71, "impactRank": 127, "fameScore": 5.6, "impactScore": 5.0}, {"name": "智冠科技", "code": "5478", "industry": "游戏通路/数位娱乐", "intro": "游戏通路、点数与数位娱乐服务公司。", "logo": "logo-074.png", "source": "图中公司", "国际知名度评分": 5.6, "国际影响力评分": 4.9, "知名度排名": 72, "影响力排名": 130, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 72, "impactRank": 130, "fameScore": 5.6, "impactScore": 4.9}, {"name": "英业达", "code": "2356", "industry": "电子代工/服务器", "intro": "笔电、服务器与云端设备制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.6, "国际影响力评分": 7.8, "知名度排名": 73, "影响力排名": 17, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 73, "impactRank": 17, "fameScore": 5.6, "impactScore": 7.8}, {"name": "味全", "code": "1201", "industry": "食品饮料", "intro": "食品、乳品与饮料企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.6, "国际影响力评分": 4.8, "知名度排名": 74, "影响力排名": 137, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 74, "impactRank": 137, "fameScore": 5.6, "impactScore": 4.8}, {"name": "泰山企业", "code": "1218", "industry": "食品饮料", "intro": "食用油、饮料与食品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.6, "国际影响力评分": 4.8, "知名度排名": 75, "影响力排名": 138, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 75, "impactRank": 138, "fameScore": 5.6, "impactScore": 4.8}, {"name": "佳格食品", "code": "1227", "industry": "食品饮料", "intro": "营养食品、饮品与食用油品牌企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.6, "国际影响力评分": 4.8, "知名度排名": 76, "影响力排名": 139, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 76, "impactRank": 139, "fameScore": 5.6, "impactScore": 4.8}, {"name": "爱之味", "code": "1217", "industry": "食品饮料", "intro": "食品罐头、饮料与保健产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.6, "国际影响力评分": 4.8, "知名度排名": 77, "影响力排名": 140, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 77, "impactRank": 140, "fameScore": 5.6, "impactScore": 4.8}, {"name": "群光电子", "code": "2385", "industry": "电脑周边/电源", "intro": "键盘、摄像头、电源供应器与电子零组件制造商。", "logo": "logo-066.png", "source": "图中公司", "国际知名度评分": 5.5, "国际影响力评分": 6.1, "知名度排名": 78, "影响力排名": 83, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 78, "impactRank": 83, "fameScore": 5.5, "impactScore": 6.1}, {"name": "Gorilla Technology", "code": "GRRR", "industry": "AI/资安/影像分析", "intro": "AI影像分析、资安与智慧城市技术公司。", "logo": "logo-092.png", "source": "图中公司", "国际知名度评分": 5.5, "国际影响力评分": 5.1, "知名度排名": 79, "影响力排名": 124, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 79, "impactRank": 124, "fameScore": 5.5, "impactScore": 5.1}, {"name": "徐福记", "code": "未上市", "industry": "食品", "intro": "糖果、糕点与休闲食品品牌。", "logo": "logo-095.png", "source": "图中公司", "国际知名度评分": 5.4, "国际影响力评分": 4.6, "知名度排名": 80, "影响力排名": 151, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 80, "impactRank": 151, "fameScore": 5.4, "impactScore": 4.6}, {"name": "仁宝电脑", "code": "2324", "industry": "电子代工", "intro": "笔电、智慧装置与电子产品代工制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.4, "国际影响力评分": 7.3, "知名度排名": 81, "影响力排名": 33, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 81, "impactRank": 33, "fameScore": 5.4, "impactScore": 7.3}, {"name": "智邦科技", "code": "2345", "industry": "网络通信设备", "intro": "网络交换器、资料中心与企业网络设备制造商。", "logo": "logo-094.png", "source": "图中公司", "国际知名度评分": 5.3, "国际影响力评分": 7.3, "知名度排名": 82, "影响力排名": 30, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 82, "impactRank": 30, "fameScore": 5.3, "impactScore": 7.3}, {"name": "八方云集", "code": "2753", "industry": "餐饮", "intro": "连锁餐饮品牌，主营锅贴、水饺等餐饮服务。", "logo": "logo-083.png", "source": "图中公司", "国际知名度评分": 5.3, "国际影响力评分": 4.3, "知名度排名": 83, "影响力排名": 169, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 83, "impactRank": 169, "fameScore": 5.3, "impactScore": 4.3}, {"name": "友嘉国际", "code": "未上市", "industry": "工具机/机械制造", "intro": "友嘉集团旗下工具机与工业设备相关品牌，业务覆盖机械制造与自动化设备。", "logo": "logo-100.png", "source": "logo墙新增", "国际知名度评分": 5.3, "国际影响力评分": 5.3, "知名度排名": 84, "影响力排名": 107, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 84, "impactRank": 107, "fameScore": 5.3, "impactScore": 5.3}, {"name": "台湾高铁", "code": "2633", "industry": "铁路运输", "intro": "经营台湾高速铁路运输服务。", "logo": "logo-055.png", "source": "图中公司", "国际知名度评分": 5.2, "国际影响力评分": 5.1, "知名度排名": 85, "影响力排名": 123, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 85, "impactRank": 123, "fameScore": 5.2, "impactScore": 5.1}, {"name": "远东新世纪", "code": "1402", "industry": "纺织/化工", "intro": "聚酯、纺织、化工材料与投资事业集团。", "logo": "logo-056.png", "source": "图中公司", "国际知名度评分": 5.2, "国际影响力评分": 5.2, "知名度排名": 86, "影响力排名": 109, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 86, "impactRank": 109, "fameScore": 5.2, "impactScore": 5.2}, {"name": "南茂科技", "code": "8150", "industry": "半导体封测", "intro": "记忆体与显示驱动IC封测服务供应商。", "logo": "logo-062.png", "source": "图中公司", "国际知名度评分": 5.2, "国际影响力评分": 7.9, "知名度排名": 87, "影响力排名": 16, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 87, "impactRank": 16, "fameScore": 5.2, "impactScore": 7.9}, {"name": "友劲科技", "code": "6142", "industry": "网络通信", "intro": "网络通讯设备与电子产品制造公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.2, "国际影响力评分": 7.2, "知名度排名": 88, "影响力排名": 35, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 88, "impactRank": 35, "fameScore": 5.2, "impactScore": 7.2}, {"name": "南侨投控", "code": "1702", "industry": "食品/油脂", "intro": "食品、油脂与餐饮相关事业集团。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.2, "国际影响力评分": 4.4, "知名度排名": 89, "影响力排名": 160, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 89, "impactRank": 160, "fameScore": 5.2, "impactScore": 4.4}, {"name": "大成食品", "code": "1210", "industry": "食品/饲料", "intro": "食品、饲料与畜产相关企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.2, "国际影响力评分": 4.4, "知名度排名": 90, "影响力排名": 161, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 90, "impactRank": 161, "fameScore": 5.2, "impactScore": 4.4}, {"name": "卜蜂企业", "code": "1215", "industry": "食品/饲料", "intro": "饲料、畜产与食品加工企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.2, "国际影响力评分": 4.4, "知名度排名": 91, "影响力排名": 162, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 91, "impactRank": 162, "fameScore": 5.2, "impactScore": 4.4}, {"name": "联华食品", "code": "1231", "industry": "食品", "intro": "休闲食品与鲜食产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.2, "国际影响力评分": 4.4, "知名度排名": 92, "影响力排名": 163, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 92, "impactRank": 163, "fameScore": 5.2, "impactScore": 4.4}, {"name": "新光三越", "code": "未上市", "industry": "百货零售", "intro": "台湾大型百货零售集团。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.2, "国际影响力评分": 4.3, "知名度排名": 93, "影响力排名": 171, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 93, "impactRank": 171, "fameScore": 5.2, "impactScore": 4.3}, {"name": "PChome网路家庭", "code": "8044", "industry": "电商", "intro": "电商平台与网络服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.2, "国际影响力评分": 4.5, "知名度排名": 94, "影响力排名": 159, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 94, "impactRank": 159, "fameScore": 5.2, "impactScore": 4.5}, {"name": "妙洁", "code": "未上市", "industry": "家居清洁用品", "intro": "家居清洁与日用品品牌，产品覆盖厨房、清洁与家庭生活用品。", "logo": "logo-106.png", "source": "logo墙新增", "国际知名度评分": 5.2, "国际影响力评分": 3.8, "知名度排名": 95, "影响力排名": 210, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 95, "impactRank": 210, "fameScore": 5.2, "impactScore": 3.8}, {"name": "欣兴电子", "code": "3037", "industry": "PCB/载板", "intro": "IC载板与印刷电路板制造商。", "logo": "logo-087.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 7.1, "知名度排名": 96, "影响力排名": 37, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 96, "impactRank": 37, "fameScore": 5.1, "impactScore": 7.1}, {"name": "南亚电路板", "code": "8046", "industry": "PCB/载板", "intro": "IC载板与印刷电路板制造商。", "logo": "logo-003.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 7.1, "知名度排名": 97, "影响力排名": 38, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 97, "impactRank": 38, "fameScore": 5.1, "impactScore": 7.1}, {"name": "环球晶圆", "code": "6488", "industry": "半导体材料", "intro": "半导体硅晶圆供应商。", "logo": "logo-027.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 6.7, "知名度排名": 98, "影响力排名": 61, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 98, "impactRank": 61, "fameScore": 5.1, "impactScore": 6.7}, {"name": "力旺电子", "code": "3529", "industry": "半导体IP", "intro": "嵌入式非挥发性记忆体IP供应商。", "logo": "logo-040.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 6.7, "知名度排名": 99, "影响力排名": 62, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 99, "impactRank": 62, "fameScore": 5.1, "impactScore": 6.7}, {"name": "稳懋半导体", "code": "3105", "industry": "化合物半导体", "intro": "砷化镓与化合物半导体晶圆代工企业。", "logo": "logo-041.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 6.7, "知名度排名": 100, "影响力排名": 63, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 100, "impactRank": 63, "fameScore": 5.1, "impactScore": 6.7}, {"name": "采钰科技", "code": "6789", "industry": "影像感测/半导体", "intro": "影像感测晶圆级封装与光学相关技术企业。", "logo": "logo-052.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 6.7, "知名度排名": 101, "影响力排名": 65, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 101, "impactRank": 65, "fameScore": 5.1, "impactScore": 6.7}, {"name": "中美晶", "code": "5483", "industry": "半导体材料/太阳能", "intro": "硅晶圆与半导体材料相关企业。", "logo": "logo-060.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 6.7, "知名度排名": 102, "影响力排名": 66, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 102, "impactRank": 66, "fameScore": 5.1, "impactScore": 6.7}, {"name": "台胜科", "code": "3532", "industry": "半导体材料", "intro": "硅晶圆材料制造商。", "logo": "logo-086.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 6.7, "知名度排名": 103, "影响力排名": 67, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 103, "impactRank": 67, "fameScore": 5.1, "impactScore": 6.7}, {"name": "永擎电子", "code": "7711", "industry": "服务器/硬体", "intro": "服务器与云端应用硬体解决方案供应商。", "logo": "logo-075.png", "source": "图中公司", "国际知名度评分": 5.1, "国际影响力评分": 5.9, "知名度排名": 104, "影响力排名": 88, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 104, "impactRank": 88, "fameScore": 5.1, "impactScore": 5.9}, {"name": "力成科技", "code": "6239", "industry": "半导体封测", "intro": "记忆体与逻辑IC封装测试服务供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.1, "国际影响力评分": 7.8, "知名度排名": 105, "影响力排名": 18, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 105, "impactRank": 18, "fameScore": 5.1, "impactScore": 7.8}, {"name": "矽格", "code": "6257", "industry": "半导体封测", "intro": "IC测试与封装服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.1, "国际影响力评分": 7.8, "知名度排名": 106, "影响力排名": 19, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 106, "impactRank": 19, "fameScore": 5.1, "impactScore": 7.8}, {"name": "颀邦", "code": "6147", "industry": "半导体封测", "intro": "显示驱动IC封装测试与金凸块服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.1, "国际影响力评分": 7.8, "知名度排名": 107, "影响力排名": 20, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 107, "impactRank": 20, "fameScore": 5.1, "impactScore": 7.8}, {"name": "远传电信", "code": "4904", "industry": "电信服务", "intro": "行动通信、宽频、企业资通讯与数位服务提供商。", "logo": "logo-056.png", "source": "图中公司", "国际知名度评分": 5.0, "国际影响力评分": 5.5, "知名度排名": 108, "影响力排名": 102, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 108, "impactRank": 102, "fameScore": 5.0, "impactScore": 5.5}, {"name": "台湾大哥大", "code": "3045", "industry": "电信服务", "intro": "行动通信、宽频与数位服务供应商。", "logo": "logo-023.png", "source": "图中公司", "国际知名度评分": 5.0, "国际影响力评分": 5.5, "知名度排名": 109, "影响力排名": 103, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 109, "impactRank": 103, "fameScore": 5.0, "impactScore": 5.5}, {"name": "游戏橘子", "code": "6180", "industry": "游戏营运", "intro": "线上游戏与数位娱乐服务公司。", "logo": "logo-072.png", "source": "图中公司", "国际知名度评分": 5.0, "国际影响力评分": 4.6, "知名度排名": 110, "影响力排名": 147, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 110, "impactRank": 147, "fameScore": 5.0, "impactScore": 4.6}, {"name": "佳世达", "code": "2352", "industry": "电子/医疗科技", "intro": "显示器、投影、医疗与智能解决方案企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 5.8, "知名度排名": 111, "影响力排名": 91, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 111, "impactRank": 91, "fameScore": 5.0, "impactScore": 5.8}, {"name": "蓝天电脑", "code": "2362", "industry": "电脑/通路", "intro": "电脑产品制造与通路相关企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 5.8, "知名度排名": 112, "影响力排名": 92, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 112, "impactRank": 92, "fameScore": 5.0, "impactScore": 5.8}, {"name": "神达投资控股", "code": "3706", "industry": "电脑/车用电子", "intro": "车用电子、工业电脑与投资控股集团。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 5.8, "知名度排名": 113, "影响力排名": 93, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 113, "impactRank": 93, "fameScore": 5.0, "impactScore": 5.8}, {"name": "神基控股", "code": "3005", "industry": "强固型电脑", "intro": "强固型电脑、车用电子与通讯设备制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 5.8, "知名度排名": 114, "影响力排名": 94, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 114, "impactRank": 94, "fameScore": 5.0, "impactScore": 5.8}, {"name": "浩鑫", "code": "2405", "industry": "迷你电脑", "intro": "迷你电脑、主机板与系统产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 5.8, "知名度排名": 115, "影响力排名": 95, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 115, "impactRank": 95, "fameScore": 5.0, "impactScore": 5.8}, {"name": "建碁", "code": "3046", "industry": "电脑系统", "intro": "电脑系统、显示与相关电子产品公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 5.8, "知名度排名": 116, "影响力排名": 96, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 116, "impactRank": 96, "fameScore": 5.0, "impactScore": 5.8}, {"name": "京元电子", "code": "2449", "industry": "半导体测试", "intro": "IC测试与半导体后段服务企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 6.6, "知名度排名": 117, "影响力排名": 74, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 117, "impactRank": 74, "fameScore": 5.0, "impactScore": 6.6}, {"name": "欣铨", "code": "3264", "industry": "半导体测试", "intro": "晶圆测试与IC测试服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 6.6, "知名度排名": 118, "影响力排名": 75, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 118, "impactRank": 75, "fameScore": 5.0, "impactScore": 6.6}, {"name": "精材", "code": "3374", "industry": "晶圆级封装", "intro": "晶圆级封装与影像感测相关服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 6.6, "知名度排名": 119, "影响力排名": 76, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 119, "impactRank": 76, "fameScore": 5.0, "impactScore": 6.6}, {"name": "广明光电", "code": "6188", "industry": "光储存/电子制造", "intro": "光电与电子制造相关企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 5.8, "知名度排名": 120, "影响力排名": 98, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 120, "impactRank": 98, "fameScore": 5.0, "impactScore": 5.8}, {"name": "黑松", "code": "1234", "industry": "饮料", "intro": "饮料品牌与制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 4.2, "知名度排名": 121, "影响力排名": 172, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 121, "impactRank": 172, "fameScore": 5.0, "impactScore": 4.2}, {"name": "诚品生活", "code": "2926", "industry": "文创零售", "intro": "书店、百货与文创生活通路企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 5.0, "国际影响力评分": 3.8, "知名度排名": 122, "影响力排名": 209, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 122, "impactRank": 209, "fameScore": 5.0, "impactScore": 3.8}, {"name": "台化", "code": "1326", "industry": "石化/纺织", "intro": "石化、塑胶、纤维与纺织相关产品制造商。", "logo": "logo-039.png", "source": "图中公司", "国际知名度评分": 4.9, "国际影响力评分": 5.3, "知名度排名": 123, "影响力排名": 105, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 123, "impactRank": 105, "fameScore": 4.9, "impactScore": 5.3}, {"name": "和泰汽车", "code": "2207", "industry": "汽车销售", "intro": "台湾主要汽车代理与销售服务集团。", "logo": "logo-032.png", "source": "图中公司", "国际知名度评分": 4.9, "国际影响力评分": 4.5, "知名度排名": 124, "影响力排名": 154, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 124, "impactRank": 154, "fameScore": 4.9, "impactScore": 4.5}, {"name": "鈊象电子", "code": "3293", "industry": "游戏软件", "intro": "游戏研发与营运公司，产品涵盖商用游戏与线上游戏。", "logo": "logo-044.png", "source": "图中公司", "国际知名度评分": 4.9, "国际影响力评分": 4.6, "知名度排名": 125, "影响力排名": 145, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 125, "impactRank": 145, "fameScore": 4.9, "impactScore": 4.6}, {"name": "福懋兴业", "code": "1434", "industry": "纺织", "intro": "纺织、染整与布料制造企业。", "logo": "logo-073.png", "source": "图中公司", "国际知名度评分": 4.9, "国际影响力评分": 5.3, "知名度排名": 126, "影响力排名": 106, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 126, "impactRank": 106, "fameScore": 4.9, "impactScore": 5.3}, {"name": "华义国际", "code": "3086", "industry": "游戏软件", "intro": "线上游戏与数位娱乐公司。", "logo": "logo-078.png", "source": "图中公司", "国际知名度评分": 4.9, "国际影响力评分": 4.6, "知名度排名": 127, "影响力排名": 146, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 127, "impactRank": 146, "fameScore": 4.9, "impactScore": 4.6}, {"name": "传奇网络", "code": "4994", "industry": "游戏研发", "intro": "线上游戏研发公司。", "logo": "logo-076.png", "source": "图中公司", "国际知名度评分": 4.9, "国际影响力评分": 4.6, "知名度排名": 128, "影响力排名": 148, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 128, "impactRank": 148, "fameScore": 4.9, "impactScore": 4.6}, {"name": "宇峻奥汀", "code": "3546", "industry": "游戏研发", "intro": "电脑与手机游戏研发公司。", "logo": "logo-080.png", "source": "图中公司", "国际知名度评分": 4.9, "国际影响力评分": 4.6, "知名度排名": 129, "影响力排名": 149, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 129, "impactRank": 149, "fameScore": 4.9, "impactScore": 4.6}, {"name": "大宇资讯", "code": "6111", "industry": "游戏研发", "intro": "游戏开发与发行公司。", "logo": "logo-079.png", "source": "图中公司", "国际知名度评分": 4.9, "国际影响力评分": 4.6, "知名度排名": 130, "影响力排名": 150, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 130, "impactRank": 150, "fameScore": 4.9, "impactScore": 4.6}, {"name": "景硕科技", "code": "3189", "industry": "IC载板", "intro": "IC载板与印刷电路板制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.9, "国际影响力评分": 7.0, "知名度排名": 131, "影响力排名": 41, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 131, "impactRank": 41, "fameScore": 4.9, "impactScore": 7.0}, {"name": "裕隆汽车", "code": "2201", "industry": "汽车制造", "intro": "汽车制造与品牌经营企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.9, "国际影响力评分": 4.8, "知名度排名": 132, "影响力排名": 135, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 132, "impactRank": 135, "fameScore": 4.9, "impactScore": 4.8}, {"name": "中华汽车", "code": "2204", "industry": "汽车制造", "intro": "汽车制造、销售与相关服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.9, "国际影响力评分": 4.8, "知名度排名": 133, "影响力排名": 136, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 133, "impactRank": 136, "fameScore": 4.9, "impactScore": 4.8}, {"name": "宝雅国际", "code": "5904", "industry": "零售通路", "intro": "生活百货与美妆零售连锁。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.9, "国际影响力评分": 4.3, "知名度排名": 134, "影响力排名": 170, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 134, "impactRank": 170, "fameScore": 4.9, "impactScore": 4.3}, {"name": "金像电", "code": "2368", "industry": "PCB", "intro": "印刷电路板制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 135, "影响力排名": 52, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 135, "impactRank": 52, "fameScore": 4.8, "impactScore": 6.8}, {"name": "耀华电子", "code": "2367", "industry": "PCB", "intro": "印刷电路板制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 136, "影响力排名": 53, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 136, "impactRank": 53, "fameScore": 4.8, "impactScore": 6.8}, {"name": "嘉联益", "code": "6153", "industry": "软板PCB", "intro": "软性印刷电路板制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 137, "影响力排名": 54, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 137, "impactRank": 54, "fameScore": 4.8, "impactScore": 6.8}, {"name": "臻鼎-KY", "code": "4958", "industry": "PCB", "intro": "全球大型PCB制造集团。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 138, "影响力排名": 55, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 138, "impactRank": 55, "fameScore": 4.8, "impactScore": 6.8}, {"name": "华通电脑", "code": "2313", "industry": "PCB", "intro": "印刷电路板与HDI板制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 139, "影响力排名": 56, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 139, "impactRank": 56, "fameScore": 4.8, "impactScore": 6.8}, {"name": "健鼎科技", "code": "3044", "industry": "PCB", "intro": "印刷电路板制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 140, "影响力排名": 57, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 140, "impactRank": 57, "fameScore": 4.8, "impactScore": 6.8}, {"name": "竞国实业", "code": "6108", "industry": "PCB", "intro": "印刷电路板制造企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 141, "影响力排名": 58, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 141, "impactRank": 58, "fameScore": 4.8, "impactScore": 6.8}, {"name": "志超科技", "code": "8213", "industry": "PCB", "intro": "印刷电路板制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 142, "影响力排名": 59, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 142, "impactRank": 59, "fameScore": 4.8, "impactScore": 6.8}, {"name": "台郡科技", "code": "6269", "industry": "软板PCB", "intro": "软性印刷电路板制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.8, "国际影响力评分": 6.8, "知名度排名": 143, "影响力排名": 60, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 143, "impactRank": 60, "fameScore": 4.8, "impactScore": 6.8}, {"name": "富邦金控", "code": "2881", "industry": "金融控股", "intro": "台湾大型金融控股公司，业务包含银行、保险与证券。", "logo": "logo-084.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 144, "影响力排名": 110, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 144, "impactRank": 110, "fameScore": 4.7, "impactScore": 5.1}, {"name": "国泰金控", "code": "2882", "industry": "金融控股", "intro": "台湾大型金融控股公司，旗下包含寿险、银行、证券等业务。", "logo": "logo-081.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 145, "影响力排名": 111, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 145, "impactRank": 111, "fameScore": 4.7, "impactScore": 5.1}, {"name": "中信金控", "code": "2891", "industry": "金融控股", "intro": "台湾金融控股公司，核心业务为银行、证券、保险等。", "logo": "logo-089.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 146, "影响力排名": 112, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 146, "impactRank": 112, "fameScore": 4.7, "impactScore": 5.1}, {"name": "元大金控", "code": "2885", "industry": "金融控股", "intro": "金融控股集团，业务包含证券、银行、投信与期货。", "logo": "logo-006.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 147, "影响力排名": 113, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 147, "impactRank": 113, "fameScore": 4.7, "impactScore": 5.1}, {"name": "兆丰金控", "code": "2886", "industry": "金融控股", "intro": "台湾金融控股公司，业务涵盖银行、证券、票券与保险。", "logo": "logo-004.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 148, "影响力排名": 114, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 148, "impactRank": 114, "fameScore": 4.7, "impactScore": 5.1}, {"name": "台新金控", "code": "2887", "industry": "金融控股", "intro": "金融控股公司，业务涵盖银行、证券与保险代理等。", "logo": "logo-005.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 149, "影响力排名": 115, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 149, "impactRank": 115, "fameScore": 4.7, "impactScore": 5.1}, {"name": "玉山金控", "code": "2884", "industry": "金融控股", "intro": "以银行为核心的金融控股公司。", "logo": "logo-009.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 150, "影响力排名": 116, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 150, "impactRank": 116, "fameScore": 4.7, "impactScore": 5.1}, {"name": "华南金控", "code": "2880", "industry": "金融控股", "intro": "台湾金融控股公司，主要业务包含银行与证券。", "logo": "logo-018.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 151, "影响力排名": 117, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 151, "impactRank": 117, "fameScore": 4.7, "impactScore": 5.1}, {"name": "永丰金控", "code": "2890", "industry": "金融控股", "intro": "金融控股集团，业务包含银行、证券与租赁等。", "logo": "logo-015.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 152, "影响力排名": 118, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 152, "impactRank": 118, "fameScore": 4.7, "impactScore": 5.1}, {"name": "第一金控", "code": "2892", "industry": "金融控股", "intro": "台湾金融控股公司，核心为第一银行。", "logo": "logo-011.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 153, "影响力排名": 119, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 153, "impactRank": 119, "fameScore": 4.7, "impactScore": 5.1}, {"name": "凯基金控", "code": "2883", "industry": "金融控股", "intro": "金融控股集团，业务覆盖证券、银行、保险与资产管理。", "logo": "logo-028.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 154, "影响力排名": 120, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 154, "impactRank": 120, "fameScore": 4.7, "impactScore": 5.1}, {"name": "合作金库金控", "code": "5880", "industry": "金融控股", "intro": "台湾金融控股公司，核心为合作金库银行。", "logo": "logo-026.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 155, "影响力排名": 121, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 155, "impactRank": 121, "fameScore": 4.7, "impactScore": 5.1}, {"name": "药华医药", "code": "6446", "industry": "生技医药", "intro": "生技药品研发与商业化公司。", "logo": "logo-025.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 4.8, "知名度排名": 156, "影响力排名": 132, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 156, "impactRank": 132, "fameScore": 4.7, "impactScore": 4.8}, {"name": "新光金控", "code": "2888", "industry": "金融控股", "intro": "金融控股公司，业务包含寿险与银行。", "logo": "logo-046.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 5.1, "知名度排名": 157, "影响力排名": 122, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 157, "impactRank": 122, "fameScore": 4.7, "impactScore": 5.1}, {"name": "台湾水泥", "code": "1101", "industry": "水泥/建材", "intro": "水泥、建材、能源与环保相关事业集团。", "logo": "logo-043.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 4.9, "知名度排名": 158, "影响力排名": 128, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 158, "impactRank": 128, "fameScore": 4.7, "impactScore": 4.9}, {"name": "康霈生技", "code": "6919", "industry": "生技医药", "intro": "生技医药公司，聚焦新药研发。", "logo": "logo-053.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 4.8, "知名度排名": 159, "影响力排名": 133, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 159, "impactRank": 133, "fameScore": 4.7, "impactScore": 4.8}, {"name": "亚洲水泥", "code": "1102", "industry": "水泥/建材", "intro": "水泥与建材制造企业。", "logo": "logo-058.png", "source": "图中公司", "国际知名度评分": 4.7, "国际影响力评分": 4.9, "知名度排名": 160, "影响力排名": 129, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 160, "impactRank": 129, "fameScore": 4.7, "impactScore": 4.9}, {"name": "远东百货", "code": "2903", "industry": "百货零售", "intro": "百货商场与零售通路企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.7, "国际影响力评分": 4.2, "知名度排名": 161, "影响力排名": 173, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 161, "impactRank": 173, "fameScore": 4.7, "impactScore": 4.2}, {"name": "杏国新药", "code": "4192", "industry": "生技医药", "intro": "新药研发公司，聚焦肿瘤与特殊疾病治疗领域。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.6, "国际影响力评分": 4.7, "知名度排名": 162, "影响力排名": 142, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 162, "impactRank": 142, "fameScore": 4.6, "impactScore": 4.7}, {"name": "台康生技", "code": "6589", "industry": "生技医药", "intro": "生物相似药与抗体药物研发制造公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.6, "国际影响力评分": 4.7, "知名度排名": 163, "影响力排名": 143, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 163, "impactRank": 143, "fameScore": 4.6, "impactScore": 4.7}, {"name": "顺药", "code": "6535", "industry": "生技医药", "intro": "新药研发公司，专注中枢神经与急重症治疗领域。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.6, "国际影响力评分": 4.7, "知名度排名": 164, "影响力排名": 144, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 164, "impactRank": 144, "fameScore": 4.6, "impactScore": 4.7}, {"name": "保瑞药业", "code": "6472", "industry": "制药", "intro": "药品制造、研发与CDMO服务企业。", "logo": "logo-063.png", "source": "图中公司", "国际知名度评分": 4.5, "国际影响力评分": 4.5, "知名度排名": 165, "影响力排名": 158, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 165, "impactRank": 158, "fameScore": 4.5, "impactScore": 4.5}, {"name": "台湾金控", "code": "未上市", "industry": "金融控股", "intro": "台湾金融控股集团，旗下含台湾银行等事业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.5, "国际影响力评分": 4.9, "知名度排名": 166, "影响力排名": 131, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 166, "impactRank": 131, "fameScore": 4.5, "impactScore": 4.9}, {"name": "松瑞药", "code": "4167", "industry": "制药", "intro": "药品研发、制造与销售公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.4, "国际影响力评分": 4.4, "知名度排名": 167, "影响力排名": 168, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 167, "impactRank": 168, "fameScore": 4.4, "impactScore": 4.4}, {"name": "致茂电子", "code": "2360", "industry": "测试量测设备", "intro": "测试量测、自自动化检测与电源电子相关设备供应商。", "logo": "", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.1, "知名度排名": 168, "影响力排名": 175, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 168, "impactRank": 175, "fameScore": 4.3, "impactScore": 4.1}, {"name": "光宝科技", "code": "2301", "industry": "光电/电源", "intro": "电源供应、光电、车用电子与云端应用产品制造商。", "logo": "logo-014.png", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.1, "知名度排名": 169, "影响力排名": 176, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 169, "impactRank": 176, "fameScore": 4.3, "impactScore": 4.1}, {"name": "亚德客", "code": "1590", "industry": "气动元件", "intro": "气动元件与自动化零组件制造商。", "logo": "logo-037.png", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.1, "知名度排名": 170, "影响力排名": 177, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 170, "impactRank": 177, "fameScore": 4.3, "impactScore": 4.1}, {"name": "中租", "code": "5871", "industry": "租赁金融", "intro": "租赁、分期、企业金融与国际金融服务集团。", "logo": "logo-045.png", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.7, "知名度排名": 171, "影响力排名": 141, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 171, "impactRank": 141, "fameScore": 4.3, "impactScore": 4.7}, {"name": "联强国际", "code": "2347", "industry": "资讯通路", "intro": "资讯、通讯与电子产品通路服务商。", "logo": "logo-051.png", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.1, "知名度排名": 172, "影响力排名": 178, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 172, "impactRank": 178, "fameScore": 4.3, "impactScore": 4.1}, {"name": "牧德科技", "code": "3563", "industry": "AOI检测设备", "intro": "自动光学检测设备制造商。", "logo": "logo-065.png", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.1, "知名度排名": 173, "影响力排名": 179, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 173, "impactRank": 179, "fameScore": 4.3, "impactScore": 4.1}, {"name": "国泰建设", "code": "2501", "industry": "营建", "intro": "住宅、商业不动产与开发建设公司。", "logo": "logo-069.png", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.1, "知名度排名": 174, "影响力排名": 180, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 174, "impactRank": 180, "fameScore": 4.3, "impactScore": 4.1}, {"name": "OBOOK 控股", "code": "6906", "industry": "控股/数位服务", "intro": "控股型企业，聚焦数位服务与相关投资。", "logo": "", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.1, "知名度排名": 175, "影响力排名": 181, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 175, "impactRank": 181, "fameScore": 4.3, "impactScore": 4.1}, {"name": "亚洲航空", "code": "2630", "industry": "航空维修/服务", "intro": "航空维修与相关服务公司。", "logo": "logo-082.png", "source": "图中公司", "国际知名度评分": 4.3, "国际影响力评分": 4.1, "知名度排名": 176, "影响力排名": 182, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 176, "impactRank": 182, "fameScore": 4.3, "impactScore": 4.1}, {"name": "彰化银行", "code": "2801", "industry": "银行", "intro": "台湾商业银行，提供存放款、外汇与金融服务。", "logo": "logo-034.png", "source": "图中公司", "国际知名度评分": 4.2, "国际影响力评分": 4.5, "知名度排名": 177, "影响力排名": 155, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 177, "impactRank": 155, "fameScore": 4.2, "impactScore": 4.5}, {"name": "上海商银", "code": "5876", "industry": "银行", "intro": "商业银行，提供个人与企业金融服务。", "logo": "logo-048.png", "source": "图中公司", "国际知名度评分": 4.2, "国际影响力评分": 4.5, "知名度排名": 178, "影响力排名": 156, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 178, "impactRank": 156, "fameScore": 4.2, "impactScore": 4.5}, {"name": "台湾企银", "code": "2834", "industry": "银行", "intro": "台湾中小企业银行，服务中小企业与个人金融。", "logo": "logo-054.png", "source": "图中公司", "国际知名度评分": 4.2, "国际影响力评分": 4.5, "知名度排名": 179, "影响力排名": 157, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 179, "impactRank": 157, "fameScore": 4.2, "impactScore": 4.5}, {"name": "研勤科技", "code": "3632", "industry": "导航/车载系统", "intro": "车载导航与智能交通相关设备企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 180, "影响力排名": 183, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 180, "impactRank": 183, "fameScore": 4.2, "impactScore": 4.0}, {"name": "振桦电", "code": "8114", "industry": "POS系统", "intro": "POS终端、工业电脑与零售解决方案供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 181, "影响力排名": 184, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 181, "impactRank": 184, "fameScore": 4.2, "impactScore": 4.0}, {"name": "飞捷科技", "code": "6206", "industry": "POS系统", "intro": "POS终端、工业电脑与零售设备制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 182, "影响力排名": 185, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 182, "impactRank": 185, "fameScore": 4.2, "impactScore": 4.0}, {"name": "旺宏电子", "code": "2337", "industry": "记忆体", "intro": "非挥发性记忆体与NOR Flash制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 183, "影响力排名": 186, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 183, "impactRank": 186, "fameScore": 4.2, "impactScore": 4.0}, {"name": "华邦电子", "code": "2344", "industry": "记忆体", "intro": "DRAM与Flash记忆体设计制造公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 184, "影响力排名": 187, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 184, "impactRank": 187, "fameScore": 4.2, "impactScore": 4.0}, {"name": "宜鼎国际", "code": "5289", "industry": "工业储存", "intro": "工业级记忆体与嵌入式储存解决方案供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 185, "影响力排名": 188, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 185, "impactRank": 188, "fameScore": 4.2, "impactScore": 4.0}, {"name": "东元电机", "code": "1504", "industry": "电机", "intro": "马达、机电系统与能源解决方案供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 186, "影响力排名": 189, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 186, "impactRank": 189, "fameScore": 4.2, "impactScore": 4.0}, {"name": "华城电机", "code": "1519", "industry": "重电设备", "intro": "变压器、重电设备与电力工程企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 187, "影响力排名": 190, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 187, "impactRank": 190, "fameScore": 4.2, "impactScore": 4.0}, {"name": "亚力电机", "code": "1514", "industry": "电机设备", "intro": "电力设备、自动化与工程服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 188, "影响力排名": 191, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 188, "impactRank": 191, "fameScore": 4.2, "impactScore": 4.0}, {"name": "士林电机", "code": "1503", "industry": "电机设备", "intro": "电机、重电与车用电装品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 189, "影响力排名": 192, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 189, "impactRank": 192, "fameScore": 4.2, "impactScore": 4.0}, {"name": "中兴电工", "code": "1513", "industry": "电机工程", "intro": "电力设备、工程服务与能源相关企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 190, "影响力排名": 193, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 190, "impactRank": 193, "fameScore": 4.2, "impactScore": 4.0}, {"name": "和大工业", "code": "1536", "industry": "汽车零组件", "intro": "汽车传动系统与精密零组件制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 191, "影响力排名": 194, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 191, "impactRank": 194, "fameScore": 4.2, "impactScore": 4.0}, {"name": "东阳实业", "code": "1319", "industry": "汽车零组件", "intro": "汽车塑胶件、钣金件与售后维修件供应商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 192, "影响力排名": 195, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 192, "impactRank": 195, "fameScore": 4.2, "impactScore": 4.0}, {"name": "堤维西", "code": "1522", "industry": "汽车零组件", "intro": "车灯与汽车零组件制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 193, "影响力排名": 196, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 193, "impactRank": 196, "fameScore": 4.2, "impactScore": 4.0}, {"name": "胡连精密", "code": "6279", "industry": "汽车连接器", "intro": "车用端子与连接器制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 194, "影响力排名": 197, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 194, "impactRank": 197, "fameScore": 4.2, "impactScore": 4.0}, {"name": "江申工业", "code": "1525", "industry": "汽车零组件", "intro": "汽车零组件与车体结构件制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 195, "影响力排名": 198, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 195, "impactRank": 198, "fameScore": 4.2, "impactScore": 4.0}, {"name": "丽清科技", "code": "3346", "industry": "车用照明", "intro": "LED车灯模组与车用照明产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 196, "影响力排名": 199, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 196, "impactRank": 199, "fameScore": 4.2, "impactScore": 4.0}, {"name": "台湾玻璃", "code": "1802", "industry": "玻璃", "intro": "玻璃与建材产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 197, "影响力排名": 200, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 197, "impactRank": 200, "fameScore": 4.2, "impactScore": 4.0}, {"name": "和泰兴业", "code": "6592", "industry": "空调/家电代理", "intro": "空调与家电代理销售及服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 198, "影响力排名": 201, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 198, "impactRank": 201, "fameScore": 4.2, "impactScore": 4.0}, {"name": "乔山健康科技", "code": "1736", "industry": "健身器材", "intro": "健身器材与健康科技产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 199, "影响力排名": 202, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 199, "impactRank": 202, "fameScore": 4.2, "impactScore": 4.0}, {"name": "大统益", "code": "1232", "industry": "油脂", "intro": "食用油脂与相关产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 200, "影响力排名": 203, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 200, "impactRank": 203, "fameScore": 4.2, "impactScore": 4.0}, {"name": "三商寿", "code": "2867", "industry": "保险", "intro": "人寿保险公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.6, "知名度排名": 201, "影响力排名": 152, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 201, "impactRank": 152, "fameScore": 4.2, "impactScore": 4.6}, {"name": "台湾人寿", "code": "中信金控子公司", "industry": "保险", "intro": "人寿保险公司，现属中信金控体系。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.6, "知名度排名": 202, "影响力排名": 153, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 202, "impactRank": 153, "fameScore": 4.2, "impactScore": 4.6}, {"name": "台骅投控", "code": "2636", "industry": "物流运输", "intro": "国际物流、货运承揽与供应链服务公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 203, "影响力排名": 204, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 203, "impactRank": 204, "fameScore": 4.2, "impactScore": 4.0}, {"name": "大江生医", "code": "8436", "industry": "生技保健", "intro": "保健食品、机能性食品与生技产品研发制造公司。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 204, "影响力排名": 205, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 204, "impactRank": 205, "fameScore": 4.2, "impactScore": 4.0}, {"name": "葡萄王", "code": "1707", "industry": "生技保健", "intro": "保健食品、饮品与生技发酵产品制造商。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 205, "影响力排名": 206, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 205, "impactRank": 206, "fameScore": 4.2, "impactScore": 4.0}, {"name": "中化生", "code": "1762", "industry": "原料药", "intro": "原料药与医药中间体生产企业。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.2, "国际影响力评分": 4.0, "知名度排名": 206, "影响力排名": 207, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 206, "impactRank": 207, "fameScore": 4.2, "impactScore": 4.0}, {"name": "京城银行", "code": "2809", "industry": "银行", "intro": "商业银行，提供个人与企业金融服务。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.1, "国际影响力评分": 4.4, "知名度排名": 207, "影响力排名": 164, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 207, "impactRank": 164, "fameScore": 4.1, "impactScore": 4.4}, {"name": "高雄银行", "code": "2836", "industry": "银行", "intro": "商业银行，提供存放款与金融服务。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.1, "国际影响力评分": 4.4, "知名度排名": 208, "影响力排名": 165, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 208, "impactRank": 165, "fameScore": 4.1, "impactScore": 4.4}, {"name": "王道银行", "code": "2897", "industry": "银行", "intro": "商业银行，提供数位金融与企业金融服务。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.1, "国际影响力评分": 4.4, "知名度排名": 209, "影响力排名": 166, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 209, "impactRank": 166, "fameScore": 4.1, "impactScore": 4.4}, {"name": "台中商业银行", "code": "2812", "industry": "银行", "intro": "台湾商业银行，服务个人与企业客户。", "logo": "", "source": "新增台湾企业", "国际知名度评分": 4.1, "国际影响力评分": 4.4, "知名度排名": 210, "影响力排名": 167, "排名说明": "主观综合排序：依据海外品牌认知、媒体可见度、消费端辨识度、产业链地位、市场规模和技术/供应链影响力。", "fameRank": 210, "impactRank": 167, "fameScore": 4.1, "impactScore": 4.4}];
+
+const sectionSearch = document.getElementById('companySectionSearch');
+const sectionBody = document.getElementById('companySectionBody');
+const sectionCount = document.getElementById('companySectionCount');
+const detailModal = document.getElementById('companyDetailModal');
+
+function norm(s) {
+  return String(s || '').toLowerCase().replace(/\s+/g, '');
+}
+
+function clearHits() {
+  document.querySelectorAll('.logo.search-hit').forEach(el => el.classList.remove('search-hit'));
+}
+
+function focusLogo(file) {
+  clearHits();
+  if (!file) return;
+  const img = document.querySelector(`img[src$="${file}"]`);
+  if (!img) return;
+  const logo = img.closest('.logo');
+  if (!logo) return;
+  logo.classList.add('search-hit');
+  logo.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+  setTimeout(() => logo.classList.remove('search-hit'), 2600);
+}
+
+function showDetail(item) {
+  document.getElementById('companyDetailTitle').textContent = item.name || '—';
+  document.getElementById('companyDetailFameRank').textContent = `第 ${item.fameRank || '—'} 名`;
+  document.getElementById('companyDetailImpactRank').textContent = `第 ${item.impactRank || '—'} 名`;
+  document.getElementById('companyDetailCode').textContent = item.code || '—';
+  document.getElementById('companyDetailIndustry').textContent = item.industry || '—';
+  document.getElementById('companyDetailFame').textContent = `${item.fameScore || '—'} / 10`;
+  document.getElementById('companyDetailImpact').textContent = `${item.impactScore || '—'} / 10`;
+  document.getElementById('companyDetailIntro').textContent = item.intro || '—';
+  detailModal.style.display = 'flex';
+  focusLogo(item.logo);
+}
+
+function renderCompanyTable() {
+  const q = norm(sectionSearch.value);
+  const rows = COMPANY_DATA
+    .filter(item => {
+      const hay = norm([item.name, item.code, item.industry, item.intro, item.source, item.fameRank, item.impactRank].join(' '));
+      return !q || hay.includes(q);
+    })
+    .sort((a, b) => (a.fameRank || 9999) - (b.fameRank || 9999));
+
+  sectionCount.textContent = `${rows.length} / ${COMPANY_DATA.length} 条`;
+
+  sectionBody.innerHTML = rows.map(item => `
+    <tr data-name="${item.name}">
+      <td><span class="rank-pill">${item.fameRank || '—'}</span><span class="score-text">${item.fameScore || '—'}</span></td>
+      <td><span class="rank-pill rank-impact">${item.impactRank || '—'}</span><span class="score-text">${item.impactScore || '—'}</span></td>
+      <td>${item.name || '—'}</td>
+      <td>${item.code || '—'}</td>
+      <td>${item.industry || '—'}</td>
+      <td class="intro-cell">${item.intro || '—'}</td>
+    </tr>
+  `).join('');
+
+  sectionBody.querySelectorAll('tr').forEach(row => {
+    row.addEventListener('click', () => {
+      const item = rows.find(x => x.name === row.dataset.name);
+      if (item) showDetail(item);
+    });
+  });
+}
+
+sectionSearch.addEventListener('input', renderCompanyTable);
+
+document.getElementById('companyDetailClose').addEventListener('click', () => {
+  detailModal.style.display = 'none';
+});
+
+detailModal.addEventListener('click', (e) => {
+  if (e.target === detailModal) detailModal.style.display = 'none';
+});
+
+
+const logoPopover = document.getElementById('logoDetailPopover');
+const logoPopoverClose = document.getElementById('logoPopoverClose');
+const logoTitle = document.getElementById('logoPopoverTitle');
+const logoFameRank = document.getElementById('logoPopoverFameRank');
+const logoImpactRank = document.getElementById('logoPopoverImpactRank');
+const logoFameScore = document.getElementById('logoPopoverFameScore');
+const logoImpactScore = document.getElementById('logoPopoverImpactScore');
+const logoCode = document.getElementById('logoPopoverCode');
+const logoIndustry = document.getElementById('logoPopoverIndustry');
+const logoIntro = document.getElementById('logoPopoverIntro');
+
+const logoDataMap = new Map();
+COMPANY_DATA.forEach(item => {
+  if (item.logo) logoDataMap.set(item.logo, item);
+});
+
+const logoNameOverrides = {
+  "logo-099.png": "佳明",
+  "logo-100.png": "友嘉国际",
+  "logo-101.png": "大润发",
+  "logo-102.png": "宝岛眼镜",
+  "logo-103.png": "震旦集团",
+  "logo-104.png": "技嘉科技",
+  "logo-105.png": "威克多",
+  "logo-106.png": "妙洁",
+  "logo-107.png": "巨大机械",
+  "logo-108.png": "正新橡胶",
+  "logo-109.png": "鸿海精密"
+};
+
+Object.entries(logoNameOverrides).forEach(([file, name]) => {
+  if (!logoDataMap.has(file)) {
+    const item = COMPANY_DATA.find(x => x.name === name);
+    if (item) logoDataMap.set(file, item);
+  }
+});
+
+let activeLogoEl = null;
+let activeLogoItem = null;
+
+function clearActiveLogo() {
+  document.querySelectorAll('.wall .logo.active-logo').forEach(el => el.classList.remove('active-logo'));
+}
+
+function hideLogoPopover() {
+  logoPopover.style.display = 'none';
+  logoPopover.setAttribute('aria-hidden', 'true');
+  clearActiveLogo();
+  activeLogoEl = null;
+  activeLogoItem = null;
+}
+
+function positionLogoPopover(anchorEl) {
+  if (!anchorEl) return;
+  const rect = anchorEl.getBoundingClientRect();
+  const popRect = logoPopover.getBoundingClientRect();
+  const gap = 14;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  let left = rect.right + gap;
+  let top = rect.top + rect.height / 2 - popRect.height / 2;
+
+  if (left + popRect.width > vw - 12) {
+    left = rect.left - popRect.width - gap;
+  }
+  if (left < 12) {
+    left = Math.min(Math.max(12, rect.left), vw - popRect.width - 12);
+  }
+
+  if (top < 12) top = 12;
+  if (top + popRect.height > vh - 12) top = vh - popRect.height - 12;
+
+  if (vw <= 700) {
+    left = 9;
+    top = rect.bottom + 10;
+    if (top + popRect.height > vh - 8) {
+      top = Math.max(8, rect.top - popRect.height - 10);
+    }
+  }
+
+  logoPopover.style.left = `${Math.round(left)}px`;
+  logoPopover.style.top = `${Math.round(top)}px`;
+}
+
+function fillLogoPopover(item) {
+  logoTitle.textContent = item.name || '—';
+  logoFameRank.textContent = item.fameRank ? `第 ${item.fameRank} 名` : '—';
+  logoImpactRank.textContent = item.impactRank ? `第 ${item.impactRank} 名` : '—';
+  logoFameScore.textContent = item.fameScore ? `${item.fameScore} / 10` : '—';
+  logoImpactScore.textContent = item.impactScore ? `${item.impactScore} / 10` : '—';
+  logoCode.textContent = item.code || '—';
+  logoIndustry.textContent = item.industry || '—';
+  logoIntro.textContent = item.intro || '—';
+}
+
+function showLogoPopover(item, logoEl) {
+  if (!item || !logoEl) return;
+  activeLogoItem = item;
+  activeLogoEl = logoEl;
+  clearActiveLogo();
+  logoEl.classList.add('active-logo');
+  fillLogoPopover(item);
+  logoPopover.style.display = 'block';
+  logoPopover.setAttribute('aria-hidden', 'false');
+  positionLogoPopover(logoEl);
+}
+
+function bindLogoInteractions() {
+  document.querySelectorAll('.wall .logo').forEach(logoEl => {
+    const img = logoEl.querySelector('img');
+    if (!img) return;
+    const src = img.getAttribute('src') || '';
+    const file = src.split('/').pop();
+    const item = logoDataMap.get(file);
+    if (!item) return;
+
+    logoEl.setAttribute('data-company-name', item.name || '');
+    logoEl.setAttribute('title', `${item.name || ''}｜点击查看详情`);
+    logoEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showLogoPopover(item, logoEl);
+    });
+  });
+}
+
+bindLogoInteractions();
+
+logoPopoverClose.addEventListener('click', hideLogoPopover);
+
+document.addEventListener('click', (e) => {
+  if (!logoPopover.contains(e.target) && !e.target.closest('.wall .logo')) {
+    hideLogoPopover();
+  }
+});
+
+window.addEventListener('resize', () => {
+  if (activeLogoEl && logoPopover.style.display === 'block') positionLogoPopover(activeLogoEl);
+});
+
+window.addEventListener('scroll', () => {
+  if (activeLogoEl && logoPopover.style.display === 'block') positionLogoPopover(activeLogoEl);
+}, { passive: true });
+
+
+renderCompanyTable();
+</script>
+
+
+<div id="logoDetailPopover" class="logo-popover" aria-hidden="true">
+  <div class="logo-popover-head">
+    <div id="logoPopoverTitle" class="logo-popover-title"></div>
+    <button id="logoPopoverClose" class="logo-popover-close" type="button">关闭</button>
+  </div>
+  <div class="logo-popover-body">
+    <div class="logo-popover-grid">
+      <div class="logo-popover-stat">
+        <div class="logo-popover-stat-label">知名度排名</div>
+        <div id="logoPopoverFameRank" class="logo-popover-stat-value"></div>
+      </div>
+      <div class="logo-popover-stat">
+        <div class="logo-popover-stat-label">影响力排名</div>
+        <div id="logoPopoverImpactRank" class="logo-popover-stat-value"></div>
+      </div>
+      <div class="logo-popover-stat">
+        <div class="logo-popover-stat-label">国际知名度</div>
+        <div id="logoPopoverFameScore" class="logo-popover-stat-value"></div>
+      </div>
+      <div class="logo-popover-stat">
+        <div class="logo-popover-stat-label">国际影响力</div>
+        <div id="logoPopoverImpactScore" class="logo-popover-stat-value"></div>
+      </div>
+    </div>
+    <div class="logo-popover-row"><div class="logo-popover-label">代码</div><div id="logoPopoverCode"></div></div>
+    <div class="logo-popover-row"><div class="logo-popover-label">行业</div><div id="logoPopoverIndustry"></div></div>
+    <div class="logo-popover-row"><div class="logo-popover-label">简介</div><div id="logoPopoverIntro" class="logo-popover-intro"></div></div>
+    <div class="logo-popover-tip">点击 logo 可查看公司详情；点击空白处可关闭。</div>
+  </div>
+</div>
+
+<script>
+(function(){
+const logoPopover = document.getElementById('logoDetailPopover');
+const logoPopoverClose = document.getElementById('logoPopoverClose');
+const logoTitle = document.getElementById('logoPopoverTitle');
+const logoFameRank = document.getElementById('logoPopoverFameRank');
+const logoImpactRank = document.getElementById('logoPopoverImpactRank');
+const logoFameScore = document.getElementById('logoPopoverFameScore');
+const logoImpactScore = document.getElementById('logoPopoverImpactScore');
+const logoCode = document.getElementById('logoPopoverCode');
+const logoIndustry = document.getElementById('logoPopoverIndustry');
+const logoIntro = document.getElementById('logoPopoverIntro');
+
+function showLogoPopover(item, logoEl) {
+  if(!item || !logoEl) return;
+  document.querySelectorAll('.wall .logo.active-logo').forEach(el=>el.classList.remove('active-logo'));
+  logoEl.classList.add('active-logo');
+  logoTitle.textContent = item.name || '—';
+  logoFameRank.textContent = item.fameRank ? '第 ' + item.fameRank + ' 名' : '—';
+  logoImpactRank.textContent = item.impactRank ? '第 ' + item.impactRank + ' 名' : '—';
+  logoFameScore.textContent = item.fameScore ? item.fameScore + ' / 10' : '—';
+  logoImpactScore.textContent = item.impactScore ? item.impactScore + ' / 10' : '—';
+  logoCode.textContent = item.code || '—';
+  logoIndustry.textContent = item.industry || '—';
+  logoIntro.textContent = item.intro || '—';
+  logoPopover.style.display = 'block';
+  logoPopover.setAttribute('aria-hidden','false');
+  const rect = logoEl.getBoundingClientRect();
+  let left = rect.right + 14;
+  let top = rect.top + rect.height/2 - logoPopover.offsetHeight/2;
+  if(left + logoPopover.offsetWidth > window.innerWidth) left = rect.left - logoPopover.offsetWidth - 14;
+  if(top < 12) top = 12;
+  logoPopover.style.left = left+'px';
+  logoPopover.style.top = top+'px';
+}
+
+logoPopoverClose.addEventListener('click',()=>{logoPopover.style.display='none';document.querySelectorAll('.wall .logo.active-logo').forEach(el=>el.classList.remove('active-logo'));});
+document.addEventListener('click',e=>{if(!logoPopover.contains(e.target)&&!e.target.closest('.wall .logo')) logoPopover.style.display='none';});
+
+function bindLogoInteractions() {
+  document.querySelectorAll('.wall .logo').forEach(el=>{
+    const file = el.querySelector('img')?.src.split('/').pop() || '';
+    const item = COMPANY_DATA.find(x=>x.logo===file);
+    if(!item) return;
+    el.style.cursor='pointer';
+    el.dataset.name = item.name || '';
+    el.dataset.code = item.code || '';
+    el.dataset.industry = item.industry || '';
+    el.dataset.intro = item.intro || '';
+    el.dataset.fameRank = item.fameRank || 0;
+    el.dataset.impactRank = item.impactRank || 0;
+    el.dataset.fameScore = item.fameScore || 0;
+    el.dataset.impactScore = item.impactScore || 0;
+    el.addEventListener('click', e=>{e.stopPropagation(); showLogoPopover(item,el);});
+  });
+}
+
+bindLogoInteractions();
+})();
+</script>
+</body>
+</html>
